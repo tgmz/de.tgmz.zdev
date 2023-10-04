@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/*******************************************************************************
+  * Copyright (c) 04.10.2023 Thomas Zierer.
+  * All rights reserved. This program and the accompanying materials
+  * are made available under the terms of the Eclipse Public License v2.0
+  * which accompanies this distribution, and is available at
+  * http://www.eclipse.org/legal/epl-v20.html
+  *
+  * Contributors:
+  *    Thomas Zierer - initial API and implementation and/or initial documentation
+  *******************************************************************************/
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>de.tgmz.zdev.product</artifactId>
+	<packaging>eclipse-repository</packaging>
+	<name>z/Dev Product Plugin</name>
+
+	<parent>
+		<version>0.0.1-SNAPSHOT</version>
+		<groupId>de.tgmz</groupId>
+		<artifactId>de.tgmz.zdev.parent</artifactId>
+	</parent>
+
+	<properties>
+		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+	</properties>
+	
+	<profiles>
+		<profile>
+			<id>materialize</id>
+			<build>
+				<plugins>
+					<!-- Workaround: Use an existing config.ini file (caused by the problem 
+						that tycho will always generate a default one) -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>2.7</version>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<resources>
+										<resource>
+											<directory>${project.build.directory}/../</directory>
+											<filtering>false</filtering>
+											<includes>
+												<include>config.ini</include>
+												<include>connections.xml</include>
+												<include>zdev.bat</include>
+											</includes>
+										</resource>
+									</resources>
+									<outputDirectory>${project.build.directory}/products/zdev/win32/win32/x86_64</outputDirectory>
+									<overwrite>true</overwrite>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>tycho-p2-director-plugin</artifactId>
+						<version>${tycho-version}</version>
+						<configuration>
+							<formats>
+								<win32>zip</win32>
+								<!-- <linux>tar.gz</linux> <macosx>tar.gz</macosx> -->
+							</formats>
+							<products>
+								<product>
+									<id>zdev</id>
+									<rootFolders>
+										<!-- for MacOSX, make sure you use a folder ending with .app , 
+											see bug 463670 -->
+										<macosx>Eclipse.app</macosx>
+									</rootFolders>
+								</product>
+							</products>
+						</configuration>
+						<executions>
+							<execution>
+								<id>materialize-products</id>
+								<goals>
+									<goal>materialize-products</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>archive-products</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>archive-products</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jarsigner-plugin</artifactId>
+						<version>${maven-jarsigner-version}</version>
+						<executions>
+							<execution>
+								<id>sign</id>
+								<phase />
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	<description>z/Dev Product Plugin</description>
+</project>

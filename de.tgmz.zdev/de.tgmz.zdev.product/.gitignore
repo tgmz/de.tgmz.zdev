@@ -1,0 +1,8 @@
+/.settings
+/target
+/bin
+/workspace/
+/pdtools.bundleinfo.log
+/pdtools.envvars.log
+/pdtools.log
+/.polyglot.zdev.product

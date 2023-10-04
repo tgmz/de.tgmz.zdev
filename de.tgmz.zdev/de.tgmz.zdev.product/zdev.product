@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="z/Dev" uid="zdev" id="com.ibm.zeus.branding.product" application="org.eclipse.ui.ide.workbench" version="0.0.1.qualifier" type="features" includeLaunchers="true" autoIncludeRequirements="true">
+
+   <aboutInfo>
+      <text>
+         Copyright 2023 by Thomas Zierer.
+
+This product is based on technology from the Eclipse Project (http://www.eclipse.org/).
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+      <win32>/de.tgmz.zdev.product/config.ini</win32>
+   </configIni>
+
+   <launcherArgs>
+      <vmArgs>-Declipse.pluginCustomization=config.ini
+-Xmx1024m
+--add-modules=ALL-SYSTEM
+-Duser.home=I:
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <windowImages/>
+
+   <launcher name="zDev">
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <license>
+        <text>
+   Eclipse Public License v2.0
+         </text>
+   </license>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="cobol.importer" installMode="root"/>
+      <feature id="cobol.importer.win32" installMode="root"/>
+      <feature id="com.ibm.adapter.c.feature" installMode="root"/>
+      <feature id="com.ibm.adapter.core" installMode="root"/>
+      <feature id="com.ibm.adapter.j2c" installMode="root"/>
+      <feature id="com.ibm.adapter.j2c.base" installMode="root"/>
+      <feature id="com.ibm.adapter.j2c.core" installMode="root"/>
+      <feature id="com.ibm.ccl.preferenceharvester.feature" installMode="root"/>
+      <feature id="com.ibm.cdz.remote.debug.cshelp.feature" installMode="root"/>
+      <feature id="com.ibm.cdz.remote.debug.cshelp.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.cdz.remote.debug.feature" installMode="root"/>
+      <feature id="com.ibm.cdz.remote.debug.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.cics.platform.feature" installMode="root"/>
+      <feature id="com.ibm.cics.platform.feature.nl0" installMode="root"/>
+      <feature id="com.ibm.cics.zos.feature" installMode="root"/>
+      <feature id="com.ibm.cics.zos.feature.nl0" installMode="root"/>
+      <feature id="com.ibm.commoncomponents.ccaas.core.feature" installMode="root"/>
+      <feature id="com.ibm.commoncomponents.codecoverage.core.exporters.feature" installMode="root"/>
+      <feature id="com.ibm.debug.breakpoints.common.feature" installMode="root"/>
+      <feature id="com.ibm.debug.breakpoints.common.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.common.cshelp.feature" installMode="root"/>
+      <feature id="com.ibm.debug.common.cshelp.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.common.feature" installMode="root"/>
+      <feature id="com.ibm.debug.common.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.daemon.core.feature" installMode="root"/>
+      <feature id="com.ibm.debug.daemon.core.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.idebug.engine.feature" installMode="root"/>
+      <feature id="com.ibm.debug.idebug.engine.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.memorymap.cshelp.feature" installMode="root"/>
+      <feature id="com.ibm.debug.memorymap.cshelp.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.memorymap.feature" installMode="root"/>
+      <feature id="com.ibm.debug.memorymap.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.memorymap.zseries.samples.feature" installMode="root"/>
+      <feature id="com.ibm.debug.memoryoffset.cshelp.feature" installMode="root"/>
+      <feature id="com.ibm.debug.memoryoffset.cshelp.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.memoryoffset.feature" installMode="root"/>
+      <feature id="com.ibm.debug.memoryoffset.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.animatedstep.cshelp.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.animatedstep.cshelp.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.animatedstep.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.animatedstep.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.core.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.core.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.core.results.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.rdz.ui.cshelp.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.rdz.ui.cshelp.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.rdz.ui.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.rdz.ui.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.ui.dcc.cshelp.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.ui.dcc.cshelp.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.ui.dcc.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.ui.dcc.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.ui.launch.cshelp.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.ui.launch.cshelp.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.ui.launch.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.ui.launch.feature.nls1" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.ui.view.compiled.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.ui.view.compiled.feature.nls1" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.ui.view.cshelp.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.ui.view.cshelp.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.ui.view.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.ui.view.feature.nls1" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.ui.view.rse.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.ui.view.rse.feature.nls1" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.ui.view.web.cshelp.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.codecoverage.ui.view.web.cshelp.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.contentassist.zseries.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.core.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.core.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.cshelp.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.cshelp.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.engine.dt.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.engine.dt.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.engines.dtgui.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.engines.rdz.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.engines.rdz.license.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.idz.launches.common.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.idz.launches.common.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.idz.launches.mvsbatch.cshelp.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.idz.launches.mvsbatch.cshelp.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.idz.launches.mvsbatch.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.idz.launches.mvsbatch.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.launch.zpicl.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.launch.zpicl.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.launch.zpicl.ui.cshelp.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.launch.zpicl.ui.cshelp.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.launch.zpicl.ui.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.launch.zpicl.ui.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.migration.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.playback.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.playback.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.preference.breakpoints.cshelp.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.preference.breakpoints.cshelp.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.preference.breakpoints.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.preference.breakpoints.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.preference.zpicl.cshelp.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.rsecommon.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.rsecommon.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.ui.memory.traditional.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.ui.profile.eclipse.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.ui.profile.eclipse.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.ui.timeout.cshelp.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.ui.timeout.cshelp.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.ui.timeout.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.ui.timeout.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.zdebug.codecoverage" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.zdebug.core" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.zdebug.core.product" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.zdebug.nls" installMode="root"/>
+      <feature id="com.ibm.debug.pdt.zdebug.profile" installMode="root"/>
+      <feature id="com.ibm.debug.xmlui.feature" installMode="root"/>
+      <feature id="com.ibm.etools.c.feature" installMode="root"/>
+      <feature id="com.ibm.etools.common.tracing" installMode="root"/>
+      <feature id="com.ibm.etools.common.tracing.nl1" installMode="root"/>
+      <feature id="com.ibm.etools.icerse.editor.feature" installMode="root"/>
+      <feature id="com.ibm.etools.icerse.editor.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.etools.jzos.feature" installMode="root"/>
+      <feature id="com.ibm.etools.jzos.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.etools.rdz.client.certificates" installMode="root"/>
+      <feature id="com.ibm.etools.rdz.client.certificates.nl1" installMode="root"/>
+      <feature id="com.ibm.etools.rdz.license.feature" installMode="root"/>
+      <feature id="com.ibm.etools.rdz.license.feature.nls1" installMode="root"/>
+      <feature id="com.ibm.etools.systems.launch" installMode="root"/>
+      <feature id="com.ibm.etools.systems.launch.nls1" installMode="root"/>
+      <feature id="com.ibm.etools.znps.feature" installMode="root"/>
+      <feature id="com.ibm.etools.znps.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.etools.zusage.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.cics.rse.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.cics.rse.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.ftt.common.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.common.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.ftt.common.language" installMode="root"/>
+      <feature id="com.ibm.ftt.common.language.manager.contentassist.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.common.language.nl1" installMode="root"/>
+      <feature id="com.ibm.ftt.common.tracing.core.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.configurations.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.configurations.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.ftt.core.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.core.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.ftt.debug.ui.codecoverage.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.debug.ui.cshelp.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.debug.ui.cshelp.nls1.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.language.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.language.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.ftt.language.jcl.contentassist.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.rse.connectorservice.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.rse.connectorservice.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.ftt.rse.debug.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.rse.debug.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.ftt.rse.jes.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.rse.jes.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.ftt.rse.mvs.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.rse.mvs.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.ftt.rse.uss.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.rse.uss.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.ftt.ui.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.ui.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.idz.system.teamz.classify.feature" installMode="root"/>
+      <feature id="com.ibm.idz.system.util.feature" installMode="root"/>
+      <feature id="com.ibm.j2c.ui.base.feature" installMode="root"/>
+      <feature id="com.ibm.lang.core" installMode="root"/>
+      <feature id="com.ibm.lang.writers" installMode="root"/>
+      <feature id="com.ibm.lpex.feature" installMode="root"/>
+      <feature id="com.ibm.lpex.parsers.jcl.feature" installMode="root"/>
+      <feature id="com.ibm.oss.jars.feature" installMode="root"/>
+      <feature id="com.ibm.pdtools.debugtool.migration.feature" installMode="root"/>
+      <feature id="com.ibm.systemz.common.editor.feature" installMode="root"/>
+      <feature id="com.ibm.systemz.common.editor.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.systemz.common.editor.parse.feature" installMode="root"/>
+      <feature id="com.ibm.systemz.common.editor.parse.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.systemz.common.elsh.feature" installMode="root"/>
+      <feature id="com.ibm.systemz.common.elsh.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.systemz.common.formatter.feature" installMode="root"/>
+      <feature id="com.ibm.systemz.common.jface.feature" installMode="root"/>
+      <feature id="com.ibm.systemz.common.jface.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.systemz.jcl.core.feature" installMode="root"/>
+      <feature id="com.ibm.systemz.jcl.core.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.systemz.jcl.feature" installMode="root"/>
+      <feature id="com.ibm.systemz.jcl.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.systemz.spool.feature" installMode="root"/>
+      <feature id="com.ibm.systemz.spool.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.tpf.util.feature" installMode="root"/>
+      <feature id="com.ibm.tpf.util.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.ut.ic.server.feature" installMode="root"/>
+      <feature id="com.ibm.zcc.ccl.soa.infrastructure.annotation" installMode="root"/>
+      <feature id="com.ibm.zdebug.product.feature" installMode="root"/>
+      <feature id="com.ibm.zeus.feature" installMode="root"/>
+      <feature id="com.ibm.zeus.feature.nl0" installMode="root"/>
+      <feature id="com.ibm.zexpl.doc.feature" installMode="root"/>
+      <feature id="com.ibm.zexpl.doc.feature.nl0" installMode="root"/>
+      <feature id="com.ibm.zosconnect.ui.feature" installMode="root"/>
+      <feature id="de.tgmz.zdev.feature" installMode="root"/>
+      <feature id="org.eclipse.cdt.debug.ui.memory" installMode="root"/>
+      <feature id="org.eclipse.cdt.gdb" installMode="root"/>
+      <feature id="org.eclipse.cdt.gnu.debug" installMode="root"/>
+      <feature id="org.eclipse.cdt.gnu.dsf" installMode="root"/>
+      <feature id="org.eclipse.cdt.native" installMode="root"/>
+      <feature id="org.eclipse.cdt.platform" installMode="root"/>
+      <feature id="org.eclipse.cvs" installMode="root"/>
+      <feature id="org.eclipse.e4.rcp" installMode="root"/>
+      <feature id="org.eclipse.e4.rcp.source" installMode="root"/>
+      <feature id="org.eclipse.ecf.core.feature" installMode="root"/>
+      <feature id="org.eclipse.ecf.core.feature.source" installMode="root"/>
+      <feature id="org.eclipse.ecf.core.ssl.feature" installMode="root"/>
+      <feature id="org.eclipse.ecf.core.ssl.feature.source" installMode="root"/>
+      <feature id="org.eclipse.ecf.filetransfer.feature" installMode="root"/>
+      <feature id="org.eclipse.ecf.filetransfer.feature.source" installMode="root"/>
+      <feature id="org.eclipse.ecf.filetransfer.httpclient5.feature" installMode="root"/>
+      <feature id="org.eclipse.ecf.filetransfer.httpclient5.feature.source" installMode="root"/>
+      <feature id="org.eclipse.ecf.filetransfer.ssl.feature" installMode="root"/>
+      <feature id="org.eclipse.ecf.filetransfer.ssl.feature.source" installMode="root"/>
+      <feature id="org.eclipse.egit" installMode="root"/>
+      <feature id="org.eclipse.egit.gitflow.feature" installMode="root"/>
+      <feature id="org.eclipse.emf.common" installMode="root"/>
+      <feature id="org.eclipse.emf.common.source" installMode="root"/>
+      <feature id="org.eclipse.emf.databinding" installMode="root"/>
+      <feature id="org.eclipse.emf.databinding.edit" installMode="root"/>
+      <feature id="org.eclipse.emf.databinding.edit.source" installMode="root"/>
+      <feature id="org.eclipse.emf.databinding.source" installMode="root"/>
+      <feature id="org.eclipse.emf.ecore" installMode="root"/>
+      <feature id="org.eclipse.emf.ecore.sdo" installMode="root"/>
+      <feature id="org.eclipse.emf.ecore.source" installMode="root"/>
+      <feature id="org.eclipse.emf.edit" installMode="root"/>
+      <feature id="org.eclipse.emf.edit.source" installMode="root"/>
+      <feature id="org.eclipse.equinox.executable" installMode="root"/>
+      <feature id="org.eclipse.equinox.p2.core.feature" installMode="root"/>
+      <feature id="org.eclipse.equinox.p2.core.feature.source" installMode="root"/>
+      <feature id="org.eclipse.equinox.p2.extras.feature" installMode="root"/>
+      <feature id="org.eclipse.equinox.p2.extras.feature.source" installMode="root"/>
+      <feature id="org.eclipse.equinox.p2.rcp.feature" installMode="root"/>
+      <feature id="org.eclipse.equinox.p2.rcp.feature.source" installMode="root"/>
+      <feature id="org.eclipse.equinox.p2.user.ui" installMode="root"/>
+      <feature id="org.eclipse.equinox.p2.user.ui.source" installMode="root"/>
+      <feature id="org.eclipse.help" installMode="root"/>
+      <feature id="org.eclipse.help.source" installMode="root"/>
+      <feature id="org.eclipse.jdt" installMode="root"/>
+      <feature id="org.eclipse.jdt.source" installMode="root"/>
+      <feature id="org.eclipse.jgit" installMode="root"/>
+      <feature id="org.eclipse.jgit.gpg.bc" installMode="root"/>
+      <feature id="org.eclipse.jgit.http.apache" installMode="root"/>
+      <feature id="org.eclipse.jgit.ssh.apache" installMode="root"/>
+      <feature id="org.eclipse.jsf.feature" installMode="root"/>
+      <feature id="org.eclipse.jst.common.fproj.enablement.jdt" installMode="root"/>
+      <feature id="org.eclipse.jst.enterprise_core.feature2" installMode="root"/>
+      <feature id="org.eclipse.jst.enterprise_ui.feature2" installMode="root"/>
+      <feature id="org.eclipse.jst.server_core.feature" installMode="root"/>
+      <feature id="org.eclipse.jst.web_core.feature" installMode="root"/>
+      <feature id="org.eclipse.jst.web_core.feature2" installMode="root"/>
+      <feature id="org.eclipse.jst.web_ui.feature2" installMode="root"/>
+      <feature id="org.eclipse.justj.openjdk.hotspot.jre.full" installMode="root"/>
+      <feature id="org.eclipse.m2e.feature" installMode="root"/>
+      <feature id="org.eclipse.m2e.lemminx.feature" installMode="root"/>
+      <feature id="org.eclipse.pde" installMode="root"/>
+      <feature id="org.eclipse.pde.source" installMode="root"/>
+      <feature id="org.eclipse.platform" installMode="root"/>
+      <feature id="org.eclipse.platform.source" installMode="root"/>
+      <feature id="org.eclipse.rcp" installMode="root"/>
+      <feature id="org.eclipse.rcp.source" installMode="root"/>
+      <feature id="org.eclipse.rse" installMode="root"/>
+      <feature id="org.eclipse.rse.core" installMode="root"/>
+      <feature id="org.eclipse.rse.dstore" installMode="root"/>
+      <feature id="org.eclipse.rse.ftp" installMode="root"/>
+      <feature id="org.eclipse.rse.local" installMode="root"/>
+      <feature id="org.eclipse.rse.ssh" installMode="root"/>
+      <feature id="org.eclipse.rse.telnet" installMode="root"/>
+      <feature id="org.eclipse.rse.terminals" installMode="root"/>
+      <feature id="org.eclipse.rse.useractions" installMode="root"/>
+      <feature id="org.eclipse.sdk" installMode="root"/>
+      <feature id="org.eclipse.tm.terminal" installMode="root"/>
+      <feature id="org.eclipse.tm.terminal.ssh" installMode="root"/>
+      <feature id="org.eclipse.tm.terminal.telnet" installMode="root"/>
+      <feature id="org.eclipse.tm.terminal.view" installMode="root"/>
+      <feature id="org.eclipse.wst.common.fproj" installMode="root"/>
+      <feature id="org.eclipse.wst.common_core.feature" installMode="root"/>
+      <feature id="org.eclipse.wst.common_ui.feature" installMode="root"/>
+      <feature id="org.eclipse.wst.json_core.feature" installMode="root"/>
+      <feature id="org.eclipse.wst.json_ui.feature" installMode="root"/>
+      <feature id="org.eclipse.wst.server_core.feature" installMode="root"/>
+      <feature id="org.eclipse.wst.server_ui.feature" installMode="root"/>
+      <feature id="org.eclipse.wst.server_userdoc.feature" installMode="root"/>
+      <feature id="org.eclipse.wst.web_core.feature" installMode="root"/>
+      <feature id="org.eclipse.wst.web_js_support.feature" installMode="root"/>
+      <feature id="org.eclipse.wst.web_ui.feature" installMode="root"/>
+      <feature id="org.eclipse.wst.web_userdoc.feature" installMode="root"/>
+      <feature id="org.eclipse.wst.ws_core.feature" installMode="root"/>
+      <feature id="org.eclipse.wst.ws_core.feature2" installMode="root"/>
+      <feature id="org.eclipse.wst.ws_ui.feature2" installMode="root"/>
+      <feature id="org.eclipse.wst.xml_core.feature" installMode="root"/>
+      <feature id="org.eclipse.wst.xml_ui.feature" installMode="root"/>
+      <feature id="org.eclipse.wst.xml_userdoc.feature" installMode="root"/>
+      <feature id="org.eclipse.xsd.edit" installMode="root"/>
+      <feature id="pli.importer" installMode="root"/>
+      <feature id="pli.importer.win32" installMode="root"/>
+   </features>
+
+   <configurations>
+      <plugin id="org.apache.felix.scr" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.p2.reconciler.dropins" autoStart="true" startLevel="4" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
+      <property name="org.eclipse.update.reconcile" value="false" />
+   </configurations>
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
+
+</product>

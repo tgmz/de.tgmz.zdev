@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/*******************************************************************************
+  * Copyright (c) 04.10.2023 Thomas Zierer.
+  * All rights reserved. This program and the accompanying materials
+  * are made available under the terms of the Eclipse Public License v2.0
+  * which accompanies this distribution, and is available at
+  * http://www.eclipse.org/legal/epl-v20.html
+  *
+  * Contributors:
+  *    Thomas Zierer - initial API and implementation and/or initial documentation
+  *******************************************************************************/
+-->
+<feature
+      id="de.tgmz.zdev.feature"
+      label="z/Dev"
+      version="0.0.1.qualifier"
+      provider-name="Thomas Zierer"
+      plugin="de.tgmz.zdev.branding">
+
+   <description>
+      z/Dev: Developer for z/OS
+   </description>
+
+   <copyright>
+      Copyright (c) 04.10.2023 Thomas Zierer.
+   </copyright>
+
+   <license>
+      Eclipse Public License v2.0
+   </license>
+
+</feature>
