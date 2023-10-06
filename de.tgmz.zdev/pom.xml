@@ -67,6 +67,7 @@
 		<module>de.tgmz.zdev.preferences</module>
 		<module>de.tgmz.zdev.feature</module>
 		<module>de.tgmz.zdev.product</module>
+		<module>de.tgmz.zdev.test</module>
 		<module>de.tgmz.zdev.target</module>
 	</modules>
 

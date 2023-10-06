@@ -1,0 +1,6 @@
+/bin/
+/.settings/
+/target/
+/pdtools.bundleinfo.log
+/pdtools.envvars.log
+/pdtools.log
