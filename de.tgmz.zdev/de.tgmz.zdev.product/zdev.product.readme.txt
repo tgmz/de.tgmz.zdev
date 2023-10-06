@@ -1,11 +1,10 @@
-# Copyright (c) 04.10.2023 Thomas Zierer.
-# All rights reserved. This program and the accompanying materials
-# are made available under the terms of the Eclipse Public License v2.0
-# which accompanies this distribution, and is available at
-# http://www.eclipse.org/legal/epl-v20.html
+# Copyright (c) 06.10.2023 Thomas Zierer
 #
-# Contributors:
-#    Thomas Zierer - initial API and implementation and/or initial documentation
+# This program and the accompanying materials are made
+# available under the terms of the Eclipse Public License 2.0
+# which is available at https://www.eclipse.org/legal/epl-2.0/
+#
+# SPDX-License-Identifier: EPL-2.0
 
 Exclude
 - javax.activation !!!!! Avoid warning "Mirror tool: Problems resolving provisioning plan.: [Unable to satisfy dependency from zdev 5.0.0.202210181314 to org.eclipse.equinox.p2.iu; javax.activation [2.0.0.v20201118-1818,2.0.0.v20201118-1818].]" which breaks the "materialize" phase

@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-SymbolicName: de.tgmz.zdev.preferences;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: de.tgmz.zdev.preferences.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.apache.commons.io
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Export-Package: de.tgmz.zdev.preferences
+Bundle-ClassPath: .
+Automatic-Module-Name: de.tgmz.zdev.preferences
