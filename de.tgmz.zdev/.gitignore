@@ -1,0 +1,8 @@
+/target
+/workspace/
+**/.settings
+**/target
+**/.polyglot..META-INF_MANIFEST.MF
+**/.polyglot.META-INF
+**/.dbeaver/
+**/.tycho-consumer-pom.xml

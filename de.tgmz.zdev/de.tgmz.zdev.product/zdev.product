@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="z/Dev" uid="zdev" id="com.ibm.zeus.branding.product" application="org.eclipse.ui.ide.workbench" version="0.0.1.qualifier" type="features" includeLaunchers="true" autoIncludeRequirements="true">
+<product name="z/Dev" uid="zdev" id="com.ibm.zeus.branding.product" application="org.eclipse.ui.ide.workbench" version="1.0.0.qualifier" type="features" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <text>

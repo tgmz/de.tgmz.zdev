@@ -18,7 +18,7 @@
 
 	<groupId>de.tgmz</groupId>
 	<artifactId>de.tgmz.zdev.parent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>z/Dev Parent</name>
 
@@ -58,10 +58,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<tycho-version>3.0.4</tycho-version>
 		<java-version>17</java-version>
-		<checkstyle.version>3.1.2</checkstyle.version>
-		<spotbugs.version>4.7.2.1</spotbugs.version>
-		<javadoc.version>2.10.4</javadoc.version>
-		<jxr.version>3.0.0</jxr.version>
 		<jacoco.version>0.8.9</jacoco.version>
 		<sonar.java.source>17</sonar.java.source>
  		<sonar.exclusions>src/com/ibm/pdtools/**/*,src/testresources/**/*.*,src/resources/*.pli</sonar.exclusions>
@@ -171,38 +167,41 @@
 				<version>${tycho-version}</version>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>${checkstyle.version}</version>
-			</plugin>
-			<plugin>
-				<groupId>com.github.spotbugs</groupId>
-				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>${spotbugs.version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>${javadoc.version}</version>
-				<dependencies>
-					<dependency>
-						<groupId>commons-collections</groupId>
-						<artifactId>commons-collections</artifactId>
-						<version>3.2.2</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jxr-plugin</artifactId>
-				<version>${jxr.version}</version>
-				<dependencies>
-					<dependency>
-						<groupId>commons-collections</groupId>
-						<artifactId>commons-collections</artifactId>
-						<version>3.2.2</version>
-					</dependency>
-				</dependencies>
+				<groupId>org.apache.rat</groupId>
+				<artifactId>apache-rat-plugin</artifactId>
+				<version>0.13</version>
+				<configuration>
+					<consoleOutput>true</consoleOutput>
+					<ignoreErrors>false</ignoreErrors>
+					<!-- Ensure EPL only -->
+					<addDefaultLicenseMatchers>false</addDefaultLicenseMatchers>
+       				<licenses>                                                                                                         
+       					<license implementation="org.apache.rat.analysis.license.SimplePatternBasedLicense">                           
+       						<licenseFamilyCategory>EPL</licenseFamilyCategory>                                                         
+       						<licenseFamilyName>Eclipse Public License</licenseFamilyName>                                              
+       						<notes></notes>                                                                                            
+       						<patterns>                                                                                                 
+       							<pattern>Eclipse Public License v2.0</pattern>                                                          
+       						</patterns>                                                                                                
+       					</license>                                                                                                     
+       				</licenses>                                                                                                        
+       				<licenseFamilies>                                                                                                  
+       					<licenseFamily implementation="org.apache.rat.license.SimpleLicenseFamily">                                    
+       						<familyName>Eclipse Public License</familyName>                                                            
+       					</licenseFamily>     
+       				</licenseFamilies>                                                                                          
+					<excludes combine.children="append">
+						<!-- Eclipse -->
+           				<exclude>**/*.launch</exclude>                                                                                 
+						<!-- OSGI -->
+						<exclude>**/MANIFEST.MF</exclude>
+           				<exclude>**/build.properties</exclude>                                                                         
+           				<exclude>**/de.tgmz.zdev.target.target</exclude>                                                                                 
+						<!-- Tycho stuff -->
+       					<exclude>**/.polyglot.META-INF</exclude>                                                          
+       					<exclude>**/.tycho-consumer-pom.xml</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 		</plugins>
 		<pluginManagement>
@@ -242,58 +241,6 @@
 		</pluginManagement>
 	</build>
 
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>${checkstyle.version}</version>
-				<configuration>
-					<configLocation>src/main/resources/zDev_checkstyle_config.xml</configLocation>
-					<excludes>**\/*Test.java</excludes>
-				</configuration>
-				<reportSets>
-					<reportSet>
-						<reports>
-							<report>checkstyle-aggregate</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-			<plugin>
-				<groupId>com.github.spotbugs</groupId>
-				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>${spotbugs.version}</version>
-				<configuration>
-					<failOnError>false</failOnError>
-					<excludeFilterFile>src/main/resources/spotbugs-exclude.xml</excludeFilterFile>
-					<sarifOutput>true</sarifOutput>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>${javadoc.version}</version>
-				<configuration>
-					<aggregate>true</aggregate>
-					<additionalparam>-Xdoclint:none</additionalparam>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jxr-plugin</artifactId>
-				<version>${jxr.version}</version>
-				<reportSets>
-					<reportSet>
-						<id>aggregate</id>
-						<reports>
-							<report>aggregate</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-		</plugins>
-	</reporting>
 	<profiles>
 		<profile>
 			<id>cc</id>
@@ -352,110 +299,6 @@
                   			</execution>
                   		</executions>
                   	</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>release-audit-trail</id>
-			<build>
-				<plugins>
-			        <plugin>                                                                                                                           
-			        	<groupId>org.apache.rat</groupId>                                                                                              
-			        	<artifactId>apache-rat-plugin</artifactId>                                                                                     
-			        	<version>0.13</version>                                                                                                        
-			        	<executions>                                                                                                                   
-			        		<execution>                                                                                                                
-			        			<id>rat-check</id>                                                                                                     
-			        			<goals>                                                                                                                
-			        				<goal>check</goal>                                                                                                 
-			        			</goals>                                                                                                               
-			        			<configuration>                                                                                                        
-			        				<consoleOutput>true</consoleOutput>                                                                                
-			        				<ignoreErrors>false</ignoreErrors>                                                                                 
-			        				<licenses>                                                                                                         
-			        					<license implementation="org.apache.rat.analysis.license.SimplePatternBasedLicense">                           
-			        						<licenseFamilyCategory>EPL</licenseFamilyCategory>                                                         
-			        						<licenseFamilyName>Eclipse Public License</licenseFamilyName>                                              
-                      						<notes></notes>                                                                                            
-                      						<patterns>                                                                                                 
-			        							<pattern>Eclipse Public License 1.0</pattern>                                                          
-			        							<pattern>Eclipse Public License v1.0</pattern>                                                         
-			        							<pattern>Eclipse Public License - v 1.0</pattern>                                                      
-			        							<pattern>Eclipse Public License 2.0</pattern>                                                          
-			        						</patterns>                                                                                                
-			        					</license>                                                                                                     
-			        					<license implementation="org.apache.rat.analysis.license.SimplePatternBasedLicense">                           
-			        						<licenseFamilyCategory>OWASP</licenseFamilyCategory>                                                       
-			        						<licenseFamilyName>The OWASP Foundation</licenseFamilyName>                                                
-                      						<notes></notes>                                                                                            
-                      						<patterns>                                                                                                 
-			        							<pattern>Copyright (c) 2008,2009 - The OWASP Foundation</pattern>                                      
-			        						</patterns>                                                                                                
-			        					</license>                                                                                                     
-			        					<license implementation="org.apache.rat.analysis.license.SimplePatternBasedLicense">                           
-			        						<licenseFamilyCategory>IBM</licenseFamilyCategory>                                                         
-			        						<licenseFamilyName>International Business Machines Corp.</licenseFamilyName>                               
-                      						<notes></notes>                                                                                            
-                      						<patterns>                                                                                                 
-			        							<pattern>Licensed Materials - Property of IBM</pattern>                                                
-			        						</patterns>                                                                                                
-			        					</license>                                                                                                     
-			        				</licenses>                                                                                                        
-			        				<licenseFamilies>                                                                                                  
-			        					<licenseFamily implementation="org.apache.rat.license.SimpleLicenseFamily">                                    
-			        						<familyName>Eclipse Public License</familyName>                                                            
-			        					</licenseFamily>                                                                                               
-			        					<licenseFamily implementation="org.apache.rat.license.SimpleLicenseFamily">                                    
-			        						<familyName>The OWASP Foundation</familyName>                                                              
-			        					</licenseFamily>                                                                                               
-			        					<licenseFamily implementation="org.apache.rat.license.SimpleLicenseFamily">                                    
-			        						<familyName>International Business Machines Corp.</familyName>                                             
-			        					</licenseFamily>                                                                                               
-			        				</licenseFamilies>                                                                                                 
-			        				<excludes combine.children="append">                                                                               
-                        				<!-- Eclipse stuff -->                                                                                         
-                        				<exclude>**/.project</exclude>                                                                                 
-                        				<!-- z/OS stuff w/o comments -->                                                                               
-                        				<exclude>**/*.scl</exclude>                                                                                    
-                        				<exclude>**/*.mfs</exclude>                                                                                    
-                        				<!-- Generated -->                                                                                             
-                        				<exclude>**/*.log</exclude>                                                                                    
-                        				<exclude>**/*.launch</exclude>                                                                                 
-                        				<exclude>**/*.jardesc</exclude>                                                                                
-                        				<exclude>**/keyfile</exclude>                                                                                  
-                        				<exclude>**/bin/**</exclude>                                                                                   
-			        					<exclude>**/.META-INF_MANIFEST.MF</exclude>                                                                    
-			        					<exclude>**/.polyglot..META-INF_MANIFEST.MF</exclude>                                                          
-			        					<exclude>**/.polyglot.META-INF</exclude>                                                          
-                        				<exclude>**/build.properties</exclude>                                                                         
-			        					<exclude>**/System Settings</exclude>                                                                          
-                        				<exclude>**/*.target</exclude>                                                                                 
-                        				<exclude>**/MANIFEST.MF</exclude>                                                                              
-                        				<!-- Maven -->                                                                                                 
-                        				<exclude>**/target/**</exclude>                                                                                
-                        				<!-- Not distributed -->                                                                                       
-                        				<exclude>de.tgmz.zdev.util/**</exclude>                                                                         
-                        				<!-- Templates -->                                                                                             
-                        				<exclude>**/ccprgsel.template</exclude>                                                                        
-                        				<exclude>**/eqaopts</exclude>                                                                                  
-                        				<exclude>**/stklink</exclude>                                                                                  
-                        				<exclude>**/stklparm</exclude>                                                                                 
-                        				<exclude>**/stkmand</exclude>                                                                                  
-                        				<exclude>**/stkpack</exclude>                                                                                  
-                        				<exclude>**/stkplan</exclude>                                                                                  
-                        				<!-- Test resources -->                                                                                        
-                        				<exclude>**/testresources/**</exclude>                                                                         
-                        				<!-- Dummies -->                                                                                               
-                        				<exclude>**/Dummy.txt</exclude>                                                                                
-                        				<exclude>**/dummy.txt</exclude>                                                                                
-                        				<!-- Binaries -->                                                                                              
-                        				<!-- For some reason, rat-plugin complains about de.tgmz.zdev.branding/icons/bmp/logo-48.bmp on azure devops -->
-                        				<exclude>**/*.bmp</exclude>	                                                                                   
-			        				</excludes>                                                                                                        
-			        			</configuration>                                                                                                       
-			        		</execution>                                                                                                               
-			        	</executions>                                                                                                                  
-			        </plugin>                                                                                                                          
 				</plugins>
 			</build>
 		</profile>
