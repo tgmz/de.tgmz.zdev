@@ -1,11 +1,10 @@
-@rem Copyright (c) 04.10.2022 Thomas Zierer.
-@rem All rights reserved. This program and the accompanying materials
-@rem are made available under the terms of the Eclipse Public License v2.0         
-@rem which accompanies this distribution, and is available at                      
-@rem http://www.eclipse.org/legal/epl-v20.html                                     
-@rem                                                                               
-@rem Contributors:                                                                 
-@rem    Thomas Zierer - initial API and implementation and/or initial documentation
+@rem Copyright (c) 06.10.2023 Thomas Zierer
+@rem
+@rem This program and the accompanying materials are made
+@rem available under the terms of the Eclipse Public License 2.0
+@rem which is available at https://www.eclipse.org/legal/epl-2.0/
+@rem
+@rem SPDX-License-Identifier: EPL-2.0
 
 @rem https://wiki.eclipse.org/Equinox/p2/Publisher
 

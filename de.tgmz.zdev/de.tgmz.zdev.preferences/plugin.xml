@@ -10,29 +10,19 @@
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
 -->
-<feature
-      id="de.tgmz.zdev.feature"
-      label="z/Dev"
-      version="1.0.0.qualifier"
-      provider-name="Thomas Zierer">
-
-   <description>
-      z/Dev: Developer for z/OS
-   </description>
-
-   <copyright>
-      Copyright (c) 04.10.2023 Thomas Zierer.
-   </copyright>
-
-   <license>
-      Eclipse Public License v2.0
-   </license>
-
-   <plugin
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="de.tgmz.zdev.preferences.ZdevPreferencePage"
+            id="de.tgmz.zdev.preferences.ZdevPreferencePage"
+            name="Endevor"/>
+   </extension>
+   <extension
          id="de.tgmz.zdev.preferences"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-</feature>
+         name="Zdev"
+         point="org.eclipse.core.runtime.preferences">
+      <initializer class="de.tgmz.zdev.preferences.ZdevPreferenceInitializer"/>
+   </extension>
+</plugin>

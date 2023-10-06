@@ -1,7 +1,7 @@
-/target
 /workspace/
 **/.settings
 **/target
+**/bin
 **/.polyglot..META-INF_MANIFEST.MF
 **/.polyglot.META-INF
 **/.dbeaver/
