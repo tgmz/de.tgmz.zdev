@@ -64,8 +64,10 @@
 	</properties>
 
 	<modules>
-		<module>de.tgmz.zdev.preferences</module>
+		<module>de.tgmz.zdev.connection</module>
 		<module>de.tgmz.zdev.feature</module>
+		<module>de.tgmz.zdev.logging</module>
+		<module>de.tgmz.zdev.preferences</module>
 		<module>de.tgmz.zdev.product</module>
 		<module>de.tgmz.zdev.test</module>
 		<module>de.tgmz.zdev.target</module>
@@ -200,6 +202,7 @@
            				<exclude>**/de.tgmz.zdev.target.target</exclude>                                                                                 
 						<!-- Tycho stuff -->
        					<exclude>**/.polyglot.META-INF</exclude>                                                          
+       					<exclude>**/.polyglot..META-INF_MANIFEST.MF</exclude>                                                          
        					<exclude>**/.tycho-consumer-pom.xml</exclude>
 					</excludes>
 				</configuration>
