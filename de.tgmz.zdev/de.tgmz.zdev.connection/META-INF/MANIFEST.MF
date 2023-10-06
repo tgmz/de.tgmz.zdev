@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-SymbolicName: de.tgmz.zdev.connection
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Require-Bundle: de.tgmz.zdev.logging,
+ com.ibm.cics.zos.model,
+ com.ibm.cics.core.connections,
+ org.eclipse.core.expressions
+Export-Package: de.tgmz.zdev.connection
+Automatic-Module-Name: de.tgmz.zdev.connection

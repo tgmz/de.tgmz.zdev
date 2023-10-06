@@ -7,9 +7,27 @@ Bundle-Localization: plugin
 Bundle-SymbolicName: de.tgmz.zdev.test
 Bundle-ActivationPolicy: lazy
 Require-Bundle: de.tgmz.zdev.preferences,
+ de.tgmz.zdev.connection,
+ de.tgmz.zdev.logging,
  org.junit,
- org.eclipse.ui.workbench,
- org.eclipse.jface
+ org.apache.commons.io,
+ org.eclipse.core.resources,
+ org.eclipse.ui,
+ org.eclipse.ui.ide,
+ org.eclipse.ui.views,
+ org.eclipse.core.runtime,
+ org.eclipse.compare,
+ com.ibm.cics.common,
+ org.eclipse.core.expressions,
+ org.eclipse.jface.text,
+ com.ibm.cics.core.comm,
+ com.ibm.cics.zos.model,
+ com.ibm.cics.zos.core.ui,
+ org.eclipse.ui.editors,
+ org.h2,
+ org.eclipse.jdt.core,
+ com.ibm.debug.daemon.core,
+ com.ibm.cics.core.connections
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ClassPath: .,
  lib/mockito-core-2.28.2.jar,
