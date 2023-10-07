@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/*********************************************************************
+* Copyright (c) 06.10.2023 Thomas Zierer
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
+-->
+<?eclipse version="3.4"?>
+<plugin>
+  <extension
+          id="com.ibm.cics.zos.ui.hfsentry.popupmenus"
+          point="org.eclipse.ui.popupMenus">
+<!-- Pop up menu for actions against partitioned data set members -->              
+       <objectContribution
+             adaptable="true"
+             id="com.ibm.cics.zos.ui.member.popupmenus.actions"
+             objectClass="com.ibm.cics.zos.model.Member">
+          <action          
+                class="de.tgmz.zdev.editor.OpenZdevEntryAction"
+                enablesFor="1"
+                overrideActionId="com.ibm.cics.zos.ui.actions.member.open"
+                id="de.tgmz.zdev.ui.actions.member.open"
+                label="Open"
+                menubarPath="open">
+          </action>                  
+       </objectContribution>
+    </extension>
+
+   <extension
+	point="org.eclipse.ui.editors">
+  <!-- Partitioned Data Set Member -->      
+     <editor
+           class="de.tgmz.zdev.editor.ZdevEditor"
+           contributorClass="com.ibm.cics.zos.ui.editor.ZEditorActionContributor"
+           default="true"
+           id="de.tgmz.zdev.editor.dataentry.editor"
+           name="%dataset_editor.title">
+      </editor>
+   </extension>
+
+	<!-- Define property testers for enabling/disabling open include lookup context menu option -->
+    <extension point="org.eclipse.core.expressions.propertyTesters">
+	  	<propertyTester
+			id="de.tgmz.zdev.editor.open.expressions.propertyTesters.textSelectionTester"
+			class="de.tgmz.zdev.editor.open.DataSetSelectionTester"
+			properties="isDataSet"
+			type="org.eclipse.jface.text.ITextSelection"
+			namespace="de.tgmz.zdev.editor.open.textSelection" />
+    </extension>
+    
+    <!-- Define a context menu contribution to allow open include Eclipse-wide -->
+    <extension point="org.eclipse.ui.menus">
+	    <menuContribution
+	          locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+	        <command
+				commandId="de.tgmz.zdev.editor.open.OpenDataSet"
+	            icon="icons/edit.png"
+				label="%OpenDataSet"
+				style="push">
+	            <visibleWhen>
+	                <with variable="selection">
+	                	<and>
+	                		<instanceof value="org.eclipse.jface.text.ITextSelection"/>
+	                    	<test property="de.tgmz.zdev.editor.open.textSelection.isDataSet"></test>
+	                	</and>
+	                </with>
+	            </visibleWhen>
+			</command>
+		</menuContribution>
+	    <menuContribution
+	          locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+	        <command
+				commandId="de.tgmz.zdev.collapse"
+				label="%label.collapse"
+	            icon="icons/collapse.png"
+				style="push">
+				<visibleWhen>
+					<and>
+						<with variable="selection">
+                			<instanceof value="org.eclipse.jface.text.ITextSelection"/>
+						</with>
+						<with variable="activePart">
+							<instanceof value="de.tgmz.zdev.editor.ZdevEditor" />
+						</with>
+					</and>					
+				</visibleWhen>	
+			</command>
+	        <command
+				commandId="de.tgmz.zdev.expand"
+	            icon="icons/expand.png"
+				label="%label.expand"
+				style="push">
+				<visibleWhen>
+					<with variable="activePart">
+						<instanceof value="de.tgmz.zdev.editor.ZdevEditor" />
+					</with>
+				</visibleWhen>	
+			</command>
+		</menuContribution>
+	</extension>
+    
+    <!-- Define the command to open include files -->
+	<extension	point="org.eclipse.ui.commands">
+        <command defaultHandler="de.tgmz.zdev.editor.open.OpenDataSetHandler"
+            	id="de.tgmz.zdev.editor.open.OpenDataSet"
+            	name="%OpenDataSet">
+        </command>
+        <command defaultHandler="de.tgmz.zdev.editor.folding.CollapseHandler"
+			id="de.tgmz.zdev.collapse"
+			name="%Collapse">
+        </command>
+        <command defaultHandler="de.tgmz.zdev.editor.folding.ExpandHandler"
+			id="de.tgmz.zdev.expand"
+			name="%Expand">
+        </command>
+	</extension>	 
+
+</plugin>

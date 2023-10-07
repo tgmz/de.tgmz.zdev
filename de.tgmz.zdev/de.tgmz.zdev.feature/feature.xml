@@ -49,4 +49,25 @@
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="de.tgmz.zdev.editor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="de.tgmz.zdev.database"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="de.tgmz.zdev.history"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>

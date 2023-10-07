@@ -9,6 +9,8 @@ Bundle-ActivationPolicy: lazy
 Require-Bundle: de.tgmz.zdev.preferences,
  de.tgmz.zdev.connection,
  de.tgmz.zdev.logging,
+ de.tgmz.zdev.editor,
+ de.tgmz.zdev.history,
  org.junit,
  org.apache.commons.io,
  org.eclipse.core.resources,

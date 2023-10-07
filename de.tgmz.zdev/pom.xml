@@ -65,7 +65,10 @@
 
 	<modules>
 		<module>de.tgmz.zdev.connection</module>
+		<module>de.tgmz.zdev.database</module>
+		<module>de.tgmz.zdev.editor</module>
 		<module>de.tgmz.zdev.feature</module>
+		<module>de.tgmz.zdev.history</module>
 		<module>de.tgmz.zdev.logging</module>
 		<module>de.tgmz.zdev.preferences</module>
 		<module>de.tgmz.zdev.product</module>
