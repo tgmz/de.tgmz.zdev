@@ -37,6 +37,6 @@
 		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
 
 		<!-- Mapping files -->
-		<mapping class="de.tgmz.zdev.domain.History" />
+		<mapping class="de.tgmz.zdev.domain.Item" />
 	</session-factory>
 </hibernate-configuration>

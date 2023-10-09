@@ -18,11 +18,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
- * Implementation of a history, usually of a dataset member containing a source.
+ * History object, usually of a dataset member containing a source.
  */
 
 @Entity
-public class History implements Serializable {
+public class Item implements Serializable {
 	private static final long serialVersionUID = -5251258163182902698L;
 	@Id
 	@GeneratedValue
@@ -35,7 +35,7 @@ public class History implements Serializable {
     /**
      * CTR.
      */
-    public History() {
+    public Item() {
         super();
     }
 

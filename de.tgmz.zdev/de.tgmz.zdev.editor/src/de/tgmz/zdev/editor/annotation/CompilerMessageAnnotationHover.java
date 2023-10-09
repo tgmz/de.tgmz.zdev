@@ -64,7 +64,6 @@ public class CompilerMessageAnnotationHover implements IAnnotationHover {
 					result.add(cma);
 				}
 			}
-			
 		}
 		
 		return result;

@@ -23,7 +23,7 @@ public class MemberNameValidator implements IInputValidator {
 	 * 1. position: National characters uppercase only
 	 * 2-8. position: National character uppercase + digits
 	 */
-	public static final String REGEXP_MEMBER = "^[A-Z§\\$#]{1}[A-Z\\d§\\$#]{0,7}";
+	public static final String REGEXP_MEMBER = "^[A-Z§\\$#][A-Z\\d§\\$#]{0,7}";
 	@Override
 	public String isValid(String newText) {
 		return Pattern.matches(REGEXP_MEMBER, newText) ? null :	Activator.getDefault().getString("Paste.InvalidMemberName");

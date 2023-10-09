@@ -8,5 +8,9 @@
  * SPDX-License-Identifier: EPL-2.0
  **********************************************************************/
  HELLOW: PROC OPTIONS(MAIN);
+       CALL PRINTLN();
+
+ PRINTLN: PROCEDURE();
        PUT SKIP LIST('Hello world');
+ END PRINTLN;
  END;

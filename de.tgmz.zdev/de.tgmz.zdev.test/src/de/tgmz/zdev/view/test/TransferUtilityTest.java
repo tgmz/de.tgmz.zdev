@@ -13,6 +13,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.After;
@@ -25,6 +26,7 @@ import de.tgmz.zdev.view.copypaste.TransferUtility;
  * Testclass for TransferUtility.
  */
 public class TransferUtilityTest {
+	private static final String PGM = "HELLOW";
 	private static TransferUtility tu;
 
 	@BeforeClass
@@ -39,13 +41,13 @@ public class TransferUtilityTest {
 
 	@Test
 	public void transfer() throws IOException {
-		byte[] b0 = IOUtils.toByteArray(this.getClass().getClassLoader().getResourceAsStream("testresources/NLA315.pli"));
+		byte[] b0 = IOUtils.toByteArray(this.getClass().getClassLoader().getResourceAsStream(MessageFormat.format("testresources/{0}.pli", PGM)));
 		
-		tu.put("NLA315", b0);
+		tu.put(PGM, b0);
 		
 		byte[] b1 = tu.getTransfers().get(0).getContent();
 		
 		assertArrayEquals(b0, b1);
-		assertEquals("NLA315", tu.getTransfers().get(0).getName());
+		assertEquals(PGM, tu.getTransfers().get(0).getName());
 	}
 }

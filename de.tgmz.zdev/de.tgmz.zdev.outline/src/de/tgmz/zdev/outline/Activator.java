@@ -1,3 +1,12 @@
+/*********************************************************************
+* Copyright (c) 09.10.2023 Thomas Zierer
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
 package de.tgmz.zdev.outline;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -15,30 +24,36 @@ public class Activator extends AbstractUIPlugin {
 	private static Activator plugin;
 	
 	/**
-	 * The constructor
-	 */
-	public Activator() {
-	}
-
-	@Override
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
-		plugin = this;
-	}
-
-	@Override
-	public void stop(BundleContext context) throws Exception {
-		plugin = null;
-		super.stop(context);
-	}
-
-	/**
 	 * Returns the shared instance
 	 *
 	 * @return the shared instance
 	 */
 	public static Activator getDefault() {
 		return plugin;
+	}
+	private static void setDefault(Activator aPlugin) {
+		Activator.plugin = aPlugin;
+	}
+	//CHECKSTYLE DISABLE IllegalThrows
+    // start() und stop() müssen super... aufrufen und beide deklarieren ... throws Excpetion.
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+	 */
+	@Override
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
+		setDefault(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
+	 */
+	@Override
+	public void stop(BundleContext context) throws Exception {
+		setDefault(null);
+		super.stop(context);
 	}
 
 }

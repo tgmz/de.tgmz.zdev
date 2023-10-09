@@ -34,6 +34,6 @@ public class ReconcilingStrategyTest {
 		
 		rs.reconcile(null);
 		
-		assertEquals(2, rs.getfPositions().size());
+		assertEquals(3, rs.getfPositions().size());
 	}
 }

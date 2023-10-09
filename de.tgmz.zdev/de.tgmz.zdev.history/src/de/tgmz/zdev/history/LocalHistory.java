@@ -13,7 +13,7 @@ import de.tgmz.zdev.history.database.JpaHistory;
 import de.tgmz.zdev.history.model.IHistoryModel;
 
 /**
- * Local History
+ * Local Item
  */
 public class LocalHistory {
 	private static final IHistoryModel INSTANCE = new JpaHistory();

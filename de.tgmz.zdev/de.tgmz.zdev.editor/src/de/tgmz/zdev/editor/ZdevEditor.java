@@ -33,6 +33,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,6 +56,7 @@ import de.tgmz.zdev.editor.rexx.RexxConfiguration;
 import de.tgmz.zdev.editor.sql.SqlConfiguration;
 import de.tgmz.zdev.history.HistoryException;
 import de.tgmz.zdev.history.LocalHistory;
+import de.tgmz.zdev.outline.view.ZdevContentOutlinePage;
 import de.tgmz.zdev.preferences.Language;
 
 /**
@@ -71,16 +73,15 @@ public class ZdevEditor extends MemberEditor {
 
 		@Override
 		public void event(ConnectionServiceListener.ConnectionServiceEvent event) {
-			if ("com.ibm.cics.zos.comm.connection".equals(event.getConnectionCategoryId())) {
-				if (event instanceof ConnectionServiceListener.DisconnectingEvent) {
+			if ("com.ibm.cics.zos.comm.connection".equals(event.getConnectionCategoryId())
+				&& event instanceof ConnectionServiceListener.DisconnectingEvent) {
 					ZdevEditor.this.close(false);
-				}
 			}
 		}
 	}
 
+    protected ZdevContentOutlinePage page;
 	private ZdevColorManager colorManager;
-    private ProjectionSupport projectionSupport;
 	private Annotation[] oldAnnotations;
 	private ProjectionAnnotationModel projectionAnnotationModel;
 	
@@ -101,7 +102,7 @@ public class ZdevEditor extends MemberEditor {
 		
         ProjectionViewer viewer =(ProjectionViewer)getSourceViewer();
         
-        projectionSupport = new ProjectionSupport(viewer,getAnnotationAccess(),getSharedColors());
+        ProjectionSupport projectionSupport = new ProjectionSupport(viewer,getAnnotationAccess(),getSharedColors());
 		projectionSupport.install();
 		
 		//turn projection mode on
@@ -159,6 +160,17 @@ public class ZdevEditor extends MemberEditor {
 		super.init(site, input);
 	}
 	
+    @SuppressWarnings("unchecked")
+	@Override
+	public <T> T getAdapter(Class<T> adapter) {
+        if (adapter == IContentOutlinePage.class) {
+            page = new ZdevContentOutlinePage(this, Language.fromDatasetName(getMember().getParentPath()));
+            return (T) page;
+        }
+        
+        return super.getAdapter(adapter);
+    }
+
 	@Override
 	public void dispose() {
 		LOG.debug("Exit");

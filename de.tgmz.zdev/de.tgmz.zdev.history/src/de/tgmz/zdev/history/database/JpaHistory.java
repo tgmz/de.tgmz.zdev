@@ -23,19 +23,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.tgmz.zdev.database.DbService;
-import de.tgmz.zdev.domain.History;
+import de.tgmz.zdev.domain.Item;
 import de.tgmz.zdev.history.HistoryException;
 import de.tgmz.zdev.history.model.IHistoryModel;
 
 /**
- * History based on a H2 database with hibernate.
+ * Item based on a H2 database with hibernate.
  */
 public class JpaHistory implements IHistoryModel {
 	private static final Logger LOG = LoggerFactory.getLogger(JpaHistory.class);
 	
 	@Override
 	public long save(byte[] content, String itemName) throws HistoryException {
-   		History c = new History();
+   		Item c = new Item();
    		
    		c.setContent(content);
    		c.setDsn(itemName);
@@ -59,7 +59,7 @@ public class JpaHistory implements IHistoryModel {
        	Session session = DbService.startTx();
        	
        	try {
-       		History c = (History) session.createCriteria(History.class)
+       		Item c = (Item) session.createCriteria(Item.class)
 					.add(Restrictions.eq("version", key))
 					.add(Restrictions.eq("dsn", itemName)).uniqueResult();
        		
@@ -79,10 +79,10 @@ public class JpaHistory implements IHistoryModel {
        	
        	try {
        		@SuppressWarnings("unchecked")
-			List<History> zwerg = session.createCriteria(History.class)
+			List<Item> zwerg = session.createCriteria(Item.class)
 					.add(Restrictions.eq("dsn", itemName)).list();
        		
-       		for (History c : zwerg) {
+       		for (Item c : zwerg) {
 				result.add(c.getVersion());
 			}
 		} catch (HibernateException e) {
@@ -102,7 +102,7 @@ public class JpaHistory implements IHistoryModel {
        	Session session = DbService.startTx();
        	
        	try {
-       		ScrollableResults itemCursor = session.createQuery("from History order by version desc").scroll();
+       		ScrollableResults itemCursor = session.createQuery("from Item order by version desc").scroll();
        		
        		int count = 0;
        		int x = 0;
@@ -111,7 +111,7 @@ public class JpaHistory implements IHistoryModel {
        		while (itemCursor.next()) {
        			++y;
        			
-       		    History c = (History) itemCursor.get(0);
+       		    Item c = (Item) itemCursor.get(0);
            	
 				Integer i = m.get(c.getDsn());
 				

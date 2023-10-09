@@ -70,6 +70,7 @@
 		<module>de.tgmz.zdev.feature</module>
 		<module>de.tgmz.zdev.history</module>
 		<module>de.tgmz.zdev.logging</module>
+		<module>de.tgmz.zdev.outline</module>
 		<module>de.tgmz.zdev.preferences</module>
 		<module>de.tgmz.zdev.product</module>
 		<module>de.tgmz.zdev.test</module>
