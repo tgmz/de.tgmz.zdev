@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/*********************************************************************
+* Copyright (c) 06.10.2023 Thomas Zierer
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
+-->
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="%categoryName"
+            id="de.tgmz.zdev.category">
+      </category>
+      <view
+            name="Data Sets"
+            category="de.tgmz.zdev.category"
+            class="de.tgmz.zdev.view.ZdevDataSetsExplorer"
+            id="de.tgmz.zdev.view.ZdevDataSetsExplorer">
+      </view>
+   </extension>
+
+	<extension point="org.eclipse.ui.perspectives">
+		<perspective
+			class="de.tgmz.zdev.view.ZdevPerspectiveFactory"
+			fixed="true"
+			id="de.tgmz.zdev.perspective"
+			name="%perspectiveName">
+		</perspective>
+	</extension>
+
+    <extension point="org.eclipse.ui.menus">
+	    <menuContribution
+	          locationURI="popup:com.ibm.cics.zos.ui.views.mvsfiles?after=additions">
+	        <command
+				commandId="de.tgmz.zdev.copy"
+				icon="icons/copy-paste.png"
+				label="%label.copy"
+				style="push">
+         		<visibleWhen>
+         			<with variable="activeMenuSelection">
+         				<iterate>
+						<or>
+							<instanceof value="com.ibm.cics.zos.model.SequentialDataSet" />
+							<instanceof value="com.ibm.cics.zos.model.Member" />
+						</or>
+						<not>
+							<instanceof value="com.ibm.cics.zos.model.VSAMData" />
+						</not>
+         				</iterate>
+         			</with>
+         		</visibleWhen>
+			</command>
+			
+	        <command
+				commandId="de.tgmz.zdev.paste"
+				label="%label.paste"
+				icon="icons/copy-paste.png"
+				style="push">
+         		<visibleWhen>
+         			<with variable="activeMenuSelection">
+         				<iterate>
+         					<and>
+	         					<instanceof value="com.ibm.cics.zos.model.PartitionedDataSet" />
+         					</and>
+         				</iterate>
+         			</with>
+         		</visibleWhen>
+			</command>
+			
+	        <command
+				commandId="de.tgmz.zdev.rename"
+				label="%label.rename"
+				icon="icons/rename.png"
+				style="push">
+         		<visibleWhen>
+         			<with variable="activeMenuSelection">
+         				<iterate>
+							<and>
+								<instanceof value="com.ibm.cics.zos.model.Member" />
+							</and>
+         				</iterate>
+       				</with>
+         		</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
+
+    <extension point="org.eclipse.ui.handlers">
+	  	<handler
+    		commandId="com.ibm.cics.zos.ui.submit.data"
+    		class="com.ibm.cics.zos.ui.SubmitDataEntryCommandHandler">
+   			<activeWhen>
+    			<with variable="activePartId">
+   					<equals value="de.tgmz.zdev.view.ZdevDataSetsExplorer" />
+				</with>
+    		</activeWhen>
+    		<enabledWhen>
+    			<and>
+					<count value="+" />
+					<iterate ifEmpty="false">
+						<or>
+							<instanceof value="com.ibm.cics.zos.model.SequentialDataSet" />
+							<instanceof value="com.ibm.cics.zos.model.Member" />
+						</or>
+						<not>
+							<instanceof value="com.ibm.cics.zos.model.VSAMData" />
+						</not>
+					</iterate>
+				</and>
+    		</enabledWhen>
+    	</handler>
+	</extension>
+	
+	<extension
+		point="org.eclipse.ui.contexts">
+		<context description="Rename Member"
+			id="de.tgmz.zdev.keybindings.contexts.rename"
+			name="Rename Member"
+			parentId="org.eclipse.ui.contexts.window">
+		</context>
+	</extension>
+	
+	<extension
+		point="org.eclipse.ui.bindings">
+		<key
+			commandId="de.tgmz.zdev.rename"
+			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+			contextId="de.tgmz.zdev.keybindings.contexts.rename"
+			sequence="F2">
+		</key>
+	</extension>
+		
+	<extension point="org.eclipse.ui.commands">
+        <command defaultHandler="de.tgmz.zdev.view.copypaste.CopyHandler"
+			id="de.tgmz.zdev.copy"
+			name="Copy">
+        </command>
+        <command defaultHandler="de.tgmz.zdev.view.copypaste.PasteHandler"
+			id="de.tgmz.zdev.paste"
+			name="Paste">
+        </command>
+        <command defaultHandler="de.tgmz.zdev.view.RenameHandler"
+			id="de.tgmz.zdev.rename"
+			name="Rename">
+        </command>
+	</extension>
+
+</plugin>

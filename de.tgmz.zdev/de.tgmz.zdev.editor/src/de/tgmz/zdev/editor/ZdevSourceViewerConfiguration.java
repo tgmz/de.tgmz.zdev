@@ -27,7 +27,7 @@ public abstract class ZdevSourceViewerConfiguration extends SourceViewerConfigur
 	private final ZdevColorManager colorManager;
 	private final IAnnotationHover annotationHover;
 
-	public ZdevSourceViewerConfiguration(ZdevColorManager colorManager) {
+	protected ZdevSourceViewerConfiguration(ZdevColorManager colorManager) {
 		this.colorManager = colorManager;
 		this.annotationHover = new CompilerMessageAnnotationHover();
 	}

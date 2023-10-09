@@ -1,0 +1,122 @@
+/*********************************************************************
+* Copyright (c) 09.10.2023 Thomas Zierer
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
+package de.tgmz.zdev.view;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.handlers.HandlerUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.ibm.cics.core.comm.ConnectionException;
+import com.ibm.cics.zos.comm.IZOSConstants.FileType;
+import com.ibm.cics.zos.model.DataSet;
+import com.ibm.cics.zos.model.Member;
+import com.ibm.cics.zos.model.PartitionedDataSet;
+import com.ibm.cics.zos.model.PermissionDeniedException;
+import com.ibm.cics.zos.model.UnsupportedOperationException;
+import com.ibm.cics.zos.model.UpdateFailedException;
+
+import de.tgmz.zdev.connection.ZdevConnectable;
+
+/**
+ * RenameHandler.
+ */
+public class RenameHandler extends AbstractHandler {
+	private static final Logger LOG = LoggerFactory.getLogger(RenameHandler.class);
+	private static final String TARGET_VIEW_ID = "de.tgmz.zdev.view.ZdevDataSetsExplorer";
+	private static final String TITLE = Activator.getDefault().getString("Paste.Title");
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.commands.IHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		ISelection selection = HandlerUtil.getCurrentSelection(event);
+		
+		if (selection instanceof IStructuredSelection iss) {
+			Object o = iss.getFirstElement();
+			
+			if (o instanceof Member oldMember) {
+				Member newMember;
+				try {
+					DataSet dataSet = ZdevConnectable.getConnectable().getDataSet((oldMember).getParentPath());
+						
+					newMember = MemberUtility.getInstance().getNewMember((PartitionedDataSet) dataSet, (oldMember).getName());
+				} catch (FileNotFoundException e) {
+					LOG.warn("An unexpected error has occurred", e);
+						
+					MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()
+							, TITLE 
+							, Activator.getDefault().getString("Paste.Error", (oldMember).getName(), e.getMessage()));
+						
+					return null;
+				}
+					
+				if (newMember == null || (oldMember).getName().equalsIgnoreCase(newMember.getName())) {
+					return null;
+				}
+					
+				try {
+					ByteArrayOutputStream contents = ZdevConnectable.getConnectable().getContents(oldMember, FileType.BINARY);
+
+					ZdevConnectable.getConnectable().delete(oldMember);
+					
+					ZdevConnectable.getConnectable().save(newMember, new ByteArrayInputStream(contents.toByteArray()));
+				} catch (PermissionDeniedException  e) {
+					LOG.warn("Operation not allowed", e);
+					
+					MessageDialog.openWarning(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()
+							, TITLE 
+							, Activator.getDefault().getString("Paste.NotPermitted", (oldMember).getName(), e.getMessage()));
+				} catch (FileNotFoundException | UnsupportedOperationException | UpdateFailedException | ConnectionException e) {
+					LOG.warn("An unexpected error has occurred", e);
+					
+					MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()
+							, TITLE 
+							, Activator.getDefault().getString("Paste.Error", (oldMember).getName(), e.getMessage()));
+				}
+			}
+			
+           	// Refresh der ZdevDataSetsExplorer View
+       		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+       		ZdevDataSetsExplorer view = (ZdevDataSetsExplorer) page.findView(TARGET_VIEW_ID);
+       		if (view == null) {
+       			try {
+       				page.showView(TARGET_VIEW_ID);
+       				view = (ZdevDataSetsExplorer) page.findView(TARGET_VIEW_ID);
+       			} catch (PartInitException e) {
+       				LOG.error("findDataSetExplorer", e);
+       			}
+       		}
+        		
+       		if (view != null) {
+       			page.bringToTop(view);
+       			view.forceRefresh();
+       		} else {
+       			LOG.warn("Cannot switch to view {}", TARGET_VIEW_ID);
+       		}
+
+		}
+		
+		return null;
+	}
+}

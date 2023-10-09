@@ -24,7 +24,7 @@ public abstract class EditorTest {
 	protected static IEditorSite site;
 	protected Member member = Mockito.mock(Member.class);
 
-	public EditorTest() {
+	protected EditorTest() {
 		super();
 	}
 

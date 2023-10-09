@@ -74,6 +74,7 @@
 		<module>de.tgmz.zdev.product</module>
 		<module>de.tgmz.zdev.test</module>
 		<module>de.tgmz.zdev.target</module>
+		<module>de.tgmz.zdev.view</module>
 	</modules>
 
 	<build>
@@ -293,7 +294,7 @@
 		            <plugin>
     	    	        <groupId>org.owasp</groupId>
         	    	    <artifactId>dependency-check-maven</artifactId>
-            	    	<version>8.3.1</version>
+            	    	<version>8.4.0</version>
             	    	<configuration>
 							<format>HTML</format>
 							<assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
