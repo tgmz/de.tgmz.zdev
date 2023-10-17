@@ -1,0 +1,393 @@
+/* zDev Content Standard-CSS */
+
+/* Copyright (c) 06.10.2023 Thomas Zierer                             */
+/*                                                                    */
+/* This program and the accompanying materials are made               */
+/* available under the terms of the Eclipse Public License 2.0        */
+/* which is available at https://www.eclipse.org/legal/epl-2.0/       */
+/*                                                                    */
+/* SPDX-License-Identifier: EPL-2.0                                   */
+
+/* Stylesheets */
+html, body, div, p, ul, ol, a, table, td, form, img, li {
+	font-family: Arial;
+}
+
+.blauLinie, .blauBorder {
+	background-color: #002065;
+}
+
+.grauKontaktbox {
+	background-color: #CCD2E0;
+}
+
+.ockerSpezialbox {
+	background-color: #E6F2F8;
+}
+
+.grauKontaktformular {
+	background-color: #CCD2E0;
+}
+
+.pflichtfeld {
+	background-color: #fdbf82;
+}
+
+.ausgabefeld {
+	background-color: #E6F2F8;
+}
+
+.ausgabefeldRechts {
+	background-color: #E6F2F8;
+	text-align: right;
+}
+
+.eingabefeldRechts {
+	text-align: right;
+}
+
+.hervorhebung {
+	background-color: #ffffe6;
+}
+
+/* SPEZIAL: ------- Hintergrund Content */
+.hintergrundblau {
+	background-color: #E6F2F8;
+	color: #000000;
+}
+
+/* SPEZIAL: ------- Hintergrund Dialog */
+.hintergrundgrau {
+	background-color: #d2d6d7;
+	font-size: 11px;
+	color: #000000;
+	padding-left: 2px;
+	border-collapse: collapse;
+	margin-top: 2px;
+	height: 13px;
+}  /* Schriftfarben */
+.rotFehler {
+	color: #F53131;
+}
+
+.gelbSignal {
+	color: #fdbf82;
+}
+
+.weiss {
+	color: #ffffff;
+}
+
+.gelb {
+	color: #ffb200;
+}
+
+.orange {
+	color: #FA7F04;
+}
+
+.blau {
+	color: #002065;
+}
+
+.schwarz, .mail {
+	color: #000000;
+}
+
+/* Schriftgr��e */
+.font {
+	font-size: 11px;
+	font-weight: normal;
+	font-family: Arial;
+}
+
+.font_datenfelder {
+	color: #000000;
+	font-size: 11px;
+	font-weight: normal;
+	text-align: center;
+}
+
+.font_datenfelder_left {
+	color: #000000;
+	font-size: 11px;
+	font-weight: normal;
+	text-align: left;
+}
+
+.font_datenfelder_right {
+	color: #000000;
+	font-size: 11px;
+	font-weight: normal;
+	text-align: right;
+}  /* Textdarstellung */
+.left {
+	text-align: left;
+}
+
+.right {
+	text-align: right;
+	align: right;
+}
+
+.zentriert {
+	text-align: center;
+}  /* SPEZIAL: ------- Copyrightvermerk */
+.copyright {
+	color: #002065;
+	font-size: 11px;
+	font-weight: normal;
+	text-align: right;
+}  /* SPEZIAL: ------- Zusatz f�r Dokumente und URLs LIONet*/
+.zusatz {
+	color: #002065;
+	font-size: 9px;
+	background-color: #E6F2F8;
+	font-weight: 200px;
+	text-transform: uppercase;
+	font-family: Arial, Helvetica, sans-serif;
+	letter-spacing: 1px;
+}
+
+/* Rahmen */ /* Border - BLAU */
+.topBorderBlau {
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #002065;
+}
+
+.bottomBorderBlau {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #002065;
+}
+
+.leftBorderBlau {
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: #002065;
+}
+
+.rightBorderBlau {
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #002065;
+}  /* Border - WEISS */
+.topBorderWeiss {
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #ffffff;
+}
+
+.bottomBorderWeiss {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #ffffff;
+}
+
+.leftBorderWeiss {
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: #ffffff;
+}
+
+.rightBorderWeiss {
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #ffffff;
+}  /* Content - Textlink */
+.textlink {
+	color: #000000;
+	text-decoration: underline;
+}
+/* Link fuer Reiternavigation */
+.reiterlink_aktiv {
+	color: #002065;
+	text-decoration: bold;
+	text-decoration: none;
+}
+.reiterlink_inaktiv {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+/* Sprungmarke Seitenanfang */
+a.seitenanfang, a.seitenanfang:visited, a.seitenanfang:hover, a.seitenanfang:active {
+	color: #002065;
+	font-size: 11px;
+	text-align: left;
+	valign: bottom;
+	text-decoration: none;
+}
+.borderSeitenanfang {
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #002065;
+}  
+
+
+/* Aktiver Link in Seitennavigation */
+.aktiv {
+	color: #FA7F04;
+	font-size: 11px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+/* Reiternavigation */
+.iReiter {
+	background-color: #4C6293;
+	color: #FFFFFF;
+	font-size: 11px;
+	height: 14px;
+	padding-left: 2px;
+	text-align: center;
+	border: 1px;
+	border-color: #002065;
+	border-bottom-style: solid;
+}
+
+.aReiter {
+	background-color: #fa7f04;
+	color: #002065;
+	font-size: 11px;
+	font-weight: bold;
+	height: 14px;
+	padding-left: 2px;
+	text-align: center;
+	border: 1px;
+	border-color: #002065;
+	border-bottom-style: solid;
+}
+
+/* Tabelle */
+table {
+	border-collapse: collapse;
+	padding-left: 2px;
+}
+
+td {
+	color: #000000;
+	font-size: 11px;
+	background-color: #ffffff;
+	line-height: 20px;
+}
+
+/* Tabelle - Rubrik�berschrift (Bobbel�berschrift) */
+.rubrik {
+	background-color: #002065;
+	color: #ffffff;
+	font-weight: bold;
+	font-size: 11px;
+	height: 24px;
+	padding-left: 2px;
+}
+
+/* Tabelle - Rahmenstruktur */
+.tabelle {
+	background-color: #E6F2F8;
+	font-size: 11px;
+	border: 1px;
+	border-color: #002065;
+	border-style: solid;
+	height: 26px;
+	padding-left: 2px;
+}  /* Tabelle - Tabellen�berschrift */
+.tableHeadline {
+	background-color: #4c6293;
+	font-size: 11px;
+	border: 1px;
+	border-color: #002065;
+	border-style: solid;
+	height: 26px;
+	padding-left: 2px;
+	color: #FFFFFF;
+}  /* Tabelle - Abstand unten */
+.abstand {
+	line-height: 30px;
+}
+
+.zeilenhoehe_20px {
+	height: 20px;
+}
+
+.datenfeld_50px {
+	width: 50px;
+	height: 20px;
+}
+
+.datenfeld_70px {
+	width: 65px;
+	height: 20px;
+}
+
+.datenfeld_100px {
+	width: 100px;
+	height: 20px;
+}
+
+.datenfeld_125px {
+	width: 125px;
+	height: 20px;
+}
+
+.datenfeld_150px {
+	width: 150px;
+	height: 20px;
+}
+
+.datenfeld_200px {
+	width: 200px;
+	height: 20px;
+}
+
+.datenfeld_250px {
+	width: 250px;
+	height: 20px;
+}
+
+.datenfeld_350px {
+	width: 324px;
+	height: 20px;
+}
+
+.auswahlfeld_350px {
+	width: 324px;
+}
+
+.textarea_150px {
+	width: 150px;
+}
+
+.textarea_200px {
+	width: 200px;
+}
+
+.textarea_50px {
+	width: 50px;
+}
+
+.textarea_250px {
+	width: 250px;
+}
+
+.textarea_400px {
+	width: 400px;
+}
+
+.textarea_406px {
+	width: 406px;
+}
+
+.textarea_540px {
+	width: 540px;
+}
+
+.textarea_600px {
+	width: 600px;
+}
+
+.datenfeld_180px {
+	width: 180px;
+	height: 20px;
+}

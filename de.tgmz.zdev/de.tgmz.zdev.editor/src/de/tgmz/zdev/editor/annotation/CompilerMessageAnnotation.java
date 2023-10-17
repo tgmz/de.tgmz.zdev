@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 06.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -17,7 +17,7 @@ import org.eclipse.jface.text.source.Annotation;
 public class CompilerMessageAnnotation extends Annotation {
 	private int lineNumber;
 	public CompilerMessageAnnotation(int lineNumber) {
-		// CompilerMessageAnnotationen sind immer nicht-persistent, da das Editor-Objekt nicht IFile implementiert.
+		// CompilerMessageAnnotationen are always non-persistent as the Editor-Objekt does not implement IFile.
 		super(false);
 		this.lineNumber = lineNumber;
 	}

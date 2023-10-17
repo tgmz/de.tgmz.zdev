@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Vendor: %providerName
+Bundle-Name: %pluginName
+Bundle-Localization: plugin
+Bundle-SymbolicName: de.tgmz.zdev.repo
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: de.tgmz.zdev.repo.Activator
+Require-Bundle: de.tgmz.zdev.logging,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-ActivationPolicy: lazy
+Export-Package: de.tgmz.zdev.repo
+Automatic-Module-Name: de.tgmz.zdev.repo

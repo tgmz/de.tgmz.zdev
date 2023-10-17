@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 06.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -23,19 +23,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.tgmz.zdev.database.DbService;
-import de.tgmz.zdev.domain.Item;
+import de.tgmz.zdev.domain.HistoryItem;
 import de.tgmz.zdev.history.HistoryException;
 import de.tgmz.zdev.history.model.IHistoryModel;
 
 /**
- * Item based on a H2 database with hibernate.
+ * History based on a H2 database with hibernate.
  */
 public class JpaHistory implements IHistoryModel {
 	private static final Logger LOG = LoggerFactory.getLogger(JpaHistory.class);
 	
 	@Override
 	public long save(byte[] content, String itemName) throws HistoryException {
-   		Item c = new Item();
+   		HistoryItem c = new HistoryItem();
    		
    		c.setContent(content);
    		c.setDsn(itemName);
@@ -59,7 +59,7 @@ public class JpaHistory implements IHistoryModel {
        	Session session = DbService.startTx();
        	
        	try {
-       		Item c = (Item) session.createCriteria(Item.class)
+       		HistoryItem c = (HistoryItem) session.createCriteria(HistoryItem.class)
 					.add(Restrictions.eq("version", key))
 					.add(Restrictions.eq("dsn", itemName)).uniqueResult();
        		
@@ -79,10 +79,10 @@ public class JpaHistory implements IHistoryModel {
        	
        	try {
        		@SuppressWarnings("unchecked")
-			List<Item> zwerg = session.createCriteria(Item.class)
+			List<HistoryItem> zwerg = session.createCriteria(HistoryItem.class)
 					.add(Restrictions.eq("dsn", itemName)).list();
        		
-       		for (Item c : zwerg) {
+       		for (HistoryItem c : zwerg) {
 				result.add(c.getVersion());
 			}
 		} catch (HibernateException e) {
@@ -102,7 +102,7 @@ public class JpaHistory implements IHistoryModel {
        	Session session = DbService.startTx();
        	
        	try {
-       		ScrollableResults itemCursor = session.createQuery("from Item order by version desc").scroll();
+       		ScrollableResults itemCursor = session.createQuery("from HistoryItem order by version desc").scroll();
        		
        		int count = 0;
        		int x = 0;
@@ -111,7 +111,7 @@ public class JpaHistory implements IHistoryModel {
        		while (itemCursor.next()) {
        			++y;
        			
-       		    Item c = (Item) itemCursor.get(0);
+       		    HistoryItem c = (HistoryItem) itemCursor.get(0);
            	
 				Integer i = m.get(c.getDsn());
 				

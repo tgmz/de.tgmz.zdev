@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+        <listEntry value="/de.tgmz.zdev.util/src/main/java/org/eclipse/pde/internal/swt/tools/IconExe.java"/>
+    </listAttribute>
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+        <listEntry value="1"/>
+    </listAttribute>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE" value="true"/>
+    <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
+    <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.eclipse.pde.internal.swt.tools.IconExe"/>
+    <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="de.tgmz.zdev.util"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="icons/launcher.exe icons/logo-16-8.bmp icons/logo-16-32.bmp icons/logo-32-8.bmp icons/logo-32-32.bmp icons/logo-48-8.bmp icons/logo-48-32.bmp icons/logo-256-32.bmp"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="de.tgmz.zdev.util"/>
+    <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
+</launchConfiguration>

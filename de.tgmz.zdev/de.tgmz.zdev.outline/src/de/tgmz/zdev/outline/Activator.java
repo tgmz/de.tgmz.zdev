@@ -35,7 +35,7 @@ public class Activator extends AbstractUIPlugin {
 		Activator.plugin = aPlugin;
 	}
 	//CHECKSTYLE DISABLE IllegalThrows
-    // start() und stop() müssen super... aufrufen und beide deklarieren ... throws Excpetion.
+    // start() and stop() must call super... and both declare ... throws Exception.
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)

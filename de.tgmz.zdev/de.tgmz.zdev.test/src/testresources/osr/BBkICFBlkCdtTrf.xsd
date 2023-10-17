@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:sw8="urn:iso:std:iso:20022:tech:xsd:sct:pacs.008.001.02"
+    xmlns:sw4="urn:iso:std:iso:20022:tech:xsd:sct:pacs.004.001.02"
+    xmlns:sw6="urn:iso:std:iso:20022:tech:xsd:sct:camt.056.001.01"
+    xmlns:sw9="urn:iso:std:iso:20022:tech:xsd:sct:camt.029.001.03"
+    xmlns:BBkICF="urn:BBkICF:xsd:$BBkICFBlkCdtTrf"
+    xmlns:sw28="urn:iso:std:iso:20022:tech:xsd:sct:pacs.028.001.01"
+    targetNamespace="urn:BBkICF:xsd:$BBkICFBlkCdtTrf"
+    elementFormDefault="qualified">
+  <xs:import namespace="urn:iso:std:iso:20022:tech:xsd:sct:pacs.008.001.02" schemaLocation="pacs.008.001.02.xsd"/>
+  <xs:import namespace="urn:iso:std:iso:20022:tech:xsd:sct:pacs.004.001.02" schemaLocation="pacs.004.001.02SCT.xsd"/>
+  <xs:import namespace="urn:iso:std:iso:20022:tech:xsd:sct:camt.056.001.01" schemaLocation="camt.056.001.01SCT.xsd"/>
+  <xs:import namespace="urn:iso:std:iso:20022:tech:xsd:sct:camt.029.001.03" schemaLocation="camt.029.001.03.xsd"/>
+  <xs:import namespace="urn:iso:std:iso:20022:tech:xsd:sct:pacs.028.001.01" schemaLocation="pacs.028.001.01.xsd"/>
+  <xs:element name="BBkICFBlkCdtTrf">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="SndgInst" type="sw8:BICIdentifier"/>
+        <!--<xs:element name="RcvgInst" type="BBkICF:RcvgInstBICIdentifier"/-->
+        <xs:element name="RcvgInst" type="sw8:BICIdentifier"/>
+        <xs:element name="FileRef" type="BBkICF:Max16Text"/>
+        <xs:element name="SrvcID" type="BBkICF:SrvcID"/>
+        <xs:element name="TstCode" type="BBkICF:TestCodeType"/>
+        <xs:element name="FType" type="BBkICF:FType"/>
+        <xs:element name="FDtTm" type="sw8:ISODateTime"/>
+        <xs:element name="NumCTBlk" type="BBkICF:Max8NumericText"/>
+        <xs:element name="NumPCRBlk" type="BBkICF:Max8NumericText"/>
+        <xs:element name="NumRFRBlk" type="BBkICF:Max8NumericText"/>
+        <xs:element name="NumROIBlk" type="BBkICF:Max8NumericText"/>
+        <xs:element name="NumSRBlk" type="BBkICF:Max8NumericText" minOccurs="1"/>
+        <xs:element name="FIToFICstmrCdtTrf" type="sw8:FIToFICustomerCreditTransferV02" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="FIToFIPmtCxlReq" type="sw6:SCLSCTFIToFIPaymentCancellationRequestV01" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="PmtRtr" type="sw4:PaymentReturnV02" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="RsltnOfInvstgtn" type="sw9:SCLSCTResolutionOfInvestigationV03" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="FIToFIPmtStsReq" type="sw28:FIToFIPaymentInstantStatusInquiryForInvestigationV01" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="FType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ICF"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Max16Text">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9A-Z]{16,16}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Max8NumericText">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9]{1,8}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="RcvgInstBICIdentifier">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="MARKDEF0"/>
+      <xs:enumeration value="MARKDEFF"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="SrvcID">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SCT"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="TestCodeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="P"/>
+      <xs:enumeration value="T"/>
+      <xs:length value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

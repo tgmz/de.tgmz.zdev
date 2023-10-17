@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/*********************************************************************
+* Copyright (c) 06.10.2023 Thomas Zierer
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
+-->
+<?eclipse version="3.4"?>
+<plugin>
+    <extension point="org.eclipse.ui.menus">
+	    <menuContribution
+	          locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+			
+         <command
+               commandId="de.tgmz.zdev.restore"
+               icon="icons/restore.png"
+               label="%label.restore"
+               style="push">
+         		<visibleWhen>
+         			<with variable="activeMenuSelection">
+         				<iterate>
+         					<instanceof value="com.ibm.cics.zos.model.Member" />
+         				</iterate>
+         			</with>
+         		</visibleWhen>
+         </command>
+		</menuContribution>
+	</extension>
+
+	<extension point="org.eclipse.ui.commands">
+        <command
+              defaultHandler="de.tgmz.zdev.restore.RestoreHandler"
+              id="de.tgmz.zdev.restore"
+              name="Restore">
+        </command>
+	</extension>
+
+</plugin>

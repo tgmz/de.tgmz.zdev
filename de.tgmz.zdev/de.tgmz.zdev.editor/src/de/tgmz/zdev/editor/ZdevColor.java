@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 06.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -12,7 +12,7 @@ package de.tgmz.zdev.editor;
 import org.eclipse.swt.graphics.RGB;
 
 /**
- * Colors for syntaxhighlighting.
+ * Colors for syntax highlighting.
  */
 public enum ZdevColor {
 	BUILTIN(0, 0, 255),
@@ -22,7 +22,6 @@ public enum ZdevColor {
 	LITERAL(128, 0, 128),
 	NUMERIC(128, 0, 0),
 	PREPROC(0, 0, 128),
-//	Not yet implemented
 //	SQL(112, 112, 0),
 //	MULTILINE_STRING(128, 0, 0),
 //	SINGLELINE_STRING(128, 128, 128),

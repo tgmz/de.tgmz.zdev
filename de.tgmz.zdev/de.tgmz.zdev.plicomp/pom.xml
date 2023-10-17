@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/*********************************************************************
+* Copyright (c) 06.10.2023 Thomas Zierer
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>de.tgmz.zdev.plicomp</artifactId>
+	<packaging>eclipse-plugin</packaging>
+	<name>z/Dev Plicomp Plugin</name>
+
+	<parent>
+		<version>1.0.0-SNAPSHOT</version>
+		<groupId>de.tgmz</groupId>
+		<artifactId>de.tgmz.zdev.parent</artifactId>
+	</parent>
+	<properties>
+		<sonar.exclusions>target/generated-sources/**</sonar.exclusions>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxb2-maven-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>xjc</id>
+						<goals>
+							<goal>xjc</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+				
+					<!-- Set the package of the generated code -->
+					<packageName>de.tgmz.zdev.xinfo.generated</packageName>
+
+					<!-- Define the directory where we should find the DTD files -->
+					<sources>
+						<source>xinfo.xsd</source>
+					</sources>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<description>z/Dev Plicomp Plugin</description>
+</project>

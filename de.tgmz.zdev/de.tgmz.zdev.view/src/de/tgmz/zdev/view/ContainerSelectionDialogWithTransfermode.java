@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 09.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -45,8 +45,8 @@ public class ContainerSelectionDialogWithTransfermode extends ContainerSelection
 
 			final Control[] children = parent.getChildren();
 
-			if (children[children.length - 1] instanceof Composite kids) {
-				body = kids;
+			if (children[children.length - 1] instanceof Composite composite) {
+				body = composite;
 			}
 		}
 

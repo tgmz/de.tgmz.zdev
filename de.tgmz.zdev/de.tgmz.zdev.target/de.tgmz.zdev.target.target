@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+/*********************************************************************
+* Copyright (c) 06.10.2023 Thomas Zierer
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
+-->
 <?pde version="3.8"?>
 <target name="z/Dev Target" sequenceNumber="71">
 <locations>
@@ -6,20 +17,12 @@
 <unit id="org.eclipse.sdk.ide" version="0.0.0"/>
 <unit id="org.eclipse.equinox.executable.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.equinox.p2.user.ui.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.m2e.feature.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.rcp.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.egit.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.egit.gitflow.feature.feature.group" version="0.0.0"/>
 <repository location="https://download.eclipse.org/releases/2022-03/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="false" type="InstallableUnit">
 <unit id="com.ibm.zeus.feature.feature.group" version="0.0.0"/>
 <unit id="com.ibm.zeus.feature.nl0.feature.group" version="0.0.0"/>
-<unit id="com.ibm.zosconnect.ui.feature.feature.group" version="0.0.0"/>
-<unit id="com.ibm.debug.pdt.zdebug.codecoverage.feature.group" version="0.0.0"/>
-<unit id="com.ibm.debug.pdt.zdebug.core.product.feature.group" version="0.0.0"/>
-<unit id="com.ibm.debug.pdt.zdebug.nls.feature.group" version="0.0.0"/>
-<unit id="com.ibm.debug.pdt.zdebug.profile.feature.group" version="0.0.0"/>
 <repository location="https://public.dhe.ibm.com/ibmdl/export/pub/software/htp/zos/tools/aqua3.3/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="false" type="InstallableUnit">

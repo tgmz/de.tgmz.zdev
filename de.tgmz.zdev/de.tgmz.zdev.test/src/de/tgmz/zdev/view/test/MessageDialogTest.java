@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 09.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -20,7 +20,7 @@ import de.tgmz.zdev.view.SkipIgnoreAbortMessageDialog;
 import de.tgmz.zdev.view.YesNoAllNoneCancelMessageDialog;
 
 /**
- * Testclass for die MessageDialogs.
+ * Test case for MessageDialogs.
  */
 public class MessageDialogTest {
 	private static Shell shell;

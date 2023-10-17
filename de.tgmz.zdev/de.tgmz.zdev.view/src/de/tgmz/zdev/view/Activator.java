@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 09.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -62,7 +62,7 @@ public class Activator extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
 	//CHECKSTYLE DISABLE IllegalThrows
-    // start() und stop() müssen super... aufrufen und beide deklarieren ... throws Excpetion.
+    // start() and stop() must call super... and both declare ... throws Exception.
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);

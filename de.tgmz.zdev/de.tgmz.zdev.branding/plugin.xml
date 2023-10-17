@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/*********************************************************************
+* Copyright (c) 06.10.2023 Thomas Zierer
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
+-->
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="zdev"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.eclipse.ui.ide.workbench"
+            name="z/Dev">
+         <property
+               name="appName"
+               value="z/Dev">
+         </property>
+         <property
+               name="startupForegroundColor"
+               value="0,0,0">	<!-- Black -->
+         </property>
+         <property
+               name="startupProgressRect"
+               value="20,370,320,15">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="20,390,340,40">
+         </property>
+         <property
+               name="startupTitleRect"
+               value="20,130,250,80">
+         </property>
+         <property
+               name="versionRect"
+               value="20,240,340,20">
+         </property>
+         <property
+               name="copyrightRect"
+               value="20,260,340,170">
+         </property>
+         <property
+               name="milestoneImageRect"
+               value="380,80,200,330">	<!-- right, down, width, height -->
+         </property>
+         <property
+               name="builtOnRect"
+               value="540,230,78,167">	<!-- right, down, width, height -->
+         </property>
+         <property
+               name="windowImages"
+               value="icons/png/logo-16x16.png,icons/png/logo-32x32.png,icons/png/logo-48x48.png,icons/png/logo-64x64.png,icons/png/logo-128x128.png">
+         </property>
+         <property
+               name="aboutText"
+               value="Copyright Thomas Zierer 2023.&#x0A;&#x0A;This product is based on technology from the Eclipse Project (http://www.eclipse.org/).">
+         </property>
+         <property
+               name="aboutImage"
+               value="icons/png/logo-64x64.png">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="config.ini">
+         </property>
+      </product>
+   </extension>
+   
+	<extension
+		point="org.eclipse.ui.intro">
+      <introProductBinding
+            introId="de.tgmz.zdev.intro.minimal"
+              productId="de.tgmz.zdev.branding.zdev">
+      </introProductBinding>
+    </extension>
+     <extension
+         point="org.eclipse.ui.intro">
+      <intro
+            class="org.eclipse.ui.intro.config.CustomizableIntroPart"
+            icon="icons/png/logo-16x16.png"
+            id="de.tgmz.zdev.intro.minimal"
+            label="z/Dev Intro"/>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.splashHandlers">
+      <splashHandler
+            class="de.tgmz.zdev.branding.CustomSplashHandler"
+            id="de.tgmz.zdev.ui.splashHandler.custom">
+      </splashHandler>
+      <splashHandlerProductBinding
+            productId="de.tgmz.zdev.branding.zdev"
+            splashId="de.tgmz.zdev.ui.splashHandler.custom">
+      </splashHandlerProductBinding>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.intro.config">
+      <config
+            content="introContent.xml"
+            id="de.tgmz.zdev.intro.minimal.config"
+            introId="de.tgmz.zdev.intro.minimal">
+         <presentation
+               home-page-id="root" standby-page-id="standby">
+            <implementation
+                  kind="html">
+            </implementation>
+         </presentation>
+      </config>
+   </extension>
+  
+</plugin>

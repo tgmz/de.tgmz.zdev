@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 06.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -14,6 +14,8 @@ import java.io.IOException;
 
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +25,8 @@ import com.ibm.cics.zos.model.Member;
 import com.ibm.cics.zos.ui.actions.OpenDataEntryAction;
 
 import de.tgmz.zdev.connection.ZdevConnectable;
+import de.tgmz.zdev.database.DbService;
+import de.tgmz.zdev.domain.Item;
 import de.tgmz.zdev.history.HistoryException;
 import de.tgmz.zdev.history.LocalHistory;
 
@@ -34,9 +38,23 @@ public class OpenZdevEntryAction extends OpenDataEntryAction {
 	
 	@Override
 	protected ZdevEditor openEditor(IWorkbenchPage aPage) throws PartInitException {
-		LOG.debug("Open editor");
-		
 		Member m = (Member) this.editorInput.getZOSObject();
+		
+		Session session = DbService.startTx();
+		
+		try {
+			Item item = (Item) session.createCriteria(Item.class)
+						.add(Restrictions.eq("dsn",	m.getParentPath()))
+						.add(Restrictions.eq("member", m.getName())).uniqueResult();
+
+			if (item == null) {
+				item = new Item(m.getParentPath(), m.getName());
+				
+				session.save(item);
+			}
+		} finally {
+			DbService.endTx(session);
+		}
 		
 		try {
 			if (LocalHistory.getInstance().getVersions(m.toDisplayName()).isEmpty()) {

@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 06.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * Class for editing the behaviour after a job submit.
+ * Class for editing the behavior after a job submit.
  */
 
 public class ZdevInfoOnlyOnSubmitBooleanFieldEditor extends BooleanFieldEditor {

@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 06.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -32,12 +32,12 @@ public class LanguageTest {
 				
 				assertTrue(new ZdevPreferencePage().getPreferenceStore().getString(reg).length() > 0);
 
-				String dsn = "BAT.DV." + l.toString().substring(0, Math.min(l.toString().length(), 8));
+				String dsn = "HLQ." + l.toString().substring(0, Math.min(l.toString().length(), 8));
 				
 				assertEquals(l, Language.fromDatasetName(dsn));
 			}
 			
-			assertEquals(Language.DEFAULT, Language.fromDatasetName("BAT.DV.NATURAL"));
+			assertEquals(Language.DEFAULT, Language.fromDatasetName("HLQ.NATURAL"));
 		}
 	}
 	

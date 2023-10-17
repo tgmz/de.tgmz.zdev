@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 06.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -18,7 +18,7 @@ import de.tgmz.zdev.preferences.TextAreaFieldEditor;
 import de.tgmz.zdev.preferences.ZdevInfoOnlyOnSubmitBooleanFieldEditor;
 
 /**
- * Testklasse f&uuml;r die PreferncesEditoren.
+ * Test case for preference editors.
  */
 public class PreferencesEditorTest {
 	private static Shell shell;

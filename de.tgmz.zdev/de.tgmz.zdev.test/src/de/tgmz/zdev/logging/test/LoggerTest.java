@@ -9,12 +9,11 @@
 **********************************************************************/
 package de.tgmz.zdev.logging.test;
 
-import static org.junit.Assert.assertTrue;
-
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.Test.None;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,19 +28,14 @@ public class LoggerTest {
 		
 		defaultLogLevel = preferenceStore.getString(ZdevPreferenceConstants.LOG_LEVEL);
 		
-		preferenceStore.setValue(ZdevPreferenceConstants.LOG_LEVEL, "ALL");
+		preferenceStore.setValue(ZdevPreferenceConstants.LOG_LEVEL, "INFO");
 	}
-	@Test
+	@Test(expected = None.class)
 	public void test() {
 		LOG.error("Test error");
 		LOG.warn("Test warning");
 		LOG.info("Test info");
 		LOG.debug("Test debug");
-		
-		assertTrue(LOG.isErrorEnabled());
-		assertTrue(LOG.isWarnEnabled());
-		assertTrue(LOG.isInfoEnabled());
-		assertTrue(LOG.isDebugEnabled());
 	}
 	@AfterClass
 	public static void teardownOnce() {

@@ -20,6 +20,7 @@
       </category>
       <view
             name="Data Sets"
+            icon="icons/logo-16-16.gif"
             category="de.tgmz.zdev.category"
             class="de.tgmz.zdev.view.ZdevDataSetsExplorer"
             id="de.tgmz.zdev.view.ZdevDataSetsExplorer">
@@ -31,6 +32,7 @@
 			class="de.tgmz.zdev.view.ZdevPerspectiveFactory"
 			fixed="true"
 			id="de.tgmz.zdev.perspective"
+            icon="icons/logo-16-16.gif"
 			name="%perspectiveName">
 		</perspective>
 	</extension>
@@ -107,6 +109,30 @@
 					<iterate ifEmpty="false">
 						<or>
 							<instanceof value="com.ibm.cics.zos.model.SequentialDataSet" />
+							<instanceof value="com.ibm.cics.zos.model.Member" />
+						</or>
+						<not>
+							<instanceof value="com.ibm.cics.zos.model.VSAMData" />
+						</not>
+					</iterate>
+				</and>
+    		</enabledWhen>
+    	</handler>
+    
+	  	<handler
+    		commandId="org.eclipse.ui.edit.delete"
+    		class="de.tgmz.zdev.ui.ZdevDeleteDataEntryCommandHandler">
+   			<activeWhen>
+    			<with variable="activePartId">
+   					<equals value="de.tgmz.zdev.view.ZdevDataSetsExplorer" />
+				</with>
+    		</activeWhen>
+    		<enabledWhen>
+    			<and>
+					<count value="+" />
+					<iterate ifEmpty="false">
+						<or>
+							<instanceof value="com.ibm.cics.zos.model.DataSet" />
 							<instanceof value="com.ibm.cics.zos.model.Member" />
 						</or>
 						<not>

@@ -1,0 +1,31 @@
+# 
+# z/Dev FileLockServer Options
+# 
+# Copyright (c) 06.10.2023 Thomas Zierer
+#
+# This program and the accompanying materials are made
+# available under the terms of the Eclipse Public License 2.0
+# which is available at https://www.eclipse.org/legal/epl-2.0/
+#
+# SPDX-License-Identifier: EPL-2.0
+#
+# Shell script to run the filelock server
+#
+IJO="-Xms16m-Xmx128m" 
+#IJO="$IJO-verbose:class" 
+export IBM_JAVA_OPTIONS="$IJO"
+JZOS_OUTPUT_ENCODING=IBM-1141 
+PATH=/bin:/usr/sbin 
+LIBPATH=/lib:/usr/slib
+NLSPATH=/usr/lib/nls/msg/%L/%N
+JAVA_HOME=/usr/lpp/java/J7.0
+LIBPATH=$JAVA_HOME/bin:$JAVA_HOME/bin/j9vm:$LIBPATH 
+FLSHOME=/u/tgmz/zdev/filelock 
+
+CLASSPATH=$FLSHOME/filelock.jar 
+CLASSPATH=$CLASSPATH:$FLSHOME/slf4j-api-1.7.32.jar 
+CLASSPATH=$CLASSPATH:$FLSHOME/log4j-slf4j-impl-2.17.0.jar 
+CLASSPATH=$CLASSPATH:$FLSHOME/log4j-api-2.17.0.jar
+CLASSPATH=$CLASSPATH:$FLSHOME/log4j-core-2.17.0.jar
+
+export PATH LIBPATH NLSPATH JAVA_HOME CLASSPATH JZOS_OUTPUT_ENCODING

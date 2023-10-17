@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 06.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -11,6 +11,7 @@ package de.tgmz.zdev.logging;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.URL;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.Filter;
@@ -23,6 +24,7 @@ import org.apache.logging.log4j.core.config.plugins.PluginAttribute;
 import org.apache.logging.log4j.core.config.plugins.PluginElement;
 import org.apache.logging.log4j.core.config.plugins.PluginFactory;
 import org.apache.logging.log4j.core.layout.PatternLayout;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
@@ -33,7 +35,7 @@ import de.tgmz.zdev.preferences.Activator;
 import de.tgmz.zdev.preferences.ZdevPreferenceConstants;
 
 /**
- * Redirects log4j output to z/Dev console.
+ * Logs to a dedicated console. 
  */
 // note: class name need not match the @Plugin name.
 @Plugin(name = "ZOSConsoleAppender", category = "Core", elementType = "appender", printObject = true)
@@ -58,23 +60,24 @@ public final class ZOSConsoleAppender extends AbstractAppender {
 			return null;
 		}
 		
-		if (layout == null) {
-			//CHECKSTYLE DISABLE ParameterAssignment for 1 line
-			layout = PatternLayout.createDefaultLayout();
-		}
-		
-		return new ZOSConsoleAppender(name, filter, layout, true, Property.EMPTY_ARRAY);
+		return new ZOSConsoleAppender(name
+				, filter
+				, layout != null ?  layout : PatternLayout.createDefaultLayout()
+				, true
+				, Property.EMPTY_ARRAY);
 	}
 	
 	@Override
 	public void append(LogEvent event) {
+		Level level;
+		
 		Activator preferenceStoreActivator = de.tgmz.zdev.preferences.Activator.getDefault();
 
 		if (preferenceStoreActivator == null) {
-			return;
+			level = Level.ERROR;
+		} else {
+			level = Level.toLevel(preferenceStoreActivator.getPreferenceStore().getString(ZdevPreferenceConstants.LOG_LEVEL));
 		}
-
-		Level level = Level.toLevel(preferenceStoreActivator.getPreferenceStore().getString(ZdevPreferenceConstants.LOG_LEVEL));
 
 		if (event.getLevel().isMoreSpecificThan(level)) {
 			MessageConsole mc = findZDevConsole();
@@ -97,7 +100,11 @@ public final class ZOSConsoleAppender extends AbstractAppender {
 		}
 
 		// no console found, so create a new one
-		MessageConsole myConsole = new MessageConsole(CONSOLE_ID, null);
+		URL resource = this.getClass().getClassLoader().getResource("icons/logo-16-16.gif");
+
+		ImageDescriptor id = resource != null ? ImageDescriptor.createFromURL(resource) : null;
+
+		MessageConsole myConsole = new MessageConsole(CONSOLE_ID, id);
 		conMan.addConsoles(new IConsole[] { myConsole });
 
 		return myConsole;

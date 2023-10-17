@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 09.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Shell;
 import de.tgmz.zdev.view.copypaste.MemberNameValidator;
 
 /**
- * Input dialog for membername.
+ * Input dialog for member name.
  */
 public class MemberNameInputDialog extends InputDialog {
 

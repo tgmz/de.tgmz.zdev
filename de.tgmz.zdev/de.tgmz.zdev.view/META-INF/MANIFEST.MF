@@ -11,6 +11,7 @@ Require-Bundle: de.tgmz.zdev.logging,
  de.tgmz.zdev.preferences,
  de.tgmz.zdev.editor,
  de.tgmz.zdev.database,
+ de.tgmz.zdev.operation,
  org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -21,6 +22,7 @@ Require-Bundle: de.tgmz.zdev.logging,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ClassPath: .
-Export-Package: de.tgmz.zdev.view,
+Export-Package: de.tgmz.zdev.ui,
+ de.tgmz.zdev.view,
  de.tgmz.zdev.view.copypaste
 Automatic-Module-Name: de.tgmz.zdev.view

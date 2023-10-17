@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-SymbolicName: de.tgmz.zdev.operation
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: de.tgmz.zdev.operation.Activator
+Require-Bundle: de.tgmz.zdev.logging,
+ de.tgmz.zdev.connection,
+ org.eclipse.core.runtime,
+ org.eclipse.jface,
+ com.ibm.cics.zos.model
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Export-Package: de.tgmz.zdev.operation
+Automatic-Module-Name: de.tgmz.zdev.operation

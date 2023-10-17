@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 06.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -307,17 +307,25 @@ public enum PLIBuiltin {
 
 	private static final ResourceBundle BUNLDE = ResourceBundle.getBundle("de/tgmz/zdev/builtin");
 	
+	public static String getDecsription(PLIBuiltin bi) {
+		return getInfo(bi)[0];
+	}
+	
 	public static ZdevCompletionProposal[] getCompletionProposals() {
 		List<ZdevCompletionProposal> l = new LinkedList<>();
 		
 		for (PLIBuiltin rw : values()) {
 			// Format: key = shortDescription$signature$longDescription
 			// de.tgmz.zdev.editor.test.KeywordTest ensures that every BIF has a completion proposal
-			String[] s0 = BUNLDE.getString(rw.toString()).split("\\$");
+			String[] s0 = getInfo(rw);
 				
 			l.add(new ZdevCompletionProposal(rw.toString(), s0[1], s0[0] + "\r\n" + "\r\n" + s0[2]));
 		}
 		
 		return l.toArray(new ZdevCompletionProposal[l.size()]);
+	}
+	
+	private static String[] getInfo(PLIBuiltin bi) {
+		return BUNLDE.getString(bi.name()).split("\\$");
 	}
 }

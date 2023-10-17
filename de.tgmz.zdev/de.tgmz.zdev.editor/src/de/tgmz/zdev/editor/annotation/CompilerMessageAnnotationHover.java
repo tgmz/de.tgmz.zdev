@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 06.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -64,6 +64,7 @@ public class CompilerMessageAnnotationHover implements IAnnotationHover {
 					result.add(cma);
 				}
 			}
+			
 		}
 		
 		return result;

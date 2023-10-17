@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 06.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -20,7 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Turns every character to uppercase. Useful e.g. when editing JCL.
+ * Turns every character to upper case. Useful e.g. when editing JCL.
  */
 public final class UpperCaseListener implements VerifyListener, KeyListener {
 	private static final Logger LOG = LoggerFactory.getLogger(UpperCaseListener.class);

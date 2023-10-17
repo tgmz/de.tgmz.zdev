@@ -28,11 +28,12 @@ public class ZdevPreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(ZdevPreferenceConstants.INFO_TIME, 1000);
 		store.setDefault(ZdevPreferenceConstants.JOB_SUFFIX, false);
 		store.setDefault(ZdevPreferenceConstants.LOG_LEVEL, "INFO");
+		store.setDefault(ZdevPreferenceConstants.FILELOCK_AUTO, false);
 		store.setDefault(ZdevPreferenceConstants.JOB_CARD, "//" 
 							+ System.getProperty("user.name").trim().toUpperCase(Locale.ROOT) 
-							+ "B JOB '<Hier die KST eintragen>,BA',"
+							+ "B JOB '<Insert accounting information>',"
 							+ "'" + System.getProperty("user.name").trim() + "'"
-							+ ",CLASS=Y,MSGCLASS=T," 
+							+ ",CLASS=Z,MSGCLASS=T," 
 							+ System.lineSeparator()
 							+ "//     MSGLEVEL=(1,1),REGION=0M");
 		store.setDefault(ZdevPreferenceConstants.REGEX_PLI, "^.*\\.(PLI|PL1|INC|INCLUDE)$");

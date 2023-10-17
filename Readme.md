@@ -15,3 +15,7 @@ Adopt Eclipse for z/OS.
 
 ## Build
 Run `mvn verify -Pmaterialize` and unzip de.tgmz.zdev/de.tgmz.zdev.product/target/products/zdev-win32.win32.x86_64.zip
+
+## Adopt
+*   Edit connections.xml
+*   Add features from IBMs Aqua site

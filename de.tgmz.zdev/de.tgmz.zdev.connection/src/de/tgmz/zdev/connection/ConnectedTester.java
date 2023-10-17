@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 06.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -14,7 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Tests if zipupload action is available.
+ * Tests if an active connection exists. Useful to (de-)activate menus which only make sense if a 
+ * connection is established.
  */
 public class ConnectedTester extends PropertyTester {
 	private static final Logger LOG = LoggerFactory.getLogger(ConnectedTester.class);

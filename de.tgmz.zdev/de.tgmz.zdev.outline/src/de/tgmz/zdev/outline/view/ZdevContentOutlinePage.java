@@ -41,7 +41,7 @@ import de.tgmz.zdev.outline.PliOutlineParser;
 import de.tgmz.zdev.preferences.Language;
 
 /**
- * Outline View for PL/I programs.
+ * Outline View.
  */
 public class ZdevContentOutlinePage extends ContentOutlinePage {
 	private static final Logger LOG = LoggerFactory.getLogger(ZdevContentOutlinePage.class);

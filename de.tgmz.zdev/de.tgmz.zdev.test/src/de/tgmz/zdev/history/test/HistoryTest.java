@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 06.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -27,7 +27,7 @@ import de.tgmz.zdev.history.model.IHistoryModel;
 
 
 public class HistoryTest {
-	private static final String MEMBER_NAME = "TESTDV.PLI(MYMEMBER)";
+	private static final String MEMBER_NAME = "HLQ.PLI(MYMEMBER)";
 	private static final byte[] CONTENT = "Some content".getBytes(Charset.defaultCharset());
 	private static final IHistoryModel history = LocalHistory.getInstance();
 	@Test

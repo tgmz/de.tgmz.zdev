@@ -26,6 +26,7 @@
                 overrideActionId="com.ibm.cics.zos.ui.actions.member.open"
                 id="de.tgmz.zdev.ui.actions.member.open"
                 label="Open"
+	            icon="icons/logo-16-16.gif"
                 menubarPath="open">
           </action>                  
        </objectContribution>
@@ -38,6 +39,7 @@
            class="de.tgmz.zdev.editor.ZdevEditor"
            contributorClass="com.ibm.cics.zos.ui.editor.ZEditorActionContributor"
            default="true"
+           icon="icons/logo-16-16.gif"
            id="de.tgmz.zdev.editor.dataentry.editor"
            name="%dataset_editor.title">
       </editor>
@@ -55,6 +57,26 @@
     
     <!-- Define a context menu contribution to allow open include Eclipse-wide -->
     <extension point="org.eclipse.ui.menus">
+	    <menuContribution
+	          locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+	        <command
+				commandId="de.tgmz.zdev.editor.lookup.OpenIncludeSelection"
+	            icon="icons/browse.png"
+				label="%OpenIncludeSelection"
+				style="push">
+	            <visibleWhen>
+	                <with variable="selection">
+	                	<and>
+							<with variable="activePart">
+								<instanceof value="de.tgmz.zdev.editor.ZdevEditor" />
+							</with>
+	                		<instanceof value="org.eclipse.jface.text.ITextSelection"/>
+	                    	<test property="de.tgmz.zdev.editor.lookup.textSelection.isPotentialInclude"></test>
+	                	</and>
+	                </with>
+	            </visibleWhen>
+			</command>
+		</menuContribution>
 	    <menuContribution
 	          locationURI="popup:org.eclipse.ui.popup.any?after=additions">
 	        <command

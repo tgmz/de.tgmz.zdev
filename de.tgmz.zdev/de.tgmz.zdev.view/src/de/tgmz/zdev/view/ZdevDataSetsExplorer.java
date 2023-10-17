@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 09.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -92,7 +92,7 @@ public class ZdevDataSetsExplorer extends DataSetsExplorer {
 		contextService.activateContext("de.tgmz.zdev.keybindings.contexts.rename");
 	}
 	/**
-	 * Erzwingt den Refresh eines DataSetsExplorers.
+	 * Forces refresh.
 	 */
 	public void forceRefresh() {
 		// Quite dirty: 

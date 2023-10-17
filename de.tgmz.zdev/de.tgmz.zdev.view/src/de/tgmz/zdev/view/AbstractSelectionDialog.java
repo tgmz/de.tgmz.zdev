@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 09.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -32,7 +32,7 @@ public abstract class AbstractSelectionDialog implements SelectionListener {
 	protected static final Logger LOG = LoggerFactory.getLogger(AbstractSelectionDialog.class);
     /** Default Font. */
     protected static final String FONT = "ARIAL";
-    /** Parentshell. */
+    /** Parent shell. */
     protected Shell shell;
     /** OK (Submit)-Button. */
     protected Button btnOk;
@@ -122,7 +122,7 @@ public abstract class AbstractSelectionDialog implements SelectionListener {
 
     /**
      * Adds a button.
-     * @param shell Parentshell
+     * @param shell Parent shell
      * @param text Text
      * @return den Button
      */
@@ -136,7 +136,7 @@ public abstract class AbstractSelectionDialog implements SelectionListener {
 
     /**
      * Adds a label.
-     * @param shell Parentshell
+     * @param shell Parent shell
      * @param text Test
      * @param toolTipText Tooltip
      * @return the Label

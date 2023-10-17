@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 09.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.ibm.cics.zos.ui.views.JobView;
 
 /**
- * z/Dev default perspektive.
+ * z/Dev default perspective.
  */
 public class ZdevPerspectiveFactory implements IPerspectiveFactory {
 	public static final String ID = "de.tgmz.zdev.zos.ui.perspective";

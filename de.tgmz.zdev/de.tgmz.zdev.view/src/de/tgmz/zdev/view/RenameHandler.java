@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 09.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -23,6 +23,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,9 +38,11 @@ import com.ibm.cics.zos.model.UnsupportedOperationException;
 import com.ibm.cics.zos.model.UpdateFailedException;
 
 import de.tgmz.zdev.connection.ZdevConnectable;
+import de.tgmz.zdev.database.DbService;
+import de.tgmz.zdev.domain.Item;
 
 /**
- * RenameHandler.
+ * Handler for renaming a member.
  */
 public class RenameHandler extends AbstractHandler {
 	private static final Logger LOG = LoggerFactory.getLogger(RenameHandler.class);
@@ -53,9 +57,7 @@ public class RenameHandler extends AbstractHandler {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
 		
 		if (selection instanceof IStructuredSelection iss) {
-			Object o = iss.getFirstElement();
-			
-			if (o instanceof Member oldMember) {
+			if (iss.getFirstElement() instanceof Member oldMember) {
 				Member newMember;
 				try {
 					DataSet dataSet = ZdevConnectable.getConnectable().getDataSet((oldMember).getParentPath());
@@ -81,6 +83,8 @@ public class RenameHandler extends AbstractHandler {
 					ZdevConnectable.getConnectable().delete(oldMember);
 					
 					ZdevConnectable.getConnectable().save(newMember, new ByteArrayInputStream(contents.toByteArray()));
+					
+					updateItem(oldMember.getParentPath(), oldMember.getName(), newMember.getName());
 				} catch (PermissionDeniedException  e) {
 					LOG.warn("Operation not allowed", e);
 					
@@ -96,7 +100,7 @@ public class RenameHandler extends AbstractHandler {
 				}
 			}
 			
-           	// Refresh der ZdevDataSetsExplorer View
+           	// Refresh ZdevDataSetsExplorer View
        		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
        		ZdevDataSetsExplorer view = (ZdevDataSetsExplorer) page.findView(TARGET_VIEW_ID);
        		if (view == null) {
@@ -118,5 +122,24 @@ public class RenameHandler extends AbstractHandler {
 		}
 		
 		return null;
+	}
+	private void updateItem(String dsn, String oldMember, String newMember) {
+		Session session = DbService.startTx();
+		
+		try {
+			Item item = (Item) session.createCriteria(Item.class)
+						.add(Restrictions.eq("dsn",	dsn))
+						.add(Restrictions.eq("member", oldMember));
+
+			if (item == null) {
+				item = new Item(dsn, newMember);
+			} else {
+				item.setMember(newMember);
+			}
+				
+			session.save(item);
+		} finally {
+			DbService.endTx(session);
+		}
 	}
 }

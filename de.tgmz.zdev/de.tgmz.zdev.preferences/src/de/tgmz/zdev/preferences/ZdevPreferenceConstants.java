@@ -14,15 +14,15 @@ package de.tgmz.zdev.preferences;
  * Constant definitions for plug-in preferences.
  */
 public class ZdevPreferenceConstants {
-    /** Konstante für den LogLevel. */
+    /** Constant field for to suppress confirmation on job submit. */
     public static final String INFO_ONLY_ON_SUBMIT = "infoOnlyOnSubmit";
-    /** Konstante für den LogLevel. */
+    /** Constant field for info after job submit. */
     public static final String INFO_TIME = "infoTime";
-    /** Konstante für den LogLevel. */
+    /** Constant field for den LogLevel. */
     public static final String LOG_LEVEL = "logLevel";
-    /** Konstante für das Job-Präfix. */
+    /** Constant field for job suffix. */
     public static final String JOB_SUFFIX = "jobSuffix";
-    /** Konstante für die Job-Karte. */
+    /** Constant field for job card. */
     public static final String JOB_CARD = "jobCard";
 
     public static final String REGEX_PLI = "regexPli";
@@ -32,6 +32,8 @@ public class ZdevPreferenceConstants {
     public static final String REGEX_ASSEMBLER = "regexAsm";
     public static final String REGEX_REXX = "regexRexx";
     
+    public static final String FILELOCK_AUTO = "fileLockautoStart";
+
     public static final String CAPS_ON = "capsOn";
     
     public static final String HISTORY_MONTHS = "historyMonths";

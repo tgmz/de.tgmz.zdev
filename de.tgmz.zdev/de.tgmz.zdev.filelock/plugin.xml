@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/*********************************************************************
+* Copyright (c) 06.10.2023 Thomas Zierer
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
+-->
+<?eclipse version="3.4"?>
+<plugin>
+	<!-- Define property testers for enabling/disabling unlock menu option -->
+    <extension point="org.eclipse.core.expressions.propertyTesters">
+	  	<propertyTester
+			id="de.tgmz.zdev.unlock.expressions.propertyTesters.fileLockClientRunningTester"
+			class="de.tgmz.zdev.filelock.UnlockAvailableTester"
+			properties="isRunning"
+			type="java.lang.Object"
+			namespace="de.tgmz.zdev.filelock" />
+    </extension>
+    
+    <extension point="org.eclipse.ui.menus">
+	    <menuContribution
+	          locationURI="toolbar:org.eclipse.ui.main.toolbar">
+			<toolbar
+         		id="de.tgmz.zdev.filelock.toolbar">
+	        	<command
+					commandId="de.tgmz.zdev.filelock.client.start"
+					icon="icons/start_client.gif" />
+	        	<command
+					commandId="de.tgmz.zdev.filelock.client.stop"
+					icon="icons/stop_client.gif" />
+			</toolbar>
+		</menuContribution>
+	    <menuContribution
+	          locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+	        <command
+				commandId="de.tgmz.zdev.filelock.unlock"
+				label="%label.unlock"
+				style="push">
+         		<visibleWhen>
+         			<with variable="activeMenuSelection">
+         				<iterate>
+         					<and>
+	         					<instanceof value="com.ibm.cics.zos.model.Member" />
+		                    	<test property="de.tgmz.zdev.filelock.isRunning" />
+         					</and>
+         				</iterate>
+         			</with>
+         		</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
+
+	<extension point="org.eclipse.ui.commands">
+        <command defaultHandler="de.tgmz.zdev.filelock.RequestUnlockHandler"
+			id="de.tgmz.zdev.filelock.unlock"
+			name="Unlock">
+        </command>
+        <command defaultHandler="de.tgmz.zdev.filelock.StartClientHandler"
+			id="de.tgmz.zdev.filelock.client.start"
+			name="%label.start" />
+        <command defaultHandler="de.tgmz.zdev.filelock.StopClientHandler"
+			id="de.tgmz.zdev.filelock.client.stop"
+			name="%label.stop" />
+	</extension>
+</plugin>

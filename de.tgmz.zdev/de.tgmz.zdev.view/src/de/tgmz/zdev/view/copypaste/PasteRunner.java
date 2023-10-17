@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 09.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -30,7 +30,7 @@ import de.tgmz.zdev.view.Activator;
 import de.tgmz.zdev.view.MemberUtility;
 
 /**
- * Writes the content of TransferUtilitiy to target dataset.
+ * Pastes the content of TransferUtility into the target dataset.
  */
 public class PasteRunner implements IRunnableWithProgress {
 	private static final Logger LOG = LoggerFactory.getLogger(PasteRunner.class);

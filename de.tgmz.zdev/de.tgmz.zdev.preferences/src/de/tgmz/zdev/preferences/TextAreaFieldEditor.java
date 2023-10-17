@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * Editor f&uuml;r String-Properties mit mehreren Zeilen.
+ * Editor for multi-line string properties.
  */
 public class TextAreaFieldEditor extends FieldEditor {
 
@@ -344,7 +344,7 @@ public Text getTextControl(Composite parent) {
 		}
 		textField.addDisposeListener(e -> textField = null);
 		
-		if(textLimit > 0){//Only set limits above 0 - see SWT spec
+		if(textLimit > 0){//Only set limits above 0 - see SWT specification
 			textField.setTextLimit(textLimit);
 		}
 	} else {

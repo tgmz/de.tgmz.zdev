@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 09.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -12,7 +12,7 @@ package de.tgmz.zdev.view.copypaste;
 import java.util.Arrays;
 
 /**
- * A transfer objekt.
+ * A transfer object.
  */
 public class Transfer {
 	private String name;

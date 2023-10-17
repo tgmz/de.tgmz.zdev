@@ -5,10 +5,6 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-SymbolicName: de.tgmz.zdev.database
 Bundle-Version: 1.0.0.qualifier
-Export-Package: de.tgmz.zdev.database,
- de.tgmz.zdev.domain,
- org.hibernate,
- org.hibernate.criterion
 Bundle-Activator: de.tgmz.zdev.database.Activator
 Require-Bundle: de.tgmz.zdev.logging,
  de.tgmz.zdev.preferences,
@@ -31,4 +27,8 @@ Bundle-ClassPath: .,
  lib/antlr-2.7.7.jar,
  lib/javassist-3.25.0-GA.jar,
  lib/dom4j-2.1.4.jar
+Export-Package: de.tgmz.zdev.database,
+ de.tgmz.zdev.domain,
+ org.hibernate,
+ org.hibernate.criterion
 Automatic-Module-Name: de.tgmz.zdev.database

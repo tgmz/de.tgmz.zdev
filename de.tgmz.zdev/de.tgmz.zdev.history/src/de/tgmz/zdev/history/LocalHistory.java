@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 06.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -13,7 +13,7 @@ import de.tgmz.zdev.history.database.JpaHistory;
 import de.tgmz.zdev.history.model.IHistoryModel;
 
 /**
- * Local Item
+ * Local History
  */
 public class LocalHistory {
 	private static final IHistoryModel INSTANCE = new JpaHistory();

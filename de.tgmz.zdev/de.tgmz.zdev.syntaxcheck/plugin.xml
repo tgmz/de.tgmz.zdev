@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/*********************************************************************
+* Copyright (c) 06.10.2023 Thomas Zierer
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
+-->
+<?eclipse version="3.4"?>
+<plugin>
+    <extension point="org.eclipse.core.expressions.propertyTesters">
+	  	<propertyTester
+			id="de.tgmz.zdev.syntaxcheck.expressions.propertyTesters.isConnected"
+			class="de.tgmz.zdev.connection.ConnectedTester"
+			properties="isConnected"
+			type="java.lang.Object"
+			namespace="de.tgmz.zdev.syntaxcheck" />
+    </extension>
+    
+	<!-- for navigator context menu -->
+    <extension point="org.eclipse.ui.menus">
+	    <menuContribution
+	          locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+	        <command
+				commandId="de.tgmz.zdev.syntaxcheck"
+				label="%label.syntaxcheck"
+	            icon="icons/syntaxcheck.png"
+				style="push">
+				<visibleWhen>
+					<with variable="activePart">
+						<instanceof value="de.tgmz.zdev.editor.ZdevEditor" />
+					</with>
+				</visibleWhen>	
+			</command>
+	        <command
+				commandId="de.tgmz.zdev.syntaxcheck.local"
+				label="%label.syntaxcheck"
+	            icon="icons/syntaxcheck.png"
+				style="push">
+				<visibleWhen>
+					<and>
+						<with variable="activePart">
+							<instanceof value="de.tgmz.zdev.editor.local.editors.LocalZdevEditor" />
+						</with>
+                    	<test property="de.tgmz.zdev.syntaxcheck.isConnected" 
+                    		value="true"
+                    		forcePluginActivation="true" />
+					</and>
+				</visibleWhen>	
+			</command>
+		</menuContribution>
+	</extension>
+	
+	<extension point="org.eclipse.ui.commands">
+        <command defaultHandler="de.tgmz.zdev.syntaxcheck.SyntaxcheckHandler"
+			id="de.tgmz.zdev.syntaxcheck"
+			name="Syntaxcheck">
+        </command>
+        <command defaultHandler="de.tgmz.zdev.syntaxcheck.LocalSyntaxcheckHandler"
+			id="de.tgmz.zdev.syntaxcheck.local"
+			name="Syntaxcheck">
+        </command>
+	</extension>
+ 
+   <extension 
+      point="org.eclipse.ui.views"> 
+		<view 
+			class="de.tgmz.zdev.syntaxcheck.markers.RemoteErrorMarkersView" 
+			id="de.tgmz.zdev.markers.customMarkers" 
+			category="de.tgmz.zdev.category"
+            icon="icons/logo-16-16.gif"
+			name="%label.remoteError"> 
+		</view> 
+	</extension>
+
+	<extension 
+		point="org.eclipse.ui.ide.markerSupport"> 
+		<markerContentGenerator 
+			id="de.tgmz.zdev.syntaxcheck.markers.remoteErrorMarkerGenerator" 
+			name="%label.remoteError"> 
+			<markerTypeReference id="org.eclipse.core.resources.marker"/> 
+			<markerFieldReference id="org.eclipse.ui.ide.severityAndDescriptionField"/> 
+			<markerFieldReference id="org.eclipse.ui.ide.locationField"/> 
+   			<markerFieldReference id="org.eclipse.ui.ide.creationTimeField"/> 
+    	</markerContentGenerator> 
+	</extension>
+</plugin>

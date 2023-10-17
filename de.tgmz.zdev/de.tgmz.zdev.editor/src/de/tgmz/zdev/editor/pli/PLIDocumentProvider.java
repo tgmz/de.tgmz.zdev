@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 06.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 import com.ibm.cics.zos.ui.editor.DataEntryDocumentProvider;
 
 /**
- * Document provider for PL/I programms.
+ * Document provider for PL/I programs.
  */
 public class PLIDocumentProvider extends DataEntryDocumentProvider {
 	private static final Logger LOG = LoggerFactory.getLogger(PLIDocumentProvider.class);

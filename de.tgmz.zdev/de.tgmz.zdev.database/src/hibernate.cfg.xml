@@ -38,5 +38,6 @@
 
 		<!-- Mapping files -->
 		<mapping class="de.tgmz.zdev.domain.Item" />
+		<mapping class="de.tgmz.zdev.domain.HistoryItem" />
 	</session-factory>
 </hibernate-configuration>

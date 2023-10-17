@@ -173,9 +173,9 @@ public class PliOutlineParser implements IOutlineParser {
 	}
 
 	/**
-	 * Entfernt Zeilenumbr&uuml;che und Drucksteuerzeichen aus Spalte 1.
-	 * @param line Codezeile
-	 * @return die aufbereitete Zeile f&uuml;r die Outline 
+	 * Removes carriage return, line feed and print control characters.
+	 * @param line code line
+	 * @return the processed line 
 	 */
 	private static String removeSpecialChars(String line) {
 		String retString;

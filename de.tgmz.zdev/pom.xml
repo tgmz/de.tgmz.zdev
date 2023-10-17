@@ -57,25 +57,41 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<tycho-version>3.0.4</tycho-version>
 		<java-version>17</java-version>
-		<jacoco.version>0.8.9</jacoco.version>
+		<jacoco.version>0.8.10</jacoco.version>
 		<sonar.java.source>17</sonar.java.source>
- 		<sonar.exclusions>src/com/ibm/pdtools/**/*,src/testresources/**/*.*,src/resources/*.pli</sonar.exclusions>
+ 		<sonar.exclusions>src/testresources/**/*.*</sonar.exclusions>
  		<maven-jarsigner-version>3.0.0</maven-jarsigner-version>
 	</properties>
 
 	<modules>
+		<module>de.tgmz.zdev.branding</module>
+		<module>de.tgmz.zdev.compare</module>
 		<module>de.tgmz.zdev.connection</module>
+		<module>de.tgmz.zdev.crypto</module>
 		<module>de.tgmz.zdev.database</module>
 		<module>de.tgmz.zdev.editor</module>
+		<module>de.tgmz.zdev.editor.local</module>
+		<module>de.tgmz.zdev.esapi</module>
 		<module>de.tgmz.zdev.feature</module>
+		<module>de.tgmz.zdev.filelock</module>
 		<module>de.tgmz.zdev.history</module>
 		<module>de.tgmz.zdev.logging</module>
+		<module>de.tgmz.zdev.operation</module>
 		<module>de.tgmz.zdev.outline</module>
+		<module>de.tgmz.zdev.plicomp</module>
 		<module>de.tgmz.zdev.preferences</module>
 		<module>de.tgmz.zdev.product</module>
-		<module>de.tgmz.zdev.test</module>
+		<module>de.tgmz.zdev.quickaccess</module>
+		<module>de.tgmz.zdev.repo</module>
+		<module>de.tgmz.zdev.restore</module>
+		<module>de.tgmz.zdev.syntaxcheck</module>
 		<module>de.tgmz.zdev.target</module>
+		<module>de.tgmz.zdev.test</module>
+		<module>de.tgmz.zdev.transfer</module>
 		<module>de.tgmz.zdev.view</module>
+		<module>de.tgmz.zdev.xsdosrg</module>
+		<module>de.tgmz.zdev.zos.client</module>
+		<module>de.tgmz.zdev.zos.server</module>
 	</modules>
 
 	<build>
@@ -163,7 +179,7 @@
 							<ws>win32</ws>
 							<arch>x86_64</arch>
 						</environment>
-						<!-- Witzig, aber sinnlos und verl&auml;ngert nur den build <environment> 
+						<!-- <environment> 
 							<os>linux</os> <ws>gtk</ws> <arch>x86_64</arch> </environment> <environment> 
 							<os>macosx</os> <ws>cocoa</ws> <arch>x86_64</arch> </environment> -->
 					</environments>
@@ -172,7 +188,6 @@
 			<plugin>
 				<groupId>org.eclipse.tycho.extras</groupId>
 				<artifactId>target-platform-validation-plugin</artifactId>
-				<version>${tycho-version}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.rat</groupId>
@@ -192,23 +207,71 @@
        							<pattern>SPDX-License-Identifier: EPL-2.0</pattern>                                                          
        						</patterns>                                                                                                
        					</license>                                                                                                     
+       					<license implementation="org.apache.rat.analysis.license.SimplePatternBasedLicense">                           
+       						<licenseFamilyCategory>JQF</licenseFamilyCategory>                                                         
+       						<licenseFamilyName>JQuery Foundation</licenseFamilyName>                                              
+       						<notes></notes>                                                                                            
+       						<patterns>                                                                                                 
+       							<pattern>jQuery Foundation</pattern>                                                          
+       						</patterns>                                                                                                
+       					</license>                                                                                                     
+       					<license implementation="org.apache.rat.analysis.license.SimplePatternBasedLicense">                           
+       						<licenseFamilyCategory>OWASP</licenseFamilyCategory>                                                         
+       						<licenseFamilyName>The OWASP Foundation</licenseFamilyName>                                              
+       						<notes></notes>                                                                                            
+       						<patterns>                                                                                                 
+       							<pattern>Copyright (c) 2008,2009 - The OWASP Foundation</pattern>                                                          
+       						</patterns>                                                                                                
+       					</license>                                                                                                     
+       					<license implementation="org.apache.rat.analysis.license.SimplePatternBasedLicense">                           
+       						<licenseFamilyCategory>IBM</licenseFamilyCategory>                                                         
+       						<licenseFamilyName>International Business Machines Corporation</licenseFamilyName>                                              
+       						<notes></notes>                                                                                            
+       						<patterns>                                                                                                 
+       							<pattern>Licensed Materials - Property of IBM</pattern>                                                          
+       						</patterns>                                                                                                
+       					</license>                                                                                                     
        				</licenses>                                                                                                        
        				<licenseFamilies>                                                                                                  
        					<licenseFamily implementation="org.apache.rat.license.SimpleLicenseFamily">                                    
        						<familyName>Eclipse Public License</familyName>                                                            
        					</licenseFamily>     
+       					<licenseFamily implementation="org.apache.rat.license.SimpleLicenseFamily">                                    
+       						<familyName>JQuery Foundation</familyName>                                                            
+       					</licenseFamily>     
+       					<licenseFamily implementation="org.apache.rat.license.SimpleLicenseFamily">                                    
+       						<familyName>The OWASP Foundation</familyName>                                                            
+       					</licenseFamily>     
+       					<licenseFamily implementation="org.apache.rat.license.SimpleLicenseFamily">                                    
+       						<familyName>International Business Machines Corporation</familyName>                                                            
+       					</licenseFamily>     
        				</licenseFamilies>                                                                                          
 					<excludes combine.children="append">
+       					<exclude>**/target/**</exclude>
+       					<exclude>**/bin/**</exclude>
 						<!-- Eclipse -->
            				<exclude>**/*.launch</exclude>                                                                                 
+           				<exclude>**/.settings/**</exclude>                                                                                 
+           				<exclude>**/.project</exclude>                                                                                 
+           				<exclude>**/.classpath</exclude>                                                                                 
 						<!-- OSGI -->
 						<exclude>**/MANIFEST.MF</exclude>
            				<exclude>**/build.properties</exclude>                                                                         
-           				<exclude>**/de.tgmz.zdev.target.target</exclude>                                                                                 
 						<!-- Tycho stuff -->
        					<exclude>**/.polyglot.META-INF</exclude>                                                          
        					<exclude>**/.polyglot..META-INF_MANIFEST.MF</exclude>                                                          
        					<exclude>**/.tycho-consumer-pom.xml</exclude>
+						<!-- Crypto keyfile -->
+       					<exclude>src/keyfile</exclude>                                                          
+						<!-- Test resources -->
+       					<exclude>src/testresources/**</exclude>                                                          
+						<!-- Generated files -->
+       					<exclude>**/*.jardesc</exclude>                                                          
+						<!-- Utility stuff -->
+       					<exclude>de.tgmz.zdev.util/keyfile</exclude>                                                          
+       					<exclude>de.tgmz.zdev.util/pli.txt</exclude>                                                          
+						<!-- Dummy stuff -->
+       					<exclude>**/dummy.txt</exclude>                                                          
 					</excludes>
 				</configuration>
 			</plugin>
@@ -259,6 +322,7 @@
 				<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 				<sonar.coverage.jacoco.xmlReportPaths>../de.tgmz.zdev.test/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 				<sonar.coverage.exclusions>**/test/**</sonar.coverage.exclusions>
+				<sonar.cpd.exclusions>**/Activator.java</sonar.cpd.exclusions>
 			</properties>
 			<build>
 				<plugins>

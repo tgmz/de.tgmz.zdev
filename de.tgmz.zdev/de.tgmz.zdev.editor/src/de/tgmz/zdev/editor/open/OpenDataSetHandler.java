@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 06.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -40,7 +40,7 @@ import de.tgmz.zdev.connection.ZdevConnectable;
 import de.tgmz.zdev.editor.Activator;
 
 /**
- * Tries to open a dataset if its name is selected in editor.
+ * Opens a dataset marked in editor.
  */
 //CHECKSTYLE DISABLE ReturnCount
 public class OpenDataSetHandler extends AbstractHandler {
@@ -48,7 +48,7 @@ public class OpenDataSetHandler extends AbstractHandler {
 	private static final String OPEN_EDITOR_TITLE = "OpenEditor.Title";
 	
 	/**
-	 * @return der markierte Text
+	 * @return the selected text
 	 */
 	private String getCurrentTextSelection() {
 		String selectedText = null;

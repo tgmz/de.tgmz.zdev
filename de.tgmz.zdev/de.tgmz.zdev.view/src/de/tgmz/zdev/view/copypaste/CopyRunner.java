@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 09.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -29,7 +29,7 @@ import com.ibm.cics.zos.model.SequentialDataSet;
 import de.tgmz.zdev.connection.ZdevConnectable;
 
 /**
- * Writes the content of TransferUtilitiy to target dataset.
+ * Copies the content of a DataEntry to TransferUtility.
  */
 public class CopyRunner implements IRunnableWithProgress {
 	private static final Logger LOG = LoggerFactory.getLogger(CopyRunner.class);

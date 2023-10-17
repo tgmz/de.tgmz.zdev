@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 09.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -17,7 +17,7 @@ import org.junit.Test;
 import de.tgmz.zdev.view.MemberNameInputDialog;
 
 /**
- * Testclass for PreferncesEditoren.
+ * Test class for PreferncesEditor.
  */
 public class MemberNameInputDialogTest {
 	private static Shell shell;

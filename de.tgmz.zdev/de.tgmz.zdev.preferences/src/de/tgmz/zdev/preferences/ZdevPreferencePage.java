@@ -106,6 +106,12 @@ public class ZdevPreferencePage extends FieldEditorPreferencePage implements IWo
 				Activator.getDefault().getString("ZdevPreferencePage.JobCard"),
 				getFieldEditorParent()));
 		
+		addField(new BooleanFieldEditor(
+				ZdevPreferenceConstants.FILELOCK_AUTO,
+				Activator.getDefault().getString("ZdevPreferencePage.FileLockAuto"),
+				BooleanFieldEditor.SEPARATE_LABEL,
+				getFieldEditorParent()));
+		
 		addField(new StringFieldEditor(
 				ZdevPreferenceConstants.REGEX_PLI, 
 				Activator.getDefault().getString("ZdevPreferencePage.RegexpPli"),

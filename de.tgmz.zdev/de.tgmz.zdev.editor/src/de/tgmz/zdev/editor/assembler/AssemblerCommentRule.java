@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 06.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -31,12 +31,12 @@ public class AssemblerCommentRule implements IRule {
 	public IToken evaluate(ICharacterScanner scanner) {
 		int c = (char) scanner.read();
 		
-		if ((c == '*' && scanner.getColumn() == 1)	// Klar
-		 || (scanner.getColumn() >= 40)) {			// Vor einem TOKEN kommt ein Blank und das macht es 
-													// ab Spalte 40 immer zu einem Kommentar
+		if ((c == '*' && scanner.getColumn() == 1)	// ASSEMBLER default comment
+		 || (scanner.getColumn() >= 40)) {			// A blank after column 40 indicates the rest of the  
+													// line is a comment
 			do {
 				c = scanner.read();
-			} while (c != '\r' && c != '\n' && c != -1);	// -1 ist wichtig, sonst LOOP!
+			} while (c != '\r' && c != '\n' && c != -1);	// -1 or LOOP otherwise!
 			
 			scanner.unread();
 			return fToken;

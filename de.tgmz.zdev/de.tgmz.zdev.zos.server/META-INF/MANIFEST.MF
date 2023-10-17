@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-SymbolicName: de.tgmz.zdev.zos.server
+Bundle-Version: 1.0.0.qualifier
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-ClassPath: .,
+ lib/ibmjzos.jar,
+ lib/log4j-api-2.17.0.jar,
+ lib/log4j-core-2.17.0.jar,
+ lib/log4j-slf4j-impl-2.17.0.jar,
+ lib/slf4j-api-1.7.32.jar
+Automatic-Module-Name: de.tgmz.zdev.zos.server
+Export-Package: de.tgmz.zdev.zos

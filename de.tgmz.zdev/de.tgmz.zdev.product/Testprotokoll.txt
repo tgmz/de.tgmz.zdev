@@ -1,0 +1,62 @@
+# Copyright (c) 06.10.2023 Thomas Zierer
+#
+# This program and the accompanying materials are made
+# available under the terms of the Eclipse Public License 2.0
+# which is available at https://www.eclipse.org/legal/epl-2.0/
+#
+# SPDX-License-Identifier: EPL-2.0
+
+Kostenstelle in den Preferences eintragen
+
+- Credentials anlegen
+- Verbindungen kontrollieren
+- Mit labe verbinden
+
+- Test-Dataset anlegen
+
+- Editor
+  - Vertikale Linie auf Spalte 72 prüfen
+  - Prüfen, dass Tabs zu Spaces werden
+  - Uppercase (PF6)
+  - Mehrzeilige Kommentare prüfen
+  - Contentassist bei Eingabe "TRA" prüfen. Muss "TRANSLATE" liefern
+  - SQL Editor
+  - Die Menues "Generate" und "Syntaxcheck" dürfen nur im geöffneten Editor erscheinen, in keiner anderen View
+  - Workbench schließen, während noch Änderungen offen sind: Es muss eine Warnung erscheinen
+
+- Quickaccess
+
+- Hilfe-Seite
+    
+- Copy contents, Paste contents    
+    
+- Outline
+  - PL/I
+  - JCL
+
+- Syntaxcheck
+  - Fehler in SCDBT01 einbauen
+  - Syntaxcheck: Zeilennummer muss stimmen
+  - Durch Doppelklick zum Fehler navigieren
+  - Hover mit Compilermessage muss erscheinen
+
+- Zwei Member vergleichen
+
+- Collapse to string
+- Expand all
+  
+- Replace with History
+  - Bei geöffneten Editor
+  - Bei geschlossenen Editor
+
+- CVS-Perspektive vorhanden?
+
+- Help -> Install new software. Funktioniert?
+
+- z/OS Connect
+  - Service testen
+  
+- xsdosrg
+
+- Am Ende die Workspace-Logs kontrollieren
+

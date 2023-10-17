@@ -17,7 +17,7 @@
       <page
             class="de.tgmz.zdev.preferences.ZdevPreferencePage"
             id="de.tgmz.zdev.preferences.ZdevPreferencePage"
-            name="Endevor"/>
+            name="z/Dev"/>
    </extension>
    <extension
          id="de.tgmz.zdev.preferences"

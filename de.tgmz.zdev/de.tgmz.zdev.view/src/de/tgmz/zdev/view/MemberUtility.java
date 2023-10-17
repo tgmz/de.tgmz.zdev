@@ -68,7 +68,7 @@ public class MemberUtility {
 			newMemberName = id.getValue();
 		}	
 
-		// We check untile a FileNotFoundException occurs or the user presses "Overwrite"
+		// We check until a FileNotFoundException occurs or the user presses "Overwrite"
 		do {
 			try {
 				result = ZdevConnectable.getConnectable().getDataSetMember(target, newMemberName); // throws FileNotFoundException

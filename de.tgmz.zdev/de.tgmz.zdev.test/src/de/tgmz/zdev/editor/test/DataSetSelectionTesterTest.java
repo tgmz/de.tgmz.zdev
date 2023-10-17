@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 06.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -26,25 +26,25 @@ public class DataSetSelectionTesterTest {
 	
 	@Test
 	public void testSequential() {
-		Mockito.when(mock.getText()).thenReturn("BAP.ENDVP.LISTLIB");
+		Mockito.when(mock.getText()).thenReturn("HLQ.ZDEV.LISTLIB");
 
 		assertTrue(TESTER.test(mock, PROPERTY, null, null));
 	}
 	@Test
 	public void testPartitioned() {
-		Mockito.when(mock.getText()).thenReturn("BAS#.PROCLIB(BADBTPL1)");
+		Mockito.when(mock.getText()).thenReturn("HLQ.ZDEV.PROCLIB(COMPPL1)");
 
 		assertTrue(TESTER.test(mock, PROPERTY, null, null));
 	}
 	@Test
 	public void testTooShort() {
-		Mockito.when(mock.getText()).thenReturn("BAP");
+		Mockito.when(mock.getText()).thenReturn("HLQ");
 
 		assertFalse(TESTER.test(mock, PROPERTY, null, null));
 	}
 	@Test
 	public void testInvalidMember() {
-		Mockito.when(mock.getText()).thenReturn("BAS#.PROCLIB(ABCDEFGHIJ)");
+		Mockito.when(mock.getText()).thenReturn("HLQ.ZDEV.PROCLIB(ABCDEFGHIJ)");
 
 		assertFalse(TESTER.test(mock, PROPERTY, null, null));
 	}

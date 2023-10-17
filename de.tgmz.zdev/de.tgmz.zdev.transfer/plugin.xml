@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/*********************************************************************
+* Copyright (c) 06.10.2023 Thomas Zierer
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
+-->
+<?eclipse version="3.4"?>
+<plugin>
+    <extension point="org.eclipse.core.expressions.propertyTesters">
+	  	<propertyTester
+			id="de.tgmz.zdev.transfer.expressions.propertyTesters.isConnected"
+			class="de.tgmz.zdev.connection.ConnectedTester"
+			properties="isConnected"
+			type="org.eclipse.core.resources.IResource"
+			namespace="de.tgmz.zdev.connection" />
+    </extension>
+	<extension point="org.eclipse.ui.menus">
+		<menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+			<command commandId="de.tgmz.zdev.download"
+				label="%label.download"
+				icon="icons/download.png"
+				style="push">
+				<visibleWhen>
+					<with variable="activeMenuSelection">
+						<iterate>
+							<or>
+								<instanceof value="com.ibm.cics.zos.model.PartitionedDataSet" />
+								<instanceof value="com.ibm.cics.zos.model.Member" />
+							</or>
+						</iterate>
+					</with>
+				</visibleWhen>
+			</command>
+			
+			<command commandId="de.tgmz.zdev.hfs.download"
+				label="%label.download"
+				icon="icons/download.png"
+				style="push">
+         		<visibleWhen>
+         			<with variable="activeMenuSelection">
+         				<iterate>
+         					<instanceof value="com.ibm.cics.zos.model.HFSEntry" />
+         				</iterate>
+         			</with>
+         		</visibleWhen>
+			</command>
+
+			<menu
+         		label="%label.upload" 
+				icon="icons/upload.png">
+				<visibleWhen>
+					<with variable="activeMenuSelection">
+						<iterate>
+							<and>
+								<or>
+									<instanceof value="org.eclipse.core.resources.IFile" />
+									<instanceof value="org.eclipse.core.resources.IFolder" />
+								</or>
+		                    	<test property="de.tgmz.zdev.connection.isConnected" 
+		                    		value="true"
+		                    		forcePluginActivation="true" />
+         					</and>
+						</iterate>
+					</with>
+				</visibleWhen>
+					
+				<command commandId="de.tgmz.zdev.upload"
+					label="%label.pdsupload"
+					icon="icons/upload.png"
+					style="push">
+				</command>
+
+				<command commandId="de.tgmz.zdev.hfs.upload"
+					label="%label.hfsupload"
+					icon="icons/upload.png"
+					style="push">
+				</command>
+			</menu>
+		</menuContribution>
+	</extension>
+
+	<extension point="org.eclipse.ui.commands">
+        <command defaultHandler="de.tgmz.zdev.transfer.download.DownloadHandler"
+              id="de.tgmz.zdev.download"
+              name="download">
+        </command>
+		<command defaultHandler="de.tgmz.zdev.transfer.upload.UploadHandler"
+			id="de.tgmz.zdev.upload"
+			name="upload">
+		</command>
+		<command defaultHandler="de.tgmz.zdev.transfer.upload.HfsUploadHandler"
+			id="de.tgmz.zdev.hfs.upload"
+			name="hfsupload">
+		</command>
+		<command defaultHandler="de.tgmz.zdev.transfer.download.HfsDownloadHandler"
+			id="de.tgmz.zdev.hfs.download"
+			name="hfsdownload">
+		</command>
+	</extension>
+
+</plugin>

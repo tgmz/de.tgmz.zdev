@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright (c) 06.10.2023 Thomas Zierer
+* Copyright (c) 10.10.2023 Thomas Zierer
 *
 * This program and the accompanying materials are made
 * available under the terms of the Eclipse Public License 2.0
@@ -10,65 +10,107 @@
 package de.tgmz.zdev.domain;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 /**
- * History object, usually of a dataset member containing a source.
+ * A member stored in the database.
+ * Use this to store additional attributes of a source e.g. compile options.
  */
 
 @Entity
 public class Item implements Serializable {
-	private static final long serialVersionUID = -5251258163182902698L;
+	@Transient
+	private static final long serialVersionUID = -5230886354906404806L;
 	@Id
 	@GeneratedValue
-	private long id;
-    private String dsn;
-    private long version;
-    @Column(columnDefinition = "BLOB")
-    private byte[] content;
-
-    /**
-     * CTR.
-     */
-    public Item() {
-        super();
-    }
-
-	public long getId() {
-		return id;
+	private long id;	
+	/** The dataset name. Persistent. */
+	private String dsn;
+	/** The member name. Persistent. */
+	private String member;
+	
+	public Item() {
+		this(null, null);
 	}
-
-	public void setId(long id) {
-		this.id = id;
+	/**
+	 * Constructor.
+	 * @param aDsn Dataset name
+	 * @param aMember Member name
+	 */
+	public Item(final String aDsn, final String aMember) {
+		super();
+		this.dsn = aDsn;
+		this.member = aMember;
 	}
-
+	/**
+	 * @return returns the full name.
+	 */
+	public String getFullName() {
+		return dsn.trim() + '(' + member.trim() + ')';
+	}
+	/**
+	 * @return Returns the dataset name.
+	 */
 	public String getDsn() {
 		return dsn;
 	}
-
-	public void setDsn(String dsn) {
-		this.dsn = dsn;
+	/**
+	 * @param aDsn The dataset name to set.
+	 */
+	public void setDsn(final String aDsn) {
+		this.dsn = aDsn;
 	}
-
-	public long getVersion() {
-		return version;
+	/**
+	 * @return Returns the member name.
+	 */
+	public String getMember() {
+		return member;
 	}
-
-	public void setVersion(long version) {
-		this.version = version;
+	/**
+	 * @param aMember The member name to set.
+	 */
+	public void setMember(final String aMember) {
+		this.member = aMember;
 	}
-
-	public byte[] getContent() {
-		return Arrays.copyOf(content, content.length);
+	/** {@inheritDoc} */
+    @Override
+    //BEGIN-GENERATED
+	public boolean equals(final Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        
+        if (!(obj instanceof Item)) {
+            return false;
+        }
+        
+        if (this == obj) {
+            return true;
+        }
+        
+        Item i1 = (Item) obj;
+        
+        return dsn.equals(i1.getDsn())
+                && member.equals(i1.getMember());
+    }
+	/** {@inheritDoc} */
+    @Override
+	public int hashCode() {
+        return dsn.hashCode() + member.hashCode();
+    }
+    //END-GENERATED
+	public long getId() {
+		return id;
 	}
-
-	public void setContent(byte[] content) {
-		this.content = Arrays.copyOf(content, content.length);
+	public void setId(long id) {
+		this.id = id;
+	}
+	@Override
+	public String toString() {
+		return "Item [id=" + id + ", dsn=" + dsn + ", member=" + member + "]";
 	}
 }
-

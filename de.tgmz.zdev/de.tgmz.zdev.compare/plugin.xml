@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/*********************************************************************
+* Copyright (c) 06.10.2023 Thomas Zierer
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
+-->
+<?eclipse version="3.4"?>
+<plugin>
+	<!-- Define property testers for enabling/disabling compare menu option -->
+    <extension point="org.eclipse.ui.menus">
+	    <menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+	         <command commandId="de.tgmz.zdev.compare"
+				icon="icons/compare.png"
+	         	label="%label.compare"
+	         	style="push">
+         		<visibleWhen>
+         			<with variable="activeMenuSelection">
+        				<count value="2"/>
+        				<iterate ifEmpty="false">
+							<instanceof value="com.ibm.cics.zos.model.Member" />
+        				</iterate>
+    				</with>
+				</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
+
+	<extension point="org.eclipse.ui.commands">
+        <command
+              defaultHandler="de.tgmz.zdev.compare.CompareHandler"
+              id="de.tgmz.zdev.compare"
+              name="compare">
+        </command>
+	</extension>
+
+</plugin>

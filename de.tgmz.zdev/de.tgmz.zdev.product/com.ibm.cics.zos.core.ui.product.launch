@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.pde.ui.RuntimeWorkbench">
+    <setAttribute key="additional_plugins"/>
+    <booleanAttribute key="append.args" value="true"/>
+    <booleanAttribute key="askclear" value="true"/>
+    <booleanAttribute key="automaticAdd" value="true"/>
+    <booleanAttribute key="automaticValidate" value="false"/>
+    <stringAttribute key="bootstrap" value=""/>
+    <stringAttribute key="checked" value="[NONE]"/>
+    <booleanAttribute key="clearConfig" value="false"/>
+    <booleanAttribute key="clearws" value="false"/>
+    <booleanAttribute key="clearwslog" value="false"/>
+    <stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/com.ibm.cics.zos.core.ui.product"/>
+    <booleanAttribute key="default" value="false"/>
+    <stringAttribute key="featureDefaultLocation" value="workspace"/>
+    <stringAttribute key="featurePluginResolution" value="workspace"/>
+    <booleanAttribute key="includeOptional" value="true"/>
+    <stringAttribute key="location" value="${workspace_loc}/../runtime-com.ibm.cics.zos.core.ui.product"/>
+    <booleanAttribute key="org.eclipse.debug.core.ATTR_FORCE_SYSTEM_CONSOLE_ENCODING" value="false"/>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
+    <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog"/>
+    <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
+    <stringAttribute key="pde.version" value="3.3"/>
+    <stringAttribute key="product" value="com.ibm.cics.zos.core.ui.product"/>
+    <setAttribute key="selected_features">
+        <setEntry value="com.ibm.cics.platform.feature.nl0:default"/>
+        <setEntry value="com.ibm.cics.platform.feature:default"/>
+        <setEntry value="com.ibm.cics.zos.feature.nl0:default"/>
+        <setEntry value="com.ibm.cics.zos.feature:default"/>
+        <setEntry value="com.ibm.debug.common.cshelp.feature:default"/>
+        <setEntry value="com.ibm.debug.common.cshelp.nls1.feature:default"/>
+        <setEntry value="com.ibm.debug.common.feature:default"/>
+        <setEntry value="com.ibm.debug.common.nls1.feature:default"/>
+        <setEntry value="com.ibm.debug.daemon.core.feature:default"/>
+        <setEntry value="com.ibm.debug.daemon.core.nls1.feature:default"/>
+        <setEntry value="com.ibm.debug.memorymap.cshelp.feature:default"/>
+        <setEntry value="com.ibm.debug.memorymap.cshelp.nls1.feature:default"/>
+        <setEntry value="com.ibm.debug.memorymap.feature:default"/>
+        <setEntry value="com.ibm.debug.memorymap.nls1.feature:default"/>
+        <setEntry value="com.ibm.debug.memorymap.zseries.samples.feature:default"/>
+        <setEntry value="com.ibm.debug.memoryoffset.cshelp.feature:default"/>
+        <setEntry value="com.ibm.debug.memoryoffset.cshelp.nls1.feature:default"/>
+        <setEntry value="com.ibm.debug.memoryoffset.feature:default"/>
+        <setEntry value="com.ibm.debug.memoryoffset.nls1.feature:default"/>
+        <setEntry value="com.ibm.debug.pdt.animatedstep.cshelp.feature:default"/>
+        <setEntry value="com.ibm.debug.pdt.animatedstep.cshelp.nls1.feature:default"/>
+        <setEntry value="com.ibm.debug.pdt.animatedstep.feature:default"/>
+        <setEntry value="com.ibm.debug.pdt.animatedstep.nls1.feature:default"/>
+        <setEntry value="com.ibm.debug.pdt.contentassist.zseries.feature:default"/>
+        <setEntry value="com.ibm.debug.pdt.core.feature:default"/>
+        <setEntry value="com.ibm.debug.pdt.cshelp.feature:default"/>
+        <setEntry value="com.ibm.debug.pdt.cshelp.nls1.feature:default"/>
+        <setEntry value="com.ibm.debug.pdt.engines.dtgui.feature:default"/>
+        <setEntry value="com.ibm.debug.pdt.feature:default"/>
+        <setEntry value="com.ibm.debug.pdt.migration.feature:default"/>
+        <setEntry value="com.ibm.debug.pdt.nls1.feature:default"/>
+        <setEntry value="com.ibm.debug.pdt.playback.feature:default"/>
+        <setEntry value="com.ibm.debug.pdt.playback.nls1.feature:default"/>
+        <setEntry value="com.ibm.debug.pdt.rsecommon.feature:default"/>
+        <setEntry value="com.ibm.debug.pdt.rsecommon.nls1.feature:default"/>
+        <setEntry value="com.ibm.debug.pdt.ui.memory.traditional.feature:default"/>
+        <setEntry value="com.ibm.debug.pdt.ui.timeout.feature:default"/>
+        <setEntry value="com.ibm.debug.pdt.ui.timeout.nls1.feature:default"/>
+        <setEntry value="com.ibm.debug.xmlui.feature:default"/>
+        <setEntry value="com.ibm.etools.common.tracing.nl1:default"/>
+        <setEntry value="com.ibm.etools.common.tracing:default"/>
+        <setEntry value="com.ibm.etools.icerse.editor.feature.nl1:default"/>
+        <setEntry value="com.ibm.etools.icerse.editor.feature:default"/>
+        <setEntry value="com.ibm.etools.rdz.client.certificates.nl1:default"/>
+        <setEntry value="com.ibm.etools.rdz.client.certificates:default"/>
+        <setEntry value="com.ibm.ftt.cics.rse.feature.nl1:default"/>
+        <setEntry value="com.ibm.ftt.cics.rse.feature:default"/>
+        <setEntry value="com.ibm.ftt.common.feature.nl1:default"/>
+        <setEntry value="com.ibm.ftt.common.feature:default"/>
+        <setEntry value="com.ibm.ftt.common.language.nl1:default"/>
+        <setEntry value="com.ibm.ftt.common.language:default"/>
+        <setEntry value="com.ibm.ftt.configurations.feature.nl1:default"/>
+        <setEntry value="com.ibm.ftt.configurations.feature:default"/>
+        <setEntry value="com.ibm.ftt.core.feature.nl1:default"/>
+        <setEntry value="com.ibm.ftt.core.feature:default"/>
+        <setEntry value="com.ibm.ftt.language.feature.nl1:default"/>
+        <setEntry value="com.ibm.ftt.language.feature:default"/>
+        <setEntry value="com.ibm.ftt.rse.connectorservice.feature.nl1:default"/>
+        <setEntry value="com.ibm.ftt.rse.connectorservice.feature:default"/>
+        <setEntry value="com.ibm.ftt.rse.debug.feature.nl1:default"/>
+        <setEntry value="com.ibm.ftt.rse.debug.feature:default"/>
+        <setEntry value="com.ibm.ftt.rse.jes.feature.nl1:default"/>
+        <setEntry value="com.ibm.ftt.rse.jes.feature:default"/>
+        <setEntry value="com.ibm.ftt.rse.mvs.feature.nl1:default"/>
+        <setEntry value="com.ibm.ftt.rse.mvs.feature:default"/>
+        <setEntry value="com.ibm.ftt.rse.uss.feature.nl1:default"/>
+        <setEntry value="com.ibm.ftt.rse.uss.feature:default"/>
+        <setEntry value="com.ibm.ftt.ui.feature.nl1:default"/>
+        <setEntry value="com.ibm.ftt.ui.feature:default"/>
+        <setEntry value="com.ibm.systemz.common.jface.feature.nl1:default"/>
+        <setEntry value="com.ibm.systemz.common.jface.feature:default"/>
+        <setEntry value="com.ibm.systemz.jcl.core.feature.nl1:default"/>
+        <setEntry value="com.ibm.systemz.jcl.core.feature:default"/>
+        <setEntry value="com.ibm.systemz.jcl.feature.nl1:default"/>
+        <setEntry value="com.ibm.systemz.jcl.feature:default"/>
+        <setEntry value="com.ibm.tpf.util.feature.nl1:default"/>
+        <setEntry value="com.ibm.tpf.util.feature:default"/>
+        <setEntry value="com.ibm.zeus.feature.nl0:default"/>
+        <setEntry value="com.ibm.zeus.feature:default"/>
+        <setEntry value="com.ibm.zexpl.doc.feature:default"/>
+        <setEntry value="org.eclipse.cvs:default"/>
+        <setEntry value="org.eclipse.e4.rcp.source:default"/>
+        <setEntry value="org.eclipse.e4.rcp:default"/>
+        <setEntry value="org.eclipse.ecf.core.feature:default"/>
+        <setEntry value="org.eclipse.ecf.core.ssl.feature:default"/>
+        <setEntry value="org.eclipse.ecf.filetransfer.feature:default"/>
+        <setEntry value="org.eclipse.ecf.filetransfer.ssl.feature:default"/>
+        <setEntry value="org.eclipse.egit:default"/>
+        <setEntry value="org.eclipse.emf.common.source:default"/>
+        <setEntry value="org.eclipse.emf.common:default"/>
+        <setEntry value="org.eclipse.emf.ecore.source:default"/>
+        <setEntry value="org.eclipse.emf.ecore:default"/>
+        <setEntry value="org.eclipse.equinox.executable:default"/>
+        <setEntry value="org.eclipse.equinox.p2.core.feature.source:default"/>
+        <setEntry value="org.eclipse.equinox.p2.core.feature:default"/>
+        <setEntry value="org.eclipse.equinox.p2.extras.feature.source:default"/>
+        <setEntry value="org.eclipse.equinox.p2.extras.feature:default"/>
+        <setEntry value="org.eclipse.equinox.p2.rcp.feature.source:default"/>
+        <setEntry value="org.eclipse.equinox.p2.rcp.feature:default"/>
+        <setEntry value="org.eclipse.equinox.p2.user.ui.source:default"/>
+        <setEntry value="org.eclipse.equinox.p2.user.ui:default"/>
+        <setEntry value="org.eclipse.help.source:default"/>
+        <setEntry value="org.eclipse.help:default"/>
+        <setEntry value="org.eclipse.jdt.source:default"/>
+        <setEntry value="org.eclipse.jdt:default"/>
+        <setEntry value="org.eclipse.jgit:default"/>
+        <setEntry value="org.eclipse.pde.source:default"/>
+        <setEntry value="org.eclipse.pde:default"/>
+        <setEntry value="org.eclipse.platform.source:default"/>
+        <setEntry value="org.eclipse.platform:default"/>
+        <setEntry value="org.eclipse.rcp.source:default"/>
+        <setEntry value="org.eclipse.rcp:default"/>
+        <setEntry value="org.eclipse.sdk:default"/>
+    </setAttribute>
+    <booleanAttribute key="show_selected_only" value="false"/>
+    <stringAttribute key="templateConfig" value="${target_home}\configuration\config.ini"/>
+    <booleanAttribute key="tracing" value="false"/>
+    <booleanAttribute key="useCustomFeatures" value="true"/>
+    <booleanAttribute key="useDefaultConfig" value="true"/>
+    <booleanAttribute key="useDefaultConfigArea" value="true"/>
+    <booleanAttribute key="useProduct" value="true"/>
+</launchConfiguration>
