@@ -12,7 +12,7 @@
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
 -->
-<product name="z/Dev" uid="zdev" id="de.tgmz.zdev.branding.zdev" application="org.eclipse.ui.ide.workbench" version="1.0.0.qualifier" type="features" includeLaunchers="true" autoIncludeRequirements="true">
+<product name="z/Dev" uid="zdev" id="de.tgmz.zdev.branding.zdev" application="org.eclipse.ui.ide.workbench" version="1.0.0" type="features" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/de.tgmz.zdev.branding/icons/png/logo-64x64.png"/>
@@ -50,7 +50,14 @@ This product is based on technology from the Eclipse Project (http://www.eclipse
       startupProgressRect="5,415,340,15" />
    <launcher name="zDev">
       <win useIco="false">
-         <bmp/>
+         <bmp
+            winSmallHigh="/de.tgmz.zdev.branding/icons/bmp/logo-16-32.bmp"
+            winSmallLow="/de.tgmz.zdev.branding/icons/bmp/logo-16-8.bmp"
+            winMediumHigh="/de.tgmz.zdev.branding/icons/bmp/logo-32-32.bmp"
+            winMediumLow="/de.tgmz.zdev.branding/icons/bmp/logo-32-8.bmp"
+            winLargeHigh="/de.tgmz.zdev.branding/icons/bmp/logo-48-32.bmp"
+            winLargeLow="/de.tgmz.zdev.branding/icons/bmp/logo-48-8.bmp"
+            winExtraLargeHigh="/de.tgmz.zdev.branding/icons/bmp/logo-256-32.bmp"/>
       </win>
    </launcher>
 

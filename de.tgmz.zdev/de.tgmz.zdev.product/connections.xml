@@ -11,16 +11,21 @@
 **********************************************************************/
 -->
 <connections>
+	<!-- Example for problem determination tools connection
     <type type="com.ibm.pdtools.comms.cics.connection">
-        <configID ALLOW_MULTIPLE_CONNECTIONS="" configID="1548917804512-2" host="sys3.tgmz.de" hostType="" keyDefaultEncoding="cp1141" name="Problem Determination Tools LABE" port="2800"/>
+        <configID ALLOW_MULTIPLE_CONNECTIONS="" configID="1548917804512-2" host="sys3.tgmz.de" hostType="" keyDefaultEncoding="cp1141" name="Problem Determination Tools" port="2800"/>
     </type>
+     -->
+     <!-- Example for ftp connection -->
     <type type="com.ibm.cics.zos.comm.connection.ftp">
         <configID AP_MODE="PASSIVE" ATTEMPT_SECURE="false" DEFAULT_PORT="" EXPLICIT_SECURE="" MBCS="" SBCS_LOCAL="windows-1252" SBCS_REMOTE="" configID="1518090194352-0" host="sys1.tgmz.de" name="sys1.tgmz.de" port="21" ssl_confirmed="true"/>
         <configID AP_MODE="PASSIVE" ATTEMPT_SECURE="false" DEFAULT_PORT="" EXPLICIT_SECURE="" MBCS="" SBCS_LOCAL="windows-1252" SBCS_REMOTE="" configID="1518090194352-2" host="sys2.tgmz.de" name="sys2.tgmz.de" port="21" ssl_confirmed="true"/>
         <configID AP_MODE="PASSIVE" ATTEMPT_SECURE="false" DEFAULT_PORT="" EXPLICIT_SECURE="" MBCS="" SBCS_LOCAL="windows-1252" SBCS_REMOTE="" configID="1518090194352-1" host="sys3.tgmz.de" name="sys3.tgmz.de" port="21" ssl_confirmed="true"/>
     </type>
+	<!-- Example for z/OS Connect EE connection
     <type type="com.ibm.zosconnect.ui.connections.type.adminapi">
-        <configID ALLOW_MULTIPLE_CONNECTIONS="" ATTEMPT_SECURE="true" CONNECT_TIMEOUT="30000" READ_TIMEOUT="30000" configID="1550733337612-3" host="zosconnectb.tgmz.de" name="z/OS Connect EE SYS2" port="4582" ssl_confirmed="true"/>
-        <configID ALLOW_MULTIPLE_CONNECTIONS="" ATTEMPT_SECURE="true" CONNECT_TIMEOUT="30000" READ_TIMEOUT="30000" configID="1518090194352-3" host="zosconnecte.tgmz.de" name="z/OS Connect EE SYS3" port="4592" ssl_confirmed="true"/>
+        <configID ALLOW_MULTIPLE_CONNECTIONS="" ATTEMPT_SECURE="true" CONNECT_TIMEOUT="30000" READ_TIMEOUT="30000" configID="1550733337612-3" host="zosconnect1.tgmz.de" name="z/OS Connect EE SYS2" port="4582" ssl_confirmed="true"/>
+        <configID ALLOW_MULTIPLE_CONNECTIONS="" ATTEMPT_SECURE="true" CONNECT_TIMEOUT="30000" READ_TIMEOUT="30000" configID="1518090194352-3" host="zosconnect2.tgmz.de" name="z/OS Connect EE SYS3" port="4592" ssl_confirmed="true"/>
     </type>
+    -->
 </connections>
