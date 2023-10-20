@@ -17,7 +17,7 @@
 
 	<groupId>de.tgmz</groupId>
 	<artifactId>de.tgmz.zdev.parent</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>pom</packaging>
 	<name>z/Dev Parent</name>
 
@@ -55,7 +55,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<tycho-version>3.0.4</tycho-version>
+		<tycho-version>4.0.3</tycho-version>
 		<java-version>17</java-version>
 		<jacoco.version>0.8.10</jacoco.version>
 		<sonar.java.source>17</sonar.java.source>
@@ -308,6 +308,11 @@
 					<groupId>org.eclipse.tycho.extras</groupId>
 					<artifactId>target-platform-validation-plugin</artifactId>
 					<version>${tycho-version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>3.4.0</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
