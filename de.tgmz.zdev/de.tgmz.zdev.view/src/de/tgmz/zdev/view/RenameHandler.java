@@ -24,7 +24,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -127,9 +126,7 @@ public class RenameHandler extends AbstractHandler {
 		Session session = DbService.startTx();
 		
 		try {
-			Item item = (Item) session.createCriteria(Item.class)
-						.add(Restrictions.eq("dsn",	dsn))
-						.add(Restrictions.eq("member", oldMember));
+			Item item = (Item) session.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", dsn).setParameter("member", oldMember).getSingleResult();
 
 			if (item == null) {
 				item = new Item(dsn, newMember);
@@ -137,7 +134,7 @@ public class RenameHandler extends AbstractHandler {
 				item.setMember(newMember);
 			}
 				
-			session.save(item);
+			session.persist(item);
 		} finally {
 			DbService.endTx(session);
 		}

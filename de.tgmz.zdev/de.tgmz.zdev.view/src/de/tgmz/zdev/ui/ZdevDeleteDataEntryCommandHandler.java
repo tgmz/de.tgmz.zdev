@@ -18,7 +18,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,13 +47,11 @@ public class ZdevDeleteDataEntryCommandHandler extends DeleteDataEntryCommandHan
             	List<?> dataEntries = iss.toList();
 			
             	for (Object o : dataEntries) {
-            		if (o instanceof Member) {
-                    	Item zwerg0 = (Item) session.createCriteria(Item.class)
-            					.add(Restrictions.eq("dsn", ((Member) o).getParentPath()))
-            					.add(Restrictions.eq("member", ((Member) o).getName())).uniqueResult();
+            		if (o instanceof Member m) {
+            			Item zwerg0 = session.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", m.getParentPath()).setParameter("member", m.getName()).getSingleResult();
 
                     	if (zwerg0 != null) {
-                    		session.delete(zwerg0);
+                    		session.remove(zwerg0);
                     	}
             		}
 				}
