@@ -12,8 +12,7 @@ Require-Bundle: de.tgmz.zdev.logging,
  org.eclipse.core.resources,
  org.eclipse.ui.workbench,
  org.eclipse.jface,
- com.ibm.cics.common,
- org.h2
+ com.ibm.cics.common
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ClassPath: .,
@@ -29,7 +28,8 @@ Bundle-ClassPath: .,
  lib/classmate-1.5.1.jar,
  lib/istack-commons-runtime-4.1.1.jar,
  lib/byte-buddy-1.14.7.jar,
- lib/antlr4-runtime-4.10.1.jar
+ lib/antlr4-runtime-4.10.1.jar,
+ lib/h2-2.2.224.jar
 Export-Package: de.tgmz.zdev.database,
  de.tgmz.zdev.domain,
  org.hibernate,
