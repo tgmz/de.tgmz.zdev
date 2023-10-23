@@ -44,7 +44,6 @@ Require-Bundle: de.tgmz.zdev.database,
  com.ibm.cics.zos.model,
  com.ibm.cics.zos.core.ui,
  org.eclipse.ui.editors,
- org.h2,
  org.eclipse.jdt.core,
  com.ibm.cics.core.connections
 Bundle-RequiredExecutionEnvironment: JavaSE-17
