@@ -23,7 +23,6 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,9 +71,7 @@ public class SyntaxcheckHandler extends AbstractSyntaxcheckHandler {
 		Item item;
 		
 		try {
-			item = (Item) session.createCriteria(Item.class)
-					.add(Restrictions.eq("dsn", m.getParentPath()))
-					.add(Restrictions.eq("member", m.getName())).uniqueResult();
+			item = session.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", m.getParentPath()).setParameter("member", m.getName()).getSingleResult();
 		
 			if (item == null) {
 				item = new Item(m.getParentPath(), m.getName());

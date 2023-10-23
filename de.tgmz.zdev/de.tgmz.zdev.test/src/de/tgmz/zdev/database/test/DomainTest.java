@@ -15,7 +15,6 @@ import static org.junit.Assert.assertNotEquals;
 import java.util.Arrays;
 
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -32,11 +31,11 @@ public class DomainTest {
 		Session session = DbService.startTx();
 		
 		try {
-			session.createQuery("DELETE FROM Item").executeUpdate();
+			session.createMutationQuery("DELETE FROM Item").executeUpdate();
 			
 			Item i = new Item(PDS, PGM);
 			
-			session.save(i);
+			session.persist(i);
 		} finally {
 			DbService.endTx(session);
 		}
@@ -79,9 +78,7 @@ public class DomainTest {
 	}
 
 	private Item getItem(Session session) {
-		return (Item) session.createCriteria(Item.class)
-				.add(Restrictions.eq("dsn", PDS))
-				.add(Restrictions.eq("member", PGM)).uniqueResult();
+		return session.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", PDS).setParameter("member", PGM).uniqueResult();
 	}
 }
 

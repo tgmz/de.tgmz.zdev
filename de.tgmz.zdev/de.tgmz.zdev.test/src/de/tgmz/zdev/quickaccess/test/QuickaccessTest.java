@@ -16,7 +16,6 @@ import java.util.Iterator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -35,17 +34,17 @@ public class QuickaccessTest {
 		Session session = DbService.startTx();
 		
 		try {
-			Iterator<?> it = session.createCriteria(Item.class).list().iterator();
+			Iterator<?> it = session.createQuery("From Item", Item.class).list().iterator();
 			
 			while (it.hasNext()) {
 				Item i = (Item) it.next();
 				
-				session.delete(i);
+				session.remove(i);
 			}
 			
 			Item i = new Item(PDS, PGM);
 			
-			session.save(i);
+			session.persist(i);
 		} finally {
 			DbService.endTx(session);
 		}
@@ -62,9 +61,7 @@ public class QuickaccessTest {
 		Session session = DbService.startTx();
 		
 		try {
-			item = (Item) session.createCriteria(Item.class)
-					.add(Restrictions.eq("dsn", PDS))
-					.add(Restrictions.eq("member", PGM)).uniqueResult();
+			item = session.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", PDS).setParameter("member", PGM).uniqueResult();
 		} finally {
 			DbService.endTx(session);
 		}

@@ -18,7 +18,6 @@ import java.util.TreeMap;
 import org.hibernate.HibernateException;
 import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +43,7 @@ public class JpaHistory implements IHistoryModel {
        	Session session = DbService.startTx();
        	
        	try {
-       		session.saveOrUpdate(c);
+       		session.persist(c);
 		} catch (HibernateException e) {
 			throw new HistoryException(e);
 		} finally {
@@ -59,9 +58,7 @@ public class JpaHistory implements IHistoryModel {
        	Session session = DbService.startTx();
        	
        	try {
-       		HistoryItem c = (HistoryItem) session.createCriteria(HistoryItem.class)
-					.add(Restrictions.eq("version", key))
-					.add(Restrictions.eq("dsn", itemName)).uniqueResult();
+       		HistoryItem c = session.createNamedQuery("byVersionAndDsn", HistoryItem.class).setParameter("version",  key).setParameter("dsn", itemName).uniqueResult();
        		
        		return c != null ? c.getContent() : new byte[0];
 		} catch (HibernateException e) {
@@ -78,9 +75,7 @@ public class JpaHistory implements IHistoryModel {
        	Session session = DbService.startTx();
        	
        	try {
-       		@SuppressWarnings("unchecked")
-			List<HistoryItem> zwerg = session.createCriteria(HistoryItem.class)
-					.add(Restrictions.eq("dsn", itemName)).list();
+			List<HistoryItem> zwerg = session.createNamedQuery("byDsn", HistoryItem.class).setParameter("dsn", itemName).list();
        		
        		for (HistoryItem c : zwerg) {
 				result.add(c.getVersion());
@@ -102,7 +97,7 @@ public class JpaHistory implements IHistoryModel {
        	Session session = DbService.startTx();
        	
        	try {
-       		ScrollableResults itemCursor = session.createQuery("from HistoryItem order by version desc").scroll();
+       		ScrollableResults<HistoryItem> itemCursor = session.createQuery("from HistoryItem order by version desc", HistoryItem.class).scroll();
        		
        		int count = 0;
        		int x = 0;
@@ -111,7 +106,7 @@ public class JpaHistory implements IHistoryModel {
        		while (itemCursor.next()) {
        			++y;
        			
-       		    HistoryItem c = (HistoryItem) itemCursor.get(0);
+       		    HistoryItem c = (HistoryItem) itemCursor.get();
            	
 				Integer i = m.get(c.getDsn());
 				
@@ -126,7 +121,7 @@ public class JpaHistory implements IHistoryModel {
     			if (c.getVersion() < timeout.getTime() || i > maxVersions) {
     				++x;
     				
-    				session.delete(c);
+    				session.remove(c);
     			}
 
     			if (++count % 100 == 0) {

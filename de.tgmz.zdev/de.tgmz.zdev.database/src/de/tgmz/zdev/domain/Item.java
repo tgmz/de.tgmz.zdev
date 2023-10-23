@@ -11,10 +11,12 @@ package de.tgmz.zdev.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.Transient;
 
 /**
  * A member stored in the database.
@@ -22,6 +24,12 @@ import javax.persistence.Transient;
  */
 
 @Entity
+@NamedQueries({
+	@NamedQuery(
+			name="byDsnAndMember",
+			query="FROM Item i WHERE i.dsn = :dsn AND i.member = :member"
+	)}
+)
 public class Item implements Serializable {
 	@Transient
 	private static final long serialVersionUID = -5230886354906404806L;

@@ -20,6 +20,9 @@ import org.hibernate.cfg.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.tgmz.zdev.domain.HistoryItem;
+import de.tgmz.zdev.domain.Item;
+
 /**
  * The main contract of {@code DbService} is the creation of Session instances
  * and transaction management. {@code DbService} is a static class with no
@@ -62,6 +65,9 @@ public final class DbService {
 		try {
 			Configuration cfg = new Configuration().configure(hibernateCfg);
 
+			cfg.addAnnotatedClass(Item.class);
+			cfg.addAnnotatedClass(HistoryItem.class);
+			
 			if (url != null) {
 				cfg.setProperty("hibernate.connection.url", url);
 			}
