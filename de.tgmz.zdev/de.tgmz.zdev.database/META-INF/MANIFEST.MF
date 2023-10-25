@@ -32,6 +32,7 @@ Bundle-ClassPath: .,
  lib/h2-2.2.224.jar
 Export-Package: de.tgmz.zdev.database,
  de.tgmz.zdev.domain,
+ jakarta.persistence,
  org.hibernate,
  org.hibernate.query
 Automatic-Module-Name: de.tgmz.zdev.database

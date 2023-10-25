@@ -364,10 +364,12 @@
 		            <plugin>
     	    	        <groupId>org.owasp</groupId>
         	    	    <artifactId>dependency-check-maven</artifactId>
-            	    	<version>8.4.0</version>
+            	    	<version>8.4.2</version>
             	    	<configuration>
 							<format>HTML</format>
 							<assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
+							<failBuildOnCVSS>8.2</failBuildOnCVSS>
+							<suppressionFile>src/main/resources/dependency-check-suppressions.xml</suppressionFile>
             	    	</configuration>
               			<executions>
                   			<execution>

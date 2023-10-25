@@ -48,7 +48,7 @@ public class ZdevDeleteDataEntryCommandHandler extends DeleteDataEntryCommandHan
 			
             	for (Object o : dataEntries) {
             		if (o instanceof Member m) {
-            			Item zwerg0 = session.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", m.getParentPath()).setParameter("member", m.getName()).getSingleResult();
+            			Item zwerg0 = session.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", m.getParentPath()).setParameter("member", m.getName()).getSingleResultOrNull();
 
                     	if (zwerg0 != null) {
                     		session.remove(zwerg0);

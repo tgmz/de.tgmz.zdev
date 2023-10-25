@@ -14,7 +14,6 @@ import java.io.Serializable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Transient;
 
@@ -24,11 +23,9 @@ import jakarta.persistence.Transient;
  */
 
 @Entity
-@NamedQueries({
-	@NamedQuery(
-			name="byDsnAndMember",
-			query="FROM Item i WHERE i.dsn = :dsn AND i.member = :member"
-	)}
+@NamedQuery(
+		name="byDsnAndMember",
+		query="FROM Item i WHERE i.dsn = :dsn AND i.member = :member"
 )
 public class Item implements Serializable {
 	@Transient
