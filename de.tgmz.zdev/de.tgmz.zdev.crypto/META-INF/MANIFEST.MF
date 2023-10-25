@@ -7,8 +7,8 @@ Bundle-SymbolicName: de.tgmz.zdev.crypto
 Bundle-Version: 1.0.0
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ClassPath: .,
- lib/tink-1.9.0.jar,
- lib/protobuf-java-3.23.3.jar,
+ lib/tink-1.11.0.jar,
+ lib/protobuf-java-3.24.4.jar,
  lib/gson-2.10.1.jar
 Automatic-Module-Name: de.tgmz.zdev.crypto
 Bundle-Activator: de.tgmz.zdev.crypto.Activator
