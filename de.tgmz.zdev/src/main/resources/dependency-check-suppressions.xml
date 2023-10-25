@@ -3,12 +3,4 @@
 	Use is subject to license terms. -->
 <suppressions
 	xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
-	<suppress>
-		<!-- CVE refers to a JDBC appender -->
-		<notes><![CDATA[
-   file name: log4j-core-2.17.0.jar
-   ]]></notes>
-		<sha1>fe6e7a32c1228884b9691a744f953a55d0dd8ead</sha1>
-		<cve>CVE-2021-44832</cve>
-	</suppress>
 </suppressions>
