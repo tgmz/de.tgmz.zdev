@@ -20,7 +20,7 @@
 	<name>z/Dev Product Plugin</name>
 
 	<parent>
-		<version>1.0.0</version>
+		<version>1.0.1-SNAPSHOT</version>
 		<groupId>de.tgmz</groupId>
 		<artifactId>de.tgmz.zdev.parent</artifactId>
 	</parent>
