@@ -106,7 +106,7 @@ public class JpaHistory implements IHistoryModel {
        		while (itemCursor.next()) {
        			++y;
        			
-       		    HistoryItem c = (HistoryItem) itemCursor.get();
+       		    HistoryItem c = itemCursor.get();
            	
 				Integer i = m.get(c.getDsn());
 				

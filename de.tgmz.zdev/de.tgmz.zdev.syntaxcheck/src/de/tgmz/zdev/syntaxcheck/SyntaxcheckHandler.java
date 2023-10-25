@@ -71,7 +71,7 @@ public class SyntaxcheckHandler extends AbstractSyntaxcheckHandler {
 		Item item;
 		
 		try {
-			item = session.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", m.getParentPath()).setParameter("member", m.getName()).getSingleResult();
+			item = session.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", m.getParentPath()).setParameter("member", m.getName()).getSingleResultOrNull();
 		
 			if (item == null) {
 				item = new Item(m.getParentPath(), m.getName());

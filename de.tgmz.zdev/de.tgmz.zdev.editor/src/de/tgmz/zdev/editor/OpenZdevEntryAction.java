@@ -36,13 +36,19 @@ public class OpenZdevEntryAction extends OpenDataEntryAction {
 	private static final Logger LOG = LoggerFactory.getLogger(OpenZdevEntryAction.class);
 	
 	@Override
-	protected ZdevEditor openEditor(IWorkbenchPage aPage) throws PartInitException {
-		Member m = (Member) this.editorInput.getZOSObject();
+	public ZdevEditor openEditor(IWorkbenchPage aPage) throws PartInitException {
+		Member m;
+		
+		if (this.editorInput != null) {
+			m = (Member) this.editorInput.getZOSObject();
+		} else {
+			m = (Member) this.zosLocation;
+		}
 		
 		Session session = DbService.startTx();
 		
 		try {
-			Item item = session.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", m.getParentPath()).setParameter("member", m.getName()).getSingleResult();
+			Item item = session.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", m.getParentPath()).setParameter("member", m.getName()).getSingleResultOrNull();
 
 			if (item == null) {
 				item = new Item(m.getParentPath(), m.getName());

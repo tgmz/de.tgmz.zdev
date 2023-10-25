@@ -126,7 +126,7 @@ public class RenameHandler extends AbstractHandler {
 		Session session = DbService.startTx();
 		
 		try {
-			Item item = (Item) session.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", dsn).setParameter("member", oldMember).getSingleResult();
+			Item item = session.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", dsn).setParameter("member", oldMember).getSingleResultOrNull();
 
 			if (item == null) {
 				item = new Item(dsn, newMember);

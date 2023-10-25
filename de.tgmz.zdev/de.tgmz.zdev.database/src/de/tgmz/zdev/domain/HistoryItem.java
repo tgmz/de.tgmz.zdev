@@ -16,7 +16,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 
 /**
@@ -24,16 +23,13 @@ import jakarta.persistence.NamedQuery;
  */
 
 @Entity
-@NamedQueries({
-	@NamedQuery(
-			name="byDsn",
-			query="FROM HistoryItem h WHERE h.dsn = :dsn"
-	),
-	@NamedQuery(
-			name="byVersionAndDsn",
-			query="FROM HistoryItem h WHERE h.version = :version AND h.dsn = :dsn"
-	),
-	}
+@NamedQuery(
+		name="byDsn",
+		query="FROM HistoryItem h WHERE h.dsn = :dsn"
+)
+@NamedQuery(
+		name="byVersionAndDsn",
+		query="FROM HistoryItem h WHERE h.version = :version AND h.dsn = :dsn"
 )
 public class HistoryItem implements Serializable {
 	private static final long serialVersionUID = -5251258163182902698L;

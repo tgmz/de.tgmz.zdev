@@ -91,7 +91,7 @@ public class OpenMemberHandler extends AbstractHandler {
 						// Delete item from database
 						Session session = DbService.startTx();
 						try {
-							session.delete(o);
+							session.remove(o);
 						} finally {
 							DbService.endTx(session);
 						}
