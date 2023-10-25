@@ -4,7 +4,7 @@ Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-SymbolicName: de.tgmz.zdev.logging
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.1.qualifier
 Bundle-Activator: de.tgmz.zdev.logging.Activator
 Require-Bundle: de.tgmz.zdev.preferences,
  org.eclipse.core.runtime,
@@ -14,9 +14,9 @@ Require-Bundle: de.tgmz.zdev.preferences,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ClassPath: .,
- lib/log4j-api-2.17.0.jar,
- lib/log4j-core-2.17.0.jar,
- lib/log4j-slf4j-impl-2.17.0.jar,
- lib/slf4j-api-1.7.32.jar
+ lib/slf4j-api-1.7.36.jar,
+ lib/log4j-api-2.21.1.jar,
+ lib/log4j-core-2.21.1.jar,
+ lib/log4j-slf4j-impl-2.21.1.jar
 Export-Package: org.slf4j
 Automatic-Module-Name: de.tgmz.zdev.logging

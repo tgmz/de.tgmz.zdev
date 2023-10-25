@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/protobuf-java-3.24.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/tink-1.11.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/gson-2.10.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/protobuf-java-3.23.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/tink-1.9.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="module" value="true"/>

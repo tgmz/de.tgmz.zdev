@@ -12,16 +12,25 @@ package de.tgmz.zdev.domain;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
 
 /**
  * A historic item.
  */
 
 @Entity
+@NamedQuery(
+		name="byDsn",
+		query="FROM HistoryItem h WHERE h.dsn = :dsn"
+)
+@NamedQuery(
+		name="byVersionAndDsn",
+		query="FROM HistoryItem h WHERE h.version = :version AND h.dsn = :dsn"
+)
 public class HistoryItem implements Serializable {
 	private static final long serialVersionUID = -5251258163182902698L;
 	@Id

@@ -100,10 +100,9 @@ public class MemberSelectionDialog extends FilteredItemsSelectionDialog {
 		setListLabelProvider(new MemberLabelProvider());
 	}
 
-	@SuppressWarnings("unchecked")
 	private static void setItems(Session session) {
 		try {
-			items = session.createCriteria(Item.class).list();
+			items = session.createQuery("from Item", Item.class).list();
 		} catch (HibernateException e) {
 			LOG.error("Cannot execute named query", e);
 		}

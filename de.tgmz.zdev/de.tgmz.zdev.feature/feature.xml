@@ -13,7 +13,7 @@
 <feature
       id="de.tgmz.zdev.feature"
       label="z/Dev"
-      version="1.0.0"
+      version="1.0.1.qualifier"
       provider-name="Thomas Zierer"
       plugin="de.tgmz.zdev.branding">
 

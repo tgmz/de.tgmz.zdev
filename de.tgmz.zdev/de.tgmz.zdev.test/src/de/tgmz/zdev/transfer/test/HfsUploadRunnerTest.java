@@ -19,7 +19,6 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -30,7 +29,6 @@ import com.ibm.cics.zos.model.HFSFolder;
 import de.tgmz.zdev.transfer.upload.HfsUploadRunner;
 
 public class HfsUploadRunnerTest {
-	@Ignore
 	@Test
 	public void uploadFile() {
 		IFile iFile = Mockito.mock(IFile.class);

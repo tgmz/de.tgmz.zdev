@@ -15,7 +15,6 @@ import java.io.IOException;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,20 +36,24 @@ public class OpenZdevEntryAction extends OpenDataEntryAction {
 	private static final Logger LOG = LoggerFactory.getLogger(OpenZdevEntryAction.class);
 	
 	@Override
-	protected ZdevEditor openEditor(IWorkbenchPage aPage) throws PartInitException {
-		Member m = (Member) this.editorInput.getZOSObject();
+	public ZdevEditor openEditor(IWorkbenchPage aPage) throws PartInitException {
+		Member m;
+		
+		if (this.editorInput != null) {
+			m = (Member) this.editorInput.getZOSObject();
+		} else {
+			m = (Member) this.zosLocation;
+		}
 		
 		Session session = DbService.startTx();
 		
 		try {
-			Item item = (Item) session.createCriteria(Item.class)
-						.add(Restrictions.eq("dsn",	m.getParentPath()))
-						.add(Restrictions.eq("member", m.getName())).uniqueResult();
+			Item item = session.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", m.getParentPath()).setParameter("member", m.getName()).getSingleResultOrNull();
 
 			if (item == null) {
 				item = new Item(m.getParentPath(), m.getName());
 				
-				session.save(item);
+				session.persist(item);
 			}
 		} finally {
 			DbService.endTx(session);
