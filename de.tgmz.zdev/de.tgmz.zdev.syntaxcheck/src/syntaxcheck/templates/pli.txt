@@ -7,15 +7,15 @@
 //* which is available at https://www.eclipse.org/legal/epl-2.0/
 //*
 //* SPDX-License-Identifier: EPL-2.0
-//*    
-//        SET MEM={1}                              
-//STP0001 EXEC PROC=BARDZPL1,                     
-// DB2=,                                          
-// COMP=,                                         
-// PARM.PLI=(''NC'',''XINFO(XML)'')                   
-//PLI.SYSXMLSD DD DSN={2},  
-//      DISP=SHR                                  
-//PLI.SYSIN DD DISP=SHR,                          
-//    DSN={3}
+//*
+//        SET CICS=
+//        SET DB2=
+//        SET COMP=
+//STP0001 EXEC PROC=ELAXFPL1,
+// PARM.PLI=(''NOCOMPILE'',''XINFO(XML)'')
+//PLI.SYSXMLSD DD DSN={1},
+//      DISP=SHR
+//PLI.SYSIN DD DISP=SHR,
+//    DSN={2}
 //*                                               
 //                                                
