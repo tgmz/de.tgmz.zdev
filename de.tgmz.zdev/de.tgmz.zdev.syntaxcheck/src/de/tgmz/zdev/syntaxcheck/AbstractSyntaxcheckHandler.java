@@ -96,7 +96,7 @@ public abstract class AbstractSyntaxcheckHandler extends AbstractHandler {
         }
 	}
 
-	protected String createJcl(Item item, String datasetName) throws IOException {
+	protected String createJcl(Item item, String errorFeedback) throws IOException {
 		String res;
 		
 		switch (Language.fromDatasetName(item.getDsn())) {
@@ -119,8 +119,7 @@ public abstract class AbstractSyntaxcheckHandler extends AbstractHandler {
 			
 			Object[] o = new Object[] {
 					  de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore().getString(ZdevPreferenceConstants.JOB_CARD)
-					, item.getMember()
-					, datasetName
+					, errorFeedback
 					, item.getFullName()
 					};
 			
@@ -157,7 +156,8 @@ public abstract class AbstractSyntaxcheckHandler extends AbstractHandler {
 		int lineNumber;
 		
 		try {
-			lineNumber = Integer.parseInt(String.valueOf(marker.getAttribute(IMarker.LINE_NUMBER)));
+			// Line number of editor start at 0, the compiler messages start at 1.
+			lineNumber = Integer.parseInt(String.valueOf(marker.getAttribute(IMarker.LINE_NUMBER))) - 1;
 		} catch (NumberFormatException e) {
 			LOG.error("NumberFormatException: {}", e.getMessage());
 			
