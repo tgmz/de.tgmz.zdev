@@ -7,18 +7,18 @@
 //* which is available at https://www.eclipse.org/legal/epl-2.0/
 //*
 //* SPDX-License-Identifier: EPL-2.0
-//*    
-//        SET MEM={1}                              
-//STP0000 EXEC PROC=BARDZCOC, 
-// DB2=,                      
-// COMP=,                     
-// PARM.COBOL=(''NOC'',         
-// ''LIB'',                     
-// ''ADATA'',                   
-// ''EX(ADX(ELAXMGUX))'')       
-//ECOB.SYSXMLSD DD DSN={2},  
-//      DISP=SHR                                  
-//ECOB.SYSIN DD DISP=SHR,                          
-//    DSN={3}
+//*
+//        SET CICS=
+//        SET DB2=
+//        SET COMP=
+//STP0000 EXEC PROC=ELAXFCOC,
+// PARM.COBOL=(''NOC'',
+// ''LIB'',
+// ''ADATA'',
+// ''EX(ADX(ELAXMGUX))'')
+//COBOL.SYSXMLSD DD DSN={1},
+//      DISP=SHR
+//COBOL.SYSIN DD DISP=SHR,
+//    DSN={2}
 //*                                               
 //                                                
