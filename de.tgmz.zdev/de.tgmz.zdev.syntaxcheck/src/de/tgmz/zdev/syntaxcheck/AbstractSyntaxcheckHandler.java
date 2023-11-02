@@ -106,6 +106,12 @@ public abstract class AbstractSyntaxcheckHandler extends AbstractHandler {
 		case ASSEMBLER:
 			res = "syntaxcheck/templates/assembler.txt";
 			break;
+		case C:
+			res = "syntaxcheck/templates/c.txt";
+			break;
+		case CPP:
+			res = "syntaxcheck/templates/cpp.txt";
+			break;
 		case PLI:
 		default:	
 			res = "syntaxcheck/templates/pli.txt";

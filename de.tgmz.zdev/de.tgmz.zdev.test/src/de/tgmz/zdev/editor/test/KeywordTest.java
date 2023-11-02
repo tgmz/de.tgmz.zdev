@@ -36,4 +36,12 @@ public class KeywordTest {
 	public void testRexxReservedWord() {
 		assertTrue(de.tgmz.zdev.editor.rexx.ReservedWords.getCompletionProposals().length > 0);
 	}
+	@Test
+	public void testCReservedWord() {
+		assertTrue(de.tgmz.zdev.editor.cpp.ReservedWords.getCompletionProposals().length > 0);
+	}
+	@Test
+	public void testCPreProc() {
+		assertTrue(de.tgmz.zdev.editor.cpp.PreProc.getCompletionProposals().length > 0);
+	}
 }

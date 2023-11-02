@@ -45,6 +45,8 @@ public class AbstractSyntaxcheckHandlerTest extends AbstractSyntaxcheckHandler {
 		assertNotNull(createJcl(new Item("HLQ.PLI", pgm), ""));
 		assertNotNull(createJcl(new Item("HLQ.COBOL", pgm), ""));
 		assertNotNull(createJcl(new Item("HLQ.ASSEMBLE", pgm), ""));
+		assertNotNull(createJcl(new Item("HLQ.C", pgm), ""));
+		assertNotNull(createJcl(new Item("HLQ.CPP", pgm), ""));
 	}
 	@Test(expected = None.class)
 	public void testDeleteAnnotations() {

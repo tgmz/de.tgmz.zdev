@@ -19,6 +19,7 @@ import org.junit.Test;
 import de.tgmz.zdev.plicomp.PlicompConfigurationException;
 import de.tgmz.zdev.plicomp.PlicompException;
 import de.tgmz.zdev.plicomp.PlicompFactory;
+import de.tgmz.zdev.xinfo.generated.PACKAGE;
 
 
 public class PlicompFactoryTest {
@@ -34,6 +35,15 @@ public class PlicompFactoryTest {
 		InputStream is = this.getClass().getClassLoader().getResourceAsStream("testresources/HELLOW.xml");
 		
 		assertEquals(1, pf.getPlicomp(is, "").getMESSAGE().size()); // Der Datasetname interessiert nicht
+	}
+	@Test
+	public void testSysevent() throws PlicompException {
+		InputStream is = this.getClass().getClassLoader().getResourceAsStream("testresources/HELLOW.sysevent");
+		
+		PACKAGE plicomp = pf.getPlicomp(is, "");
+		
+		assertEquals(1, plicomp.getMESSAGE().size());
+		assertEquals("9", plicomp.getFILEREFERENCETABLE().getFILECOUNT());
 	}
 	@Test(expected=PlicompException.class)
 	public void fail() throws PlicompException {

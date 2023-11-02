@@ -17,12 +17,22 @@ import org.eclipse.jface.preference.IPreferenceStore;
  * Languages with specific editor.
  */
 public enum Language {
-	PLI(".pli"), COBOL(".cbl"),	ASSEMBLER(".asm"), JCL(".jcl"), SQL(".sql"), REXX(".rexx"), DEFAULT("");
+	PLI(".pli", ZdevPreferenceConstants.REGEX_PLI)
+	, COBOL(".cbl", ZdevPreferenceConstants.REGEX_COBOL)
+	, ASSEMBLER(".asm", ZdevPreferenceConstants.REGEX_ASSEMBLER)
+	, JCL(".jcl", ZdevPreferenceConstants.REGEX_JCL)
+	, SQL(".sql", ZdevPreferenceConstants.REGEX_SQL)
+	, REXX(".rexx", ZdevPreferenceConstants.REGEX_REXX)
+	, CPP(".cpp", ZdevPreferenceConstants.REGEX_CPP)
+	, C(".c", ZdevPreferenceConstants.REGEX_C)
+	, DEFAULT("", "");
 	
 	private String extension;
+	private String preferenceField;
 	
-	private Language(String extension) {
+	private Language(String extension, String preferenceField) {
 		this.extension = extension;
+		this.preferenceField = preferenceField;
 	}
     //CHECKSTYLE DISABLE ReturnCount
 	public static Language fromDatasetName(String dsName) {
@@ -30,29 +40,11 @@ public enum Language {
 		
 		if (activator != null) {
 			IPreferenceStore ps = activator.getPreferenceStore(); 
-		
-			if (dsName.matches(ps.getString(ZdevPreferenceConstants.REGEX_PLI))) {
-				return PLI;
-			}
-		
-			if (dsName.matches(ps.getString(ZdevPreferenceConstants.REGEX_JCL))) {
-				return JCL;
-			}
-		
-			if (dsName.matches(ps.getString(ZdevPreferenceConstants.REGEX_COBOL))) {
-				return COBOL;
-			}
-		
-			if (dsName.matches(ps.getString(ZdevPreferenceConstants.REGEX_ASSEMBLER))) {
-				return ASSEMBLER;
-			}
-		
-			if (dsName.matches(ps.getString(ZdevPreferenceConstants.REGEX_SQL))) {
-				return SQL;
-			}
 			
-			if (dsName.matches(ps.getString(ZdevPreferenceConstants.REGEX_REXX))) {
-				return REXX;
+			for (Language l : Language.values()) {
+				if (dsName.matches(ps.getString(l.preferenceField))) {
+					return l;
+				}
 			}
 		
 			return DEFAULT;

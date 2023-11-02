@@ -57,6 +57,8 @@ public class InitEditorTest extends EditorTest {
 				{ "TEST.JCL"},
 				{ "TEST.SQL"},
 				{ "TEST.ASSEMBLE"},
+				{ "TEST.REXX"},
+				{ "TEST.C"},
 				{ "TEST.XX"},
 				};
 		return Arrays.asList(data);
