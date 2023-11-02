@@ -7,14 +7,18 @@
 //* which is available at https://www.eclipse.org/legal/epl-2.0/
 //*
 //* SPDX-License-Identifier: EPL-2.0
-//*    
-//STP0000 EXEC PROC=BARDZASM,                     
-// PARM.ASM=(''NOOBJ'',                             
-// ''ADATA'',                                       
-// ''EX(ADX(ELAXHASM))'')                           
-//ASM.SYSXMLSD DD DSN={1},  
-//      DISP=SHR                                  
-//ASM.SYSIN DD DISP=SHR,                          
+//*
+//        SET CICS=
+//        SET DB2=
+//        SET COMP=
+//STP0000 EXEC PROC=ELAXFASM,
+// PARM.ASM=(''TEST'',
+// ''ADATA'',
+// ''EX(ADX(ELAXHASM))'')
+//ASM.SYSLIB DD DISP=SHR,DSN=&IXM..MACLIB
+//ASM.SYSXMLSD DD DSN={1},
+//      DISP=SHR
+//ASM.SYSIN DD DISP=SHR,
 //    DSN={2}
 //*                                               
 //                                                
