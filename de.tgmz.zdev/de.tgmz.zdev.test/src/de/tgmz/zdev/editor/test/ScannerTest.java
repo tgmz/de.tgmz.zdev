@@ -16,6 +16,7 @@ import org.junit.Test;
 import de.tgmz.zdev.editor.ZdevColorManager;
 import de.tgmz.zdev.editor.assembler.AssemblerScanner;
 import de.tgmz.zdev.editor.cobol.COBOLScanner;
+import de.tgmz.zdev.editor.cpp.CppScanner;
 import de.tgmz.zdev.editor.pli.PLIScanner;
 import de.tgmz.zdev.editor.rexx.RexxScanner;
 import de.tgmz.zdev.editor.sql.SqlScanner;
@@ -42,5 +43,9 @@ public class ScannerTest {
 	@Test
 	public void testRexx() {
 		assertNotNull(new RexxScanner(zdevColorManager));
+	}
+	@Test
+	public void testCpp() {
+		assertNotNull(new CppScanner(zdevColorManager));
 	}
 }

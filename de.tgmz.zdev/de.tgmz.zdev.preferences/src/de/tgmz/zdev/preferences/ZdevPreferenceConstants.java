@@ -31,6 +31,8 @@ public class ZdevPreferenceConstants {
     public static final String REGEX_SQL = "regexSql";
     public static final String REGEX_ASSEMBLER = "regexAsm";
     public static final String REGEX_REXX = "regexRexx";
+    public static final String REGEX_C = "regexC";
+    public static final String REGEX_CPP = "regexC++";
     
     public static final String FILELOCK_AUTO = "fileLockautoStart";
 

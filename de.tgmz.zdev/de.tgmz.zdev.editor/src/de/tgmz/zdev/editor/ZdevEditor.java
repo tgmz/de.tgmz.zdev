@@ -57,6 +57,7 @@ import com.ibm.cics.zos.ui.editor.ZOSObjectEditorInput;
 
 import de.tgmz.zdev.editor.assembler.AssemblerConfiguration;
 import de.tgmz.zdev.editor.cobol.COBOLConfiguration;
+import de.tgmz.zdev.editor.cpp.CppConfiguration;
 import de.tgmz.zdev.editor.jcl.JCLConfiguration;
 import de.tgmz.zdev.editor.pli.PLIConfiguration;
 import de.tgmz.zdev.editor.pli.PLIDocumentProvider;
@@ -157,6 +158,10 @@ public class ZdevEditor extends MemberEditor {
 			
 			setSourceViewerConfiguration(pliConfiguration);
 			myDocumentProvider = new PLIDocumentProvider();
+			break;
+		case C, CPP:
+			setSourceViewerConfiguration(new CppConfiguration(colorManager));
+			myDocumentProvider = ZOSActivator.getDefault().getMemberDocumentProvider();
 			break;
 		case SQL:
 			setSourceViewerConfiguration(new SqlConfiguration(colorManager));

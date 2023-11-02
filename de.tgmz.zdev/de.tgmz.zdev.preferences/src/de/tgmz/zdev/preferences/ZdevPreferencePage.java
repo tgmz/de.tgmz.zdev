@@ -133,6 +133,16 @@ public class ZdevPreferencePage extends FieldEditorPreferencePage implements IWo
 				getFieldEditorParent()));
 		
 		addField(new StringFieldEditor(
+				ZdevPreferenceConstants.REGEX_C, 
+				Activator.getDefault().getString("ZdevPreferencePage.RegexpC"),
+				getFieldEditorParent()));
+		
+		addField(new StringFieldEditor(
+				ZdevPreferenceConstants.REGEX_CPP, 
+				Activator.getDefault().getString("ZdevPreferencePage.RegexpC++"),
+				getFieldEditorParent()));
+		
+		addField(new StringFieldEditor(
 				ZdevPreferenceConstants.REGEX_SQL, 
 				Activator.getDefault().getString("ZdevPreferencePage.RegexpSql"),
 				getFieldEditorParent()));

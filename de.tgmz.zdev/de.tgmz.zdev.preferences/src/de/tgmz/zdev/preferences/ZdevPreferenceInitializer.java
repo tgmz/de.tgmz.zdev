@@ -40,6 +40,8 @@ public class ZdevPreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(ZdevPreferenceConstants.REGEX_JCL, "^.*\\.(JCL|CNTL)$");
 		store.setDefault(ZdevPreferenceConstants.REGEX_COBOL, "^.*\\.(COBOL|COB|CPY|CBL)$");
 		store.setDefault(ZdevPreferenceConstants.REGEX_ASSEMBLER, "^.*\\.(ASSEMBLE|ASM)$");
+		store.setDefault(ZdevPreferenceConstants.REGEX_C, "^.*\\.(C)$");
+		store.setDefault(ZdevPreferenceConstants.REGEX_CPP, "^.*\\.(CPP)$");
 		store.setDefault(ZdevPreferenceConstants.REGEX_SQL, "^.*\\.(SQL|QMF)$");
 		store.setDefault(ZdevPreferenceConstants.REGEX_REXX, "^.*\\.(REXX|TSOPROC)$");
 		store.setDefault(ZdevPreferenceConstants.CAPS_ON, false);
