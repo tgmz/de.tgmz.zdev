@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Localization: plugin
 Bundle-Name: %pluginName
 Bundle-SymbolicName: de.tgmz.zdev.quickaccess;singleton:=true
-Bundle-Version: 1.1.0
+Bundle-Version: 1.1.1.qualifier
 Bundle-Activator: de.tgmz.zdev.quickaccess.Activator
 Bundle-Vendor: %providerName
 Require-Bundle: de.tgmz.zdev.logging,
