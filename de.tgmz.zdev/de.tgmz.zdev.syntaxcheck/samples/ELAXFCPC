@@ -34,6 +34,8 @@
 //STEPLIB  DD DISP=SHR,DSN=&CEE..SCEERUN       LE
 //         DD DISP=SHR,DSN=&CEE..SCEERUN2      LE
 //         DD DISP=SHR,DSN=&CCN..SCCNCMP       C/C++
+//         DD DISP=SHR,DSN=&DSN..SDSNLOAD      DB2
+//         DD DISP=SHR,DSN=&DSN..SDSNEXIT      DB2
 //SYSIN    DD DUMMY                            provided by caller
 //SYSLIB   DD DUMMY                            provided by caller
 //OPTION   DD DUMMY                            provided by caller

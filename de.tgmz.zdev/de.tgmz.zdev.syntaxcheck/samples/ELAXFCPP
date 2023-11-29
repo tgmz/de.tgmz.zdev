@@ -39,6 +39,7 @@
 //OPTION   DD DUMMY                            provided by caller
 //SYSLIN   DD DUMMY                            provided by caller
 //SYSCPRT  DD SYSOUT=*
+//SYSPRINT DD SYSOUT=*
 //SYSUT1   DD UNIT=SYSALLDA,SPACE=(CYL,(1,5))
 //SYSUT2   DD UNIT=SYSALLDA,SPACE=(CYL,(1,5))
 //SYSUT3   DD UNIT=SYSALLDA,SPACE=(CYL,(1,5))

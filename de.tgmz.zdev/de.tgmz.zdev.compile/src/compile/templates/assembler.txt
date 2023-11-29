@@ -1,0 +1,21 @@
+{0}
+//*
+//* Copyright (c) 06.10.2023 Thomas Zierer
+//*
+//* This program and the accompanying materials are made
+//* available under the terms of the Eclipse Public License 2.0
+//* which is available at https://www.eclipse.org/legal/epl-2.0/
+//*
+//* SPDX-License-Identifier: EPL-2.0
+//*
+//        SET MBR={1}
+//        SET COMP={5}
+//        SET DB2={6}
+//        SET CICS={7}
+//STP0000 EXEC PROC=ELAXFASM,
+// PARM=(''OBJECT&CICS&DB2&COMP'')
+//ASM.SYSIN  DD DISP=SHR,DSN={2}
+//ASM.SYSLIB DD DISP=SHR,DSN=&IXM..MACLIB
+//           DD DISP=SHR,DSN={3}
+//ASM.SYSLIN DD DISP=SHR,DSN={4}(&MBR)
+//*

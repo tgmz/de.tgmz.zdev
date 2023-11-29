@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/*********************************************************************
+* Copyright (c) 06.10.2023 Thomas Zierer
+*
+* This program and the accompanying materials are made
+* available under the terms of the Eclipse Public License 2.0
+* which is available at https://www.eclipse.org/legal/epl-2.0/
+*
+* SPDX-License-Identifier: EPL-2.0
+**********************************************************************/
+-->
+<?eclipse version="3.4"?>
+<plugin>
+	<extension point="org.eclipse.ui.menus">
+		<menuContribution
+			locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+			<command
+				commandId="de.tgmz.zdev.compile"
+				label="%label.compile"
+				style="push">
+				<visibleWhen>
+					<with variable="activePart">
+						<instanceof value="com.ibm.cics.zos.ui.editor.ZEditor" />
+					</with>
+				</visibleWhen>	
+			</command>
+		</menuContribution>
+	</extension>
+	
+	<extension point="org.eclipse.core.expressions.definitions">
+		<definition id="de.tgmz.zdev.context.member">
+  			<with variable="activeMenuSelection">
+   				<iterate>
+					<and>
+						<instanceof value="com.ibm.cics.zos.model.Member" />
+					</and>
+        		</iterate>
+       		</with>
+		</definition>
+	</extension>	
+
+    <extension point="org.eclipse.ui.menus">
+    	<menuContribution
+    		locationURI="popup:com.ibm.cics.zos.ui.views.mvsfiles?after=additions">
+			<command
+				commandId="de.tgmz.zdev.compile"
+				label="%label.compile"
+				style="push">
+			
+   				<visibleWhen>
+					<reference definitionId="de.tgmz.zdev.context.member"/>
+	    		</visibleWhen>
+			</command>
+			<command commandId="de.tgmz.zdev.setOptions"
+				label="%label.setOptions"
+				style="push">
+			</command>
+    	</menuContribution>
+    </extension>
+	
+
+	<extension point="org.eclipse.ui.commands">
+		<command defaultHandler="de.tgmz.zdev.compile.CompileHandler"
+			id="de.tgmz.zdev.compile"
+			name="compile">
+		</command>
+		<command defaultHandler="de.tgmz.zdev.compile.SetOptionsHandler"
+			id="de.tgmz.zdev.setOptions"
+			name="setOptions">
+		</command>
+	</extension>
+
+</plugin>

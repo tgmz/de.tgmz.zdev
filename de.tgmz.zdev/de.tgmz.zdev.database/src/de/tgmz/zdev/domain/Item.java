@@ -11,10 +11,13 @@ package de.tgmz.zdev.domain;
 
 import java.io.Serializable;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
 
 /**
@@ -37,6 +40,9 @@ public class Item implements Serializable {
 	private String dsn;
 	/** The member name. Persistent. */
 	private String member;
+	private boolean lock;
+	@OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
+	private Option option;
 	
 	public Item() {
 		this(null, null);
@@ -50,12 +56,8 @@ public class Item implements Serializable {
 		super();
 		this.dsn = aDsn;
 		this.member = aMember;
-	}
-	/**
-	 * @return returns the full name.
-	 */
-	public String getFullName() {
-		return dsn.trim() + '(' + member.trim() + ')';
+		
+		option = new Option();
 	}
 	/**
 	 * @return Returns the dataset name.
@@ -74,6 +76,18 @@ public class Item implements Serializable {
 	 */
 	public String getMember() {
 		return member;
+	}
+	public boolean isLock() {
+		return lock;
+	}
+	public void setLock(boolean lock) {
+		this.lock = lock;
+	}
+	/**
+	 * @return returns the full name.
+	 */
+	public String getFullName() {
+		return dsn.trim() + '(' + member.trim() + ')';
 	}
 	/**
 	 * @param aMember The member name to set.
@@ -108,14 +122,14 @@ public class Item implements Serializable {
         return dsn.hashCode() + member.hashCode();
     }
     //END-GENERATED
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
 	@Override
 	public String toString() {
-		return "Item [id=" + id + ", dsn=" + dsn + ", member=" + member + "]";
+		return "Item [dsn=" + dsn + ", member=" + member + "]";
+	}
+	public Option getOption() {
+		return option;
+	}
+	public void setOption(Option option) {
+		this.option = option;
 	}
 }

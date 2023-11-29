@@ -18,11 +18,11 @@ import org.eclipse.jface.preference.IPreferenceStore;
  */
 public enum Language {
 	PLI(".pli", ZdevPreferenceConstants.REGEX_PLI)
-	, COBOL(".cbl", ZdevPreferenceConstants.REGEX_COBOL)
-	, ASSEMBLER(".asm", ZdevPreferenceConstants.REGEX_ASSEMBLER)
+	, COBOL(".cbl", ZdevPreferenceConstants.REGEX_COB)
+	, ASSEMBLER(".asm", ZdevPreferenceConstants.REGEX_ASM)
 	, JCL(".jcl", ZdevPreferenceConstants.REGEX_JCL)
 	, SQL(".sql", ZdevPreferenceConstants.REGEX_SQL)
-	, REXX(".rexx", ZdevPreferenceConstants.REGEX_REXX)
+	, REXX(".rexx", ZdevPreferenceConstants.REGEX_REX)
 	, CPP(".cpp", ZdevPreferenceConstants.REGEX_CPP)
 	, C(".c", ZdevPreferenceConstants.REGEX_C)
 	, DEFAULT("", "");

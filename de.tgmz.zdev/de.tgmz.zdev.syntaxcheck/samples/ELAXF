@@ -38,7 +38,10 @@
 //* HLQ for COBOL, default IGY.V6R2M0
 // SET IGY='IGY640'
 //* HLQ for PL/I, default PLI.V5R2M0
+//* Changed TGMZ begin
+//*SET IBMZ='IEL520'
 // SET IBMZ='IEL530'
+//* Changed TGMZ end
 //* HLQ for C/C++, default CBC
 // SET CCN='CBC'
 //*
@@ -54,7 +57,10 @@
 //* HLQ for CICS TS, default CICSTS54.CICS
 // SET DFH='CICSTS54.CICS'
 //* HLQ for DB2, default DSNA12
-// SET DSN='DSNC10'
+//* Changed TGMZ begin
+//*SET DSN='DSNC10'
+// SET DSN='DSNB10'
+//* Changed TGMZ end
 //* DSN for DB2 RUNLIB, default DSNA12.RUNLIB.LOAD
 // SET DSNRUN='DSNC10.RUNLIB.LOAD'
 //* HLQ for customized IMS RESLIB, default IMS

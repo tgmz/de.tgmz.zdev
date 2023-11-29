@@ -17,7 +17,7 @@
 
 	<groupId>de.tgmz</groupId>
 	<artifactId>de.tgmz.zdev.parent</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>z/Dev Parent</name>
 
@@ -66,6 +66,7 @@
 	<modules>
 		<module>de.tgmz.zdev.branding</module>
 		<module>de.tgmz.zdev.compare</module>
+		<module>de.tgmz.zdev.compile</module>
 		<module>de.tgmz.zdev.connection</module>
 		<module>de.tgmz.zdev.crypto</module>
 		<module>de.tgmz.zdev.database</module>
