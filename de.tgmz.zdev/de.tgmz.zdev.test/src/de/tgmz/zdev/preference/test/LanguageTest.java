@@ -18,27 +18,32 @@ import org.junit.Test;
 
 import de.tgmz.zdev.preferences.Language;
 import de.tgmz.zdev.preferences.ZdevPreferenceConstants;
-import de.tgmz.zdev.preferences.ZdevPreferencePage;
+import de.tgmz.zdev.preferences.EditorPreferencePage;
 
 public class LanguageTest {
 	
 	@Test
-	public void testRegexLanguage() throws NoSuchFieldException, IllegalAccessException {
-		for (Language l : Language.values()) {
-			if (l != Language.DEFAULT) {
-				Field f = ZdevPreferenceConstants.class.getField("REGEX_" + l.toString());
-				
+	public void testRegex() throws IllegalArgumentException, IllegalAccessException {
+		for (Field f : ZdevPreferenceConstants.class.getDeclaredFields()) {
+			if (f.getName().startsWith("REGEX_")) {
 				String reg = (String) f.get(null);
 				
-				assertTrue(new ZdevPreferencePage().getPreferenceStore().getString(reg).length() > 0);
-
+				assertTrue(new EditorPreferencePage().getPreferenceStore().getString(reg).length() > 0);
+			}
+		}
+	}
+	
+	@Test
+	public void testLanguage() {
+		for (Language l : Language.values()) {
+			if (l != Language.DEFAULT) {
 				String dsn = "HLQ." + l.toString().substring(0, Math.min(l.toString().length(), 8));
 				
 				assertEquals(l, Language.fromDatasetName(dsn));
 			}
-			
-			assertEquals(Language.DEFAULT, Language.fromDatasetName("HLQ.NATURAL"));
 		}
+		
+		assertEquals(Language.DEFAULT, Language.fromDatasetName("HLQ.NATURAL"));
 	}
 	
 	@Test

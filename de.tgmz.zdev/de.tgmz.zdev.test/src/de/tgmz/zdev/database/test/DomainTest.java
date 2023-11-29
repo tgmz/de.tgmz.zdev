@@ -15,6 +15,7 @@ import static org.junit.Assert.assertNotEquals;
 import java.util.Arrays;
 
 import org.hibernate.Session;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -33,9 +34,22 @@ public class DomainTest {
 		try {
 			session.createMutationQuery("DELETE FROM Item").executeUpdate();
 			
-			Item i = new Item(PDS, PGM);
+			Item i = new Item();
+			i.setDsn(PDS);
+			i.setMember(PGM);
 			
 			session.persist(i);
+		} finally {
+			DbService.endTx(session);
+		}
+	}
+	
+	@AfterClass
+	public static void teardownOnce() {
+		Session session = DbService.startTx();
+		
+		try {
+			session.createMutationQuery("DELETE FROM Item").executeUpdate();
 		} finally {
 			DbService.endTx(session);
 		}

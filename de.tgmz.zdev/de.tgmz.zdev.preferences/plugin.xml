@@ -14,11 +14,43 @@
 <plugin>
    <extension
          point="org.eclipse.ui.preferencePages">
-      <page
-            class="de.tgmz.zdev.preferences.ZdevPreferencePage"
+      <page class="de.tgmz.zdev.preferences.ZdevPreferencePage"
             id="de.tgmz.zdev.preferences.ZdevPreferencePage"
-            name="z/Dev"/>
+            name="%label.preferences"/>
+      <page class="de.tgmz.zdev.preferences.JobPreferencePage"
+            id="de.tgmz.zdev.preferences.JobPreferencePage"
+            name="%label.preferences.jcl"
+            category="de.tgmz.zdev.preferences.ZdevPreferencePage"/>
+      <page class="de.tgmz.zdev.preferences.EditorPreferencePage"
+            id="de.tgmz.zdev.preferences.EditorPreferencePage"
+            name="%label.preferences.editor"
+            category="de.tgmz.zdev.preferences.ZdevPreferencePage"/>
+      <page class="de.tgmz.zdev.preferences.LinkPreferencePage"
+            id="de.tgmz.zdev.preferences.LinkPreferencePage"
+            name="%label.preferences.link"
+            category="de.tgmz.zdev.preferences.ZdevPreferencePage"/>
+      <page class="de.tgmz.zdev.preferences.CompilePreferencePage"
+            id="de.tgmz.zdev.preferences.CompilePreferencePageCob"
+            name="%label.preferences.compile.cob"
+            category="de.tgmz.zdev.preferences.LinkPreferencePage"/>
+      <page class="de.tgmz.zdev.preferences.CompilePreferencePage"
+            id="de.tgmz.zdev.preferences.CompilePreferencePageAsm"
+            name="%label.preferences.compile.asm"
+            category="de.tgmz.zdev.preferences.LinkPreferencePage"/>
+      <page class="de.tgmz.zdev.preferences.CompilePreferencePage"
+            id="de.tgmz.zdev.preferences.CompilePreferencePagePli"
+            name="%label.preferences.compile.pli"
+            category="de.tgmz.zdev.preferences.LinkPreferencePage"/>
+      <page class="de.tgmz.zdev.preferences.CompilePreferencePage"
+            id="de.tgmz.zdev.preferences.CompilePreferencePageCpp"
+            name="%label.preferences.compile.cpp"
+            category="de.tgmz.zdev.preferences.LinkPreferencePage"/>
+      <page class="de.tgmz.zdev.preferences.CompilePreferencePage"
+            id="de.tgmz.zdev.preferences.CompilePreferencePageC"
+            name="%label.preferences.compile.c"
+            category="de.tgmz.zdev.preferences.LinkPreferencePage"/>
    </extension>
+   
    <extension
          id="de.tgmz.zdev.preferences"
          name="Zdev"

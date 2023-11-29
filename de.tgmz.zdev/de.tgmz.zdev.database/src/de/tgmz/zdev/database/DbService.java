@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import de.tgmz.zdev.domain.HistoryItem;
 import de.tgmz.zdev.domain.Item;
+import de.tgmz.zdev.domain.Option;
 
 /**
  * The main contract of {@code DbService} is the creation of Session instances
@@ -67,6 +68,7 @@ public final class DbService {
 
 			cfg.addAnnotatedClass(Item.class);
 			cfg.addAnnotatedClass(HistoryItem.class);
+			cfg.addAnnotatedClass(Option.class);
 			
 			if (url != null) {
 				cfg.setProperty("hibernate.connection.url", url);
