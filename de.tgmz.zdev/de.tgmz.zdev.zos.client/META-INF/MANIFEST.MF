@@ -4,7 +4,7 @@ Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-SymbolicName: de.tgmz.zdev.zos.client
-Bundle-Version: 1.1.1.qualifier
+Bundle-Version: 1.1.1
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: de.tgmz.zdev.zos

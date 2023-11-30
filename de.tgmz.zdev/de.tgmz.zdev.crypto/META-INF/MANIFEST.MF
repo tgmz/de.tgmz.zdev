@@ -4,7 +4,7 @@ Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-SymbolicName: de.tgmz.zdev.crypto
-Bundle-Version: 1.1.1.qualifier
+Bundle-Version: 1.1.1
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ClassPath: .,
  lib/tink-1.11.0.jar,

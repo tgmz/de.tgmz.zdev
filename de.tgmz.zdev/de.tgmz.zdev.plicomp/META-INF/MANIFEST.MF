@@ -4,7 +4,7 @@ Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-SymbolicName: de.tgmz.zdev.plicomp;singleton:=true
-Bundle-Version: 1.1.1.qualifier
+Bundle-Version: 1.1.1
 Require-Bundle: de.tgmz.zdev.logging,
  de.tgmz.zdev.connection,
  com.ibm.cics.zos.model,

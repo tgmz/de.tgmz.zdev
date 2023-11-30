@@ -4,7 +4,7 @@ Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-SymbolicName: de.tgmz.zdev.transfer;singleton:=true
-Bundle-Version: 1.1.1.qualifier
+Bundle-Version: 1.1.1
 Bundle-Activator: de.tgmz.zdev.transfer.Activator
 Require-Bundle: de.tgmz.zdev.logging,
  de.tgmz.zdev.connection,
