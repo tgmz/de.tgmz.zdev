@@ -18,6 +18,7 @@
 			<command
 				commandId="de.tgmz.zdev.compile"
 				label="%label.compile"
+				icon="icons/logo-16-16.gif"
 				style="push">
 				<visibleWhen>
 					<with variable="activePart">
@@ -46,6 +47,7 @@
 			<command
 				commandId="de.tgmz.zdev.compile"
 				label="%label.compile"
+				icon="icons/logo-16-16.gif"
 				style="push">
 			
    				<visibleWhen>

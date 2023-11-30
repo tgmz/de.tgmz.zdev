@@ -10,9 +10,6 @@
 package de.tgmz.zdev.compile;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.text.MessageFormat;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -25,8 +22,6 @@ import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ibm.cics.common.util.IOUtils;
-import com.ibm.cics.common.util.StringUtil;
 import com.ibm.cics.core.comm.ConnectionException;
 import com.ibm.cics.zos.model.IJobDetails;
 import com.ibm.cics.zos.model.Member;
@@ -36,7 +31,6 @@ import de.tgmz.zdev.connection.ZdevConnectable;
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.Item;
 import de.tgmz.zdev.editor.ZdevEditor;
-import de.tgmz.zdev.preferences.Language;
 import de.tgmz.zdev.preferences.ZdevPreferenceConstants;
 
 public class CompileHandler extends AbstractHandler {
@@ -91,10 +85,12 @@ public class CompileHandler extends AbstractHandler {
 		}
 
 		try {
-			String jcl = createCompileJcl(item);
+			String jcl = de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore().getString(ZdevPreferenceConstants.JOB_CARD)
+					+ System.lineSeparator()
+					+ JclFactory.getInstance().createCompileStep(item);
 			
 			if (item.getOption().isBind()) {
-				jcl += createBindJcl(item);
+				jcl += JclFactory.getInstance().createBindStep(item);
 			}
 			
 			IJobDetails jobId = ZdevConnectable.getConnectable().submitJob(jcl);
@@ -137,78 +133,5 @@ public class CompileHandler extends AbstractHandler {
     	}
 		
     	return (Member) editorInput.getZOSObject();
-	}
-	
-	private String createCompileJcl(Item item) throws IOException {
-		String res;
-		String syslib;
-		String comp;
-		
-		switch (Language.fromDatasetName(item.getDsn())) {
-		case COBOL:
-			res = "compile/templates/cobol.txt";
-			syslib = de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore().getString(ZdevPreferenceConstants.SYSLIB_COB);
-			comp = de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore().getString(ZdevPreferenceConstants.COMP_COB);
-			break;
-		case ASSEMBLER:
-			res = "compile/templates/assembler.txt";
-			syslib = de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore().getString(ZdevPreferenceConstants.SYSLIB_ASM);
-			comp = de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore().getString(ZdevPreferenceConstants.COMP_ASM);
-			break;
-		case C:
-			res = "compile/templates/c.txt";
-			syslib = de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore().getString(ZdevPreferenceConstants.SYSLIB_C);
-			comp = de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore().getString(ZdevPreferenceConstants.COMP_C);
-			break;
-		case CPP:
-			res = "compile/templates/cpp.txt";
-			syslib = de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore().getString(ZdevPreferenceConstants.SYSLIB_CPP);
-			comp = de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore().getString(ZdevPreferenceConstants.COMP_CPP);
-			break;
-		case PLI:
-		default:	
-			res = "compile/templates/pli.txt";
-			syslib = de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore().getString(ZdevPreferenceConstants.SYSLIB_PLI);
-			comp = de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore().getString(ZdevPreferenceConstants.COMP_PLI);
-			break;
-		}
-		
-		try(InputStream is = this.getClass().getClassLoader().getResourceAsStream(res)) {
-			syslib = SyslibFactory.getInstance().createSyslib(syslib);
-			
-			String template = IOUtils.readInputStreamAsString(is, true, StandardCharsets.UTF_8.name());
-		
-			MessageFormat mf = new MessageFormat(template);
-			
-			Object[] o = new Object[] {
-					  de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore().getString(ZdevPreferenceConstants.JOB_CARD)
-					  , item.getMember()
-					  , item.getFullName()
-					  , syslib
-					  , de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore().getString(ZdevPreferenceConstants.OBJLIB)
-					  , item.getOption().isComp() ? "'," + item.getOption().getCompOption() + "'" : comp
-					  , item.getOption().isDb2() ? "'," + item.getOption().getDb2Option() + "'" : ""
-					  , item.getOption().isCics() ? "'," + item.getOption().getCicsOption() + "'" : ""
-					};
-			
-			return mf.format(o);
-		}
-	}
-	private String createBindJcl(Item item) throws IOException {
-		try(InputStream is = this.getClass().getClassLoader().getResourceAsStream("compile/templates/link.txt")) {
-			String template = IOUtils.readInputStreamAsString(is, true, StandardCharsets.UTF_8.name());
-		
-			MessageFormat mf = new MessageFormat(template);
-			
-			String bind = item.getOption().getBindOption();
-			
-			Object[] o = new Object[] {item.getMember()
-					, de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore().getString(ZdevPreferenceConstants.OBJLIB)
-					, de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore().getString(ZdevPreferenceConstants.LOADLIB)
-					, StringUtil.hasContent(bind) ? "'," + bind + "'" : de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore().getString(ZdevPreferenceConstants.LINK_OPTIONS)
-					};
-			
-			return mf.format(o);
-		}
 	}
 }

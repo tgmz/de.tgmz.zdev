@@ -10,10 +10,7 @@
 package de.tgmz.zdev.syntaxcheck;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.charset.StandardCharsets;
-import java.text.MessageFormat;
 import java.util.Iterator;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -34,8 +31,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ibm.cics.common.util.IOUtils;
-
+import de.tgmz.zdev.compile.JclFactory;
 import de.tgmz.zdev.domain.Item;
 import de.tgmz.zdev.editor.annotation.CompilerMessageAnnotation;
 import de.tgmz.zdev.operation.JCLOperationRunnable;
@@ -97,40 +93,17 @@ public abstract class AbstractSyntaxcheckHandler extends AbstractHandler {
 	}
 
 	protected String createJcl(Item item, String errorFeedback) throws IOException {
-		String res;
+		String result = de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore().getString(ZdevPreferenceConstants.JOB_CARD);
 		
-		switch (Language.fromDatasetName(item.getDsn())) {
-		case COBOL:
-			res = "syntaxcheck/templates/cobol.txt";
-			break;
-		case ASSEMBLER:
-			res = "syntaxcheck/templates/assembler.txt";
-			break;
-		case C:
-			res = "syntaxcheck/templates/c.txt";
-			break;
-		case CPP:
-			res = "syntaxcheck/templates/cpp.txt";
-			break;
-		case PLI:
-		default:	
-			res = "syntaxcheck/templates/pli.txt";
-			break;
-		}
+		result += System.lineSeparator();
 		
-		try(InputStream is = this.getClass().getClassLoader().getResourceAsStream(res)) {
-			String template = IOUtils.readInputStreamAsString(is, true, StandardCharsets.UTF_8.name());
+		Language l = Language.fromDatasetName(item.getDsn());
 		
-			MessageFormat mf = new MessageFormat(template);
-			
-			Object[] o = new Object[] {
-					  de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore().getString(ZdevPreferenceConstants.JOB_CARD)
-					, errorFeedback
-					, item.getFullName()
-					};
-			
-			return mf.format(o);
-		}
+		String errorFeedbackDd = l == Language.C || l == Language.CPP ? "SYSEVENT" : "SYSXMLSD"; 
+
+		result += JclFactory.getInstance().createCompileStep(item, "//" + errorFeedbackDd + " DD DISP=SHR,DSN=" + errorFeedback);
+		
+		return result;
 	}
 
 	protected static void createMarkerAndAnnotation(ITextEditor editor, MESSAGE msg, String displayName) throws CoreException {
@@ -188,6 +161,12 @@ public abstract class AbstractSyntaxcheckHandler extends AbstractHandler {
 		cma.setText((String) marker.getAttribute(IMarker.MESSAGE));
 		
 		IDocument d = editor.getDocumentProvider().getDocument(editor.getEditorInput());
+		
+		if (d.getNumberOfLines() < lineNumber) {
+			LOG.warn("Linenumber {} out of range, reduced to {}", lineNumber, d.getNumberOfLines() - 1);
+			
+			lineNumber = d.getNumberOfLines() - 1;
+		}
 		
 		try {
 			Position p = new Position(d.getLineOffset(lineNumber));

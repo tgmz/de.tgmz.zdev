@@ -1,4 +1,3 @@
-{0}
 //*
 //* Copyright (c) 06.10.2023 Thomas Zierer
 //*
@@ -8,13 +7,12 @@
 //*
 //* SPDX-License-Identifier: EPL-2.0
 //*
-//        SET MBR={1}
-//        SET COMP={5}
-//        SET DB2={6}
-//        SET CICS={7}
-//STP0001 EXEC PROC=ELAXFPL1,
-// PARM=(''COMPILE,OPTIONS,SOURCE&CICS&DB2&COMP'')
-//PLI.SYSIN  DD DISP=SHR,DSN={2}
-//PLI.SYSLIB DD DISP=SHR,DSN={3}
-//PLI.SYSLIN DD DISP=SHR,DSN={4}(&MBR)
+//        SET MBR={0}
+//        SET COMP={1}
+//        SET DB2={2}
+//        SET CICS={3}
+//STP0001 EXEC PROC=ELAXFPL1
+//SYSIN  DD DISP=SHR,DSN={4}
+//SYSLIB DD DISP=SHR,DSN={5}
+//SYSLIN DD DISP=SHR,DSN={6}(&MBR)
 //*

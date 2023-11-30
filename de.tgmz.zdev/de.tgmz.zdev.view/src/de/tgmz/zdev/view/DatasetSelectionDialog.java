@@ -51,8 +51,7 @@ public class DatasetSelectionDialog extends AbstractSelectionDialog {
     
     @Override
     protected void insertControls(GridData gridData) {
-        // PDS only, single selection only
-        dsst = new DataSetSelectionTree(shell, false, false);
+        dsst = new DataSetSelectionTree(shell, false, false); // Any dataset type, no multiple selection
         dsst.addTreeSelectionListener(this);
 	}
 	
