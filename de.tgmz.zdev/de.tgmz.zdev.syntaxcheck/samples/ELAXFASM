@@ -24,9 +24,9 @@
 //         INCLUDE MEMBER=&INCL                HLQ definitions
 //*
 //ASM      EXEC PGM=ASMA90,COND=(4,LT),REGION=0M,
-//            PARM=('TEST',
+//            PARM=('EX(ADX(ELAXHASM))',
 //            'ADATA',
-//            'LIST')
+//            'LIST'&CICS&DB2&COMP)
 //STEPLIB  DD DISP=SHR,DSN=&LINKLIB..LINKLIB
 //         DD DISP=SHR,DSN=&FEL..SFELLOAD      error feedback
 //SYSIN    DD DUMMY                            provided by caller

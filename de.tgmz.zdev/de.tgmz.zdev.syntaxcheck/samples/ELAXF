@@ -55,7 +55,10 @@
 //* SUBSYSTEM DATA SETS
 //*
 //* HLQ for CICS TS, default CICSTS54.CICS
-// SET DFH='CICSTS54.CICS'
+//* Changed TGMZ begin
+//*SET DFH='CICSTS54.CICS'
+// SET DFH='DFH550.CICS'
+//* Changed TGMZ end
 //* HLQ for DB2, default DSNA12
 //* Changed TGMZ begin
 //*SET DSN='DSNC10'

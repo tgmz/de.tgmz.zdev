@@ -52,7 +52,7 @@
 //            'FLAG(I,I)'&CICS&DB2&COMP)
 //STEPLIB  DD DISP=SHR,DSN=&IGY..SIGYCOMP      COBOL
 //         DD DISP=SHR,DSN=&FEL..SFELLOAD      error feedback
-//*        DD DISP=SHR,DSN=&DFH..SDFHLOAD      CICS
+//         DD DISP=SHR,DSN=&DFH..SDFHLOAD      CICS
 //         DD DISP=SHR,DSN=&DSN..SDSNLOAD      DB2
 //         DD DISP=SHR,DSN=&DSN..SDSNEXIT      DB2
 //SYSOPTF  DD DDNAME=FELOPTF
@@ -62,9 +62,11 @@
 //*SYSLIB   DD DUMMY                            provided by caller
 //SYSLIN   DD DUMMY                            provided by caller
 //SYSADATA DD DUMMY                            provided by caller
-//DBRMLIB  DD DSN=&&DBRM(TEMPDBRM),SPACE=(3040,(40,40),,,ROUND),
-//            UNIT=SYSALLDA,DISP=(MOD,PASS),
-//            BLKSIZE=3040,LRECL=80,RECFM=FB,BUFNO=1
+//DBRMLIB  DD DSN=&TEMPDBRM(&MBR),
+//            DISP=(NEW,PASS),
+//            UNIT=VIO,
+//            SPACE=(CYL,(5,5,1)),
+//            DCB=(RECFM=FB,LRECL=80,BLKSIZE=23440)
 //SYSPRINT DD SYSOUT=*
 //SYSMDECK DD UNIT=SYSALLDA,SPACE=(CYL,(1,1))
 //SYSUT1   DD UNIT=SYSALLDA,SPACE=(CYL,(1,1))
