@@ -4,7 +4,7 @@ Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-SymbolicName: de.tgmz.zdev.connection
-Bundle-Version: 1.1.1
+Bundle-Version: 1.1.2.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: de.tgmz.zdev.logging,
  com.ibm.cics.zos.model,
