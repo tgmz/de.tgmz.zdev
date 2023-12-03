@@ -4,7 +4,7 @@ Bundle-Vendor: %providerName
 Bundle-Name: %pluginName
 Bundle-Localization: plugin
 Bundle-SymbolicName: de.tgmz.zdev.repo
-Bundle-Version: 1.1.1
+Bundle-Version: 1.1.2.qualifier
 Bundle-Activator: de.tgmz.zdev.repo.Activator
 Require-Bundle: de.tgmz.zdev.logging,
  org.eclipse.core.runtime,

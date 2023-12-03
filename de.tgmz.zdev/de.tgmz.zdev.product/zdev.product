@@ -12,7 +12,7 @@
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
 -->
-<product name="z/Dev" uid="zdev" id="de.tgmz.zdev.branding.zdev" application="org.eclipse.ui.ide.workbench" version="1.1.1" type="features" includeLaunchers="true" autoIncludeRequirements="true">
+<product name="z/Dev" uid="zdev" id="de.tgmz.zdev.branding.zdev" application="org.eclipse.ui.ide.workbench" version="1.1.2.qualifier" type="features" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/de.tgmz.zdev.branding/icons/png/logo-64x64.png"/>
