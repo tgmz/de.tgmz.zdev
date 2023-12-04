@@ -10,11 +10,9 @@
 
 package de.tgmz.zdev.restore;
 
-import java.text.DateFormat;
-import java.text.ParseException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
@@ -34,6 +32,8 @@ import org.slf4j.LoggerFactory;
 
 import de.tgmz.zdev.history.HistoryException;
 import de.tgmz.zdev.history.LocalHistory;
+import de.tgmz.zdev.history.model.HistoryIdentifyer;
+import de.tgmz.zdev.restore.compare.HistoryItemComparator;
 
 /**
  * Dialog for selecting a history item from a filtered list. 
@@ -41,19 +41,11 @@ import de.tgmz.zdev.history.LocalHistory;
 public class HistorySelectionDialog extends FilteredItemsSelectionDialog {
 	private static final Logger LOG = LoggerFactory.getLogger(HistorySelectionDialog.class);
 	private static final String DIALOG_SETTINGS = "HistoryEntrySelectionDialog";
-	private List<Long> history = new ArrayList<>();
+	private List<HistoryIdentifyer> history = new ArrayList<>();
 	
-    public static final ThreadLocal<DateFormat> DF = ThreadLocal.withInitial(() -> DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG));
+    protected static final ThreadLocal<NumberFormat> NF = ThreadLocal.withInitial(NumberFormat::getNumberInstance);
     
-	private static final Comparator<String> COMP = (o1, o2) -> {
-			try {
-				return fromDisplay(o2) - fromDisplay(o1) > 0 ? 1 : -1; // fromKey(o2) - fromKey(o1) yields overflow!
-			} catch (ParseException e) {
-				LOG.error("Cannot compare {} and {}, reason:" , o1, o2, e);
-				
-				return 0;
-			}
-		};
+	private static final Comparator<String> COMP = new HistoryItemComparator();
 		
 	/**
 	 * Filter. Case-insensitiv.
@@ -149,8 +141,8 @@ public class HistorySelectionDialog extends FilteredItemsSelectionDialog {
     	
 		subMonitor.beginTask("Searching", history.size());
 		
-		for (Long item : history) {
-			contentProvider.add(fromTime(item), itemsFilter);
+		for (HistoryIdentifyer hi : history) {
+			contentProvider.add(HistoryItemComparator.fromTime(hi.getId()) + " (" + NF.get().format(hi.getSize()) + " bytes)", itemsFilter);
 			subMonitor.worked(1);
 		}
 		
@@ -160,11 +152,5 @@ public class HistorySelectionDialog extends FilteredItemsSelectionDialog {
 	@Override
 	public String getElementName(Object o) {
 		return String.valueOf(o);
-	}
-	public static long fromDisplay(String display) throws ParseException {
-		return DF.get().parse(display).getTime();
-	}
-	private static String fromTime(long time) {
-		return DF.get().format(new Date(time));
 	}
 }

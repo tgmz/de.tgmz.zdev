@@ -32,6 +32,7 @@ import de.tgmz.zdev.editor.ZdevEditor;
 import de.tgmz.zdev.history.HistoryException;
 import de.tgmz.zdev.history.LocalHistory;
 import de.tgmz.zdev.restore.compare.CompareInput;
+import de.tgmz.zdev.restore.compare.HistoryItemComparator;
 
 /**
  * Restores a member from history.
@@ -76,19 +77,19 @@ public class RestoreHandler extends AbstractHandler {
 	}
 
 	private Object handleRestore(Member member) {
-		HistorySelectionDialog cesd = 
+		HistorySelectionDialog hsd = 
 				new HistorySelectionDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), member.toDisplayName());
 		
-		cesd.setInitialPattern("?");
+		hsd.setInitialPattern("?");
 		
-		int open = cesd.open();
+		int open = hsd.open();
 		
 		if (open == Window.OK) {
-			String selectedkey = (String) cesd.getFirstResult();
+			String selectedkey = (String) hsd.getFirstResult();
 
 			byte[] history;
 			try {
-				history = LocalHistory.getInstance().retrieve(HistorySelectionDialog.fromDisplay(selectedkey), member.toDisplayName());
+				history = LocalHistory.getInstance().retrieve(HistoryItemComparator.fromDisplay(selectedkey), member.toDisplayName());
 			} catch (HistoryException | ParseException e) {
 				LOG.warn("Cannot get history entry {}, reason:", member.toDisplayName(), e);
 				

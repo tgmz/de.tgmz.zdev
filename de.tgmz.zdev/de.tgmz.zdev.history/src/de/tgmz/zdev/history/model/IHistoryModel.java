@@ -40,7 +40,7 @@ public interface IHistoryModel {
 	 * @return the list of identifiers
 	 * @throws HistoryException if something happens
 	 */
-	List<Long> getVersions(String itemName) throws HistoryException;
+	List<HistoryIdentifyer> getVersions(String itemName) throws HistoryException;
 	/**
 	 * Clears the history
 	 * @param offset Delete all entries older than offset
