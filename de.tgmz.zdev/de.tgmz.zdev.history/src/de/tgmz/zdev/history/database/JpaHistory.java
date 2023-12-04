@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.HistoryItem;
 import de.tgmz.zdev.history.HistoryException;
+import de.tgmz.zdev.history.model.HistoryIdentifyer;
 import de.tgmz.zdev.history.model.IHistoryModel;
 
 /**
@@ -69,8 +70,8 @@ public class JpaHistory implements IHistoryModel {
 	}
 
 	@Override
-	public List<Long> getVersions(String itemName) throws HistoryException {
-		List<Long> result = new LinkedList<>();
+	public List<HistoryIdentifyer> getVersions(String itemName) throws HistoryException {
+		List<HistoryIdentifyer> result = new LinkedList<>();
 	
        	Session session = DbService.startTx();
        	
@@ -78,7 +79,7 @@ public class JpaHistory implements IHistoryModel {
 			List<HistoryItem> zwerg = session.createNamedQuery("byDsn", HistoryItem.class).setParameter("dsn", itemName).list();
        		
        		for (HistoryItem c : zwerg) {
-				result.add(c.getVersion());
+				result.add(new HistoryIdentifyer(c.getVersion(), c.getContent().length));
 			}
 		} catch (HibernateException e) {
 			throw new HistoryException(e);

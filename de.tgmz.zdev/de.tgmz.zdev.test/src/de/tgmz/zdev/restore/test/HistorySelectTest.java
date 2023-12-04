@@ -44,6 +44,20 @@ public class HistorySelectTest {
 		shell.dispose();
 	}
 	
+	@Test
+	public void testDialog() throws HistoryException {
+		HistorySelectionDialog hsd = new HistorySelectionDialog(shell, MEMBER_NAME);
+		
+		hsd.create();
+		hsd.setBlockOnOpen(false);
+		hsd.setInitialPattern(MEMBER_NAME);
+		hsd.setInitialElementSelections(LocalHistory.getInstance().getVersions(MEMBER_NAME));
+		
+		assertEquals(0, hsd.open());
+		
+		hsd.close();
+	}
+	
 	@BeforeClass
 	public static void setupOnce() throws HistoryException {
 		history.clear(new Date(), 0);
