@@ -8,7 +8,6 @@ Bundle-Version: 1.1.2.qualifier
 Bundle-Activator: de.tgmz.zdev.compile.Activator
 Require-Bundle: de.tgmz.zdev.logging,
  de.tgmz.zdev.connection,
- de.tgmz.zdev.editor,
  de.tgmz.zdev.database,
  de.tgmz.zdev.preferences,
  com.ibm.cics.zos.core.ui,

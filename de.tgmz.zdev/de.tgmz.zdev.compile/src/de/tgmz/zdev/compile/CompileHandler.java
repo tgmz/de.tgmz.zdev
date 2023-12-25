@@ -13,9 +13,12 @@ import java.io.IOException;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.hibernate.Session;
@@ -30,7 +33,6 @@ import com.ibm.cics.zos.ui.editor.ZOSObjectEditorInput;
 import de.tgmz.zdev.connection.ZdevConnectable;
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.Item;
-import de.tgmz.zdev.editor.ZdevEditor;
 import de.tgmz.zdev.preferences.ZdevPreferenceConstants;
 
 public class CompileHandler extends AbstractHandler {
@@ -128,9 +130,27 @@ public class CompileHandler extends AbstractHandler {
 			return null;
 		}
 		
-    	if (!ZdevEditor.checkPreconditions()) {
-            return null;
-    	}
+		IEditorPart editor = HandlerUtil.getActiveEditor(event);
+		if (editor.isDirty()) {
+	        final MessageDialog dlg = new MessageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+	    			Activator.getDefault().getString("ConfirmSaveMember.Title"),
+	    			null,
+	    			Activator.getDefault().getString("ConfirmSaveMember.Message", ((Member) editorInput.getZOSObject()).toDisplayName()),
+	    			org.eclipse.jface.dialogs.MessageDialog.QUESTION,
+	    			new String[] { IDialogConstants.OK_LABEL, IDialogConstants.CANCEL_LABEL },
+	    			0);
+
+	        final int[] intResult = new int[1];
+	        
+	        PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getDisplay().syncExec(() -> intResult[0] = dlg.open());
+	        
+	        if (intResult[0] == 0) {
+	        	editor.doSave(new NullProgressMonitor());
+	        } else {
+	        	return null;
+	        }
+		}
+		
 		
     	return (Member) editorInput.getZOSObject();
 	}

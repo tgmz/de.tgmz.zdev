@@ -17,6 +17,8 @@ import java.util.List;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -37,7 +39,6 @@ import com.ibm.cics.zos.ui.editor.ZOSObjectEditorInput;
 import de.tgmz.zdev.connection.ZdevConnectable;
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.Item;
-import de.tgmz.zdev.editor.ZdevEditor;
 import de.tgmz.zdev.plicomp.PlicompConfigurationException;
 import de.tgmz.zdev.plicomp.PlicompException;
 import de.tgmz.zdev.plicomp.PlicompFactory;
@@ -53,18 +54,35 @@ public class SyntaxcheckHandler extends AbstractSyntaxcheckHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ITextEditor editor = (ITextEditor) HandlerUtil.getActiveEditor(event);
+		
 		ZOSObjectEditorInput editorInput = (ZOSObjectEditorInput) HandlerUtil.getActiveEditorInput(event);
 
-    	if (!ZdevEditor.checkPreconditions()) {
-            return null;
-    	}
-		
 		if (editorInput == null || !(editorInput.getZOSObject() instanceof Member)) {
 			LOG.error("Syntaxcheck not applicable");
 			return null;
 		}
 		
 		Member m = (Member) editorInput.getZOSObject();
+		
+		if (editor.isDirty()) {
+	        final MessageDialog dlg = new MessageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+	    			Activator.getDefault().getString("ConfirmSaveMember.Title"),
+	    			null,
+	    			Activator.getDefault().getString("ConfirmSaveMember.Message", m.toDisplayName()),
+	    			org.eclipse.jface.dialogs.MessageDialog.QUESTION,
+	    			new String[] { IDialogConstants.OK_LABEL, IDialogConstants.CANCEL_LABEL },
+	    			0);
+
+	        final int[] intResult = new int[1];
+	        
+	        PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getDisplay().syncExec(() -> intResult[0] = dlg.open());
+	        
+	        if (intResult[0] == 0) {
+	        	editor.doSave(new NullProgressMonitor());
+	        } else {
+	        	return null;
+	        }
+		}
 		
 		Session session = DbService.startTx();
 		
