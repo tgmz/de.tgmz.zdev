@@ -19,6 +19,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.expressions.EvaluationContext;
 import org.eclipse.core.expressions.IEvaluationContext;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISources;
 import org.hibernate.Session;
 import org.junit.After;
@@ -124,6 +125,7 @@ public class CompileHandlerTest {
 		
 		IEvaluationContext context = new EvaluationContext( null, new Object() );
 		context.addVariable( ISources.ACTIVE_EDITOR_INPUT_NAME, editorInput);
+		context.addVariable( ISources.ACTIVE_EDITOR_NAME, Mockito.mock(IEditorPart.class));
 		
 		return new ExecutionEvent(null, new HashMap<>(), null, context); 
 	}
