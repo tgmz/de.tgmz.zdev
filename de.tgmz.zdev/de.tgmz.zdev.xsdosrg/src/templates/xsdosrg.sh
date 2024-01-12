@@ -1,4 +1,5 @@
-# Set LIBPATH so xsdosrg finds the DLLs
+# Set and export LIBPATH so xsdosrg finds the DLLs.
+# Export is mandatory! 
 
 # Copyright (c) 06.10.2023 Thomas Zierer
 #
@@ -8,8 +9,7 @@
 #
 # SPDX-License-Identifier: EPL-2.0
 
-LIBPATH=/lib:/usr/lib:/usr/lpp/java/J8.0/lib/s390/classic/
-LIBPATH=$LIBPATH:/usr/lib/java_runtime
+export LIBPATH=/usr/lib:/usr/lpp/java/J8.0/lib/s390/classic/:/usr/lib/java_runtime
 
 # Generate the OSR files
 xsdosrg -v -o "{0}" {1}
