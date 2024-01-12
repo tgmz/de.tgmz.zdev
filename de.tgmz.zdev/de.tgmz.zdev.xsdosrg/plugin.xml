@@ -22,9 +22,10 @@
     </extension>
 	<extension point="org.eclipse.ui.menus">
 		<menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
-			<menu
-				label="%label.xsdosrg"
-				icon="icons/xsd.png">
+			<command commandId="de.tgmz.zdev.xsdosrg"
+					label="%label.xsdosrg"
+					icon="icons/xsd.png"
+					style="push">
 				<visibleWhen
        				checkEnabled="false">
    					<with variable="activeMenuSelection">
@@ -40,13 +41,7 @@
       					</iterate>
    					</with>
 				</visibleWhen>
-					
-				<command commandId="de.tgmz.zdev.xsdosrg"
-					label="%label.xsdosrg.dataset"
-					icon="icons/xsd.png"
-					style="push">
-				</command>
-			</menu>
+			</command>
 		</menuContribution>
 	</extension>
 

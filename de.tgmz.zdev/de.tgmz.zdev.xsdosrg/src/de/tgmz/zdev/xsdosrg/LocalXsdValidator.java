@@ -19,7 +19,10 @@ import org.xml.sax.SAXException;
  * Perform a local validation of a xsd file prior to uploading it.
  */
 public class LocalXsdValidator {
-	private static final LocalXsdValidator INSTANCE = new LocalXsdValidator();
+	private static class SingletonHelper {
+		private static final LocalXsdValidator INSTANCE = new LocalXsdValidator();
+	}
+
 	private SchemaFactory schemaFactory;
 
 	private LocalXsdValidator() {
@@ -27,7 +30,7 @@ public class LocalXsdValidator {
 	}
 
 	public static LocalXsdValidator getInstance() {
-		return INSTANCE;
+		return SingletonHelper.INSTANCE;
 	}
 
 	public void validate(IFile src) throws SAXException {
