@@ -68,5 +68,7 @@ public class ZdevPreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(ZdevPreferenceConstants.CICS_COB, "CICS");
 		store.setDefault(ZdevPreferenceConstants.CICS_C, "CICS");
 		store.setDefault(ZdevPreferenceConstants.CICS_CPP, "CICS");
+		
+		store.setDefault(ZdevPreferenceConstants.XSDOSRG_LIBPATH, "/usr/lib:/usr/lpp/java/J8.0/lib/s390/classic/:/usr/lib/java_runtime");
 	}
 }

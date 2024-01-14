@@ -9,7 +9,7 @@
 #
 # SPDX-License-Identifier: EPL-2.0
 
-export LIBPATH=/usr/lib:/usr/lpp/java/J8.0/lib/s390/classic/:/usr/lib/java_runtime
+export LIBPATH={2}
 
 # Generate the OSR files
 xsdosrg -v -o "{0}" {1}

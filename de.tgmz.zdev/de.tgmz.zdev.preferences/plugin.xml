@@ -49,6 +49,10 @@
             id="de.tgmz.zdev.preferences.CompilePreferencePageC"
             name="%label.preferences.compile.c"
             category="de.tgmz.zdev.preferences.LinkPreferencePage"/>
+      <page class="de.tgmz.zdev.preferences.XsdosrgPreferencePage"
+            id="de.tgmz.zdev.preferences.XsdosrgPreferencePage"
+            name="%label.preferences.xsdosrg"
+            category="de.tgmz.zdev.preferences.ZdevPreferencePage"/>
    </extension>
    
    <extension

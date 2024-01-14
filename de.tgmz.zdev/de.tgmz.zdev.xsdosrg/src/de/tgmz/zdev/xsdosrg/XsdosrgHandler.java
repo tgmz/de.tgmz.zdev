@@ -118,7 +118,10 @@ public class XsdosrgHandler extends AbstractHandler {
 		}
 
 		try {
-			String script = generate("xsdosrg.sh", getFullyQualyfiedDataset(member), schema.getName());
+			String script = generate("xsdosrg.sh"
+					, getFullyQualyfiedDataset(member)
+					, schema.getName()
+					, de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore().getString(ZdevPreferenceConstants.XSDOSRG_LIBPATH));
 			
 			LOG.debug("Script generated: {}", script);
 			
