@@ -65,6 +65,8 @@ public class ZdevPreferenceConstants {
     public static final String HISTORY_MONTHS = "HISTORY_MONTHS";
     public static final String HISTORY_VERSIONS = "HISTORY_VERSIONS";
     
+    public static final String XSDOSRG_LIBPATH = "XSDOSRG_LIBPATH";
+    
     private ZdevPreferenceConstants() {
     	// Prevent unintentional instanciation
     }

@@ -21,6 +21,7 @@ import org.junit.Test.None;
 import de.tgmz.zdev.preferences.EditorPreferencePage;
 import de.tgmz.zdev.preferences.JobPreferencePage;
 import de.tgmz.zdev.preferences.LinkPreferencePage;
+import de.tgmz.zdev.preferences.XsdosrgPreferencePage;
 import de.tgmz.zdev.preferences.ZdevPreferencePage;
 
 /**
@@ -62,5 +63,12 @@ public class PreferencesTest {
 		lpp.init(workbench);
 		lpp.createControl(parent);
 		lpp.createFieldEditors();
+	}
+	@Test(expected = None.class)
+	public void testXsdosrgPreferencePage() {
+		XsdosrgPreferencePage xpp = new XsdosrgPreferencePage();
+		xpp.init(workbench);
+		xpp.createControl(parent);
+		xpp.createFieldEditors();
 	}
 }
