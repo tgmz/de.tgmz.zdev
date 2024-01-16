@@ -42,6 +42,19 @@
    					</with>
 				</visibleWhen>
 			</command>
+			<command commandId="de.tgmz.zdev.hfs.xsdosrg"
+				label="%label.xsdosrg"
+				icon="icons/xsd.png"
+				style="push">
+         		<visibleWhen>
+         			<with variable="activeMenuSelection">
+         				<iterate>
+         					<instanceof value="com.ibm.cics.zos.model.HFSFile" />
+         				</iterate>
+         			</with>
+         		</visibleWhen>
+			</command>
+
 		</menuContribution>
 	</extension>
 
@@ -49,6 +62,10 @@
         <command defaultHandler="de.tgmz.zdev.xsdosrg.XsdosrgHandler"
               id="de.tgmz.zdev.xsdosrg"
               name="xsdosrg">
+        </command>
+        <command defaultHandler="de.tgmz.zdev.xsdosrg.HfsXsdosrgHandler"
+              id="de.tgmz.zdev.hfs.xsdosrg"
+              name="hfsxsdosrg">
         </command>
 	</extension>
 
