@@ -9,8 +9,6 @@
 **********************************************************************/
 package de.tgmz.zdev.xsdosrg.test;
 
-import java.io.IOException;
-
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -29,7 +27,7 @@ public class CleanupRunnerTest {
 	private static IZOSConnectable connectable;
 	
 	@BeforeClass
-	public static void setupOnce() throws IOException {
+	public static void setupOnce() {
 		origin = ZdevConnectable.getConnectable();
 		
 		connectable = Mockito.mock(IZOSConnectable.class);
