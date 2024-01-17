@@ -17,9 +17,9 @@
       <page class="de.tgmz.zdev.preferences.ZdevPreferencePage"
             id="de.tgmz.zdev.preferences.ZdevPreferencePage"
             name="%label.preferences"/>
-      <page class="de.tgmz.zdev.preferences.JobPreferencePage"
-            id="de.tgmz.zdev.preferences.JobPreferencePage"
-            name="%label.preferences.jcl"
+      <page class="de.tgmz.zdev.preferences.GlobalPreferencePage"
+            id="de.tgmz.zdev.preferences.GlobalPreferencePage"
+            name="%label.preferences.global"
             category="de.tgmz.zdev.preferences.ZdevPreferencePage"/>
       <page class="de.tgmz.zdev.preferences.EditorPreferencePage"
             id="de.tgmz.zdev.preferences.EditorPreferencePage"

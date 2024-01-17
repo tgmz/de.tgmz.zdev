@@ -20,6 +20,7 @@ import com.ibm.cics.zos.model.HFSFolder;
 import com.ibm.cics.zos.ui.HFSSelectionTree;
 
 import de.tgmz.zdev.connection.ZdevConnectable;
+import de.tgmz.zdev.preferences.ZdevPreferenceConstants;
 
 /**
  * Class for selecting a {@link HFSFolder}.
@@ -37,7 +38,10 @@ public class HFSSelectionDialog extends AbstractSelectionDialog {
     @Override
     protected void insertControls(GridData gridData) {
         // PDS only, single selection only
-        hst = new HFSSelectionTree(shell, ZdevConnectable.getConnectable(), "/u", false);
+        hst = new HFSSelectionTree(shell
+        		, ZdevConnectable.getConnectable()
+        		, de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore().getString(ZdevPreferenceConstants.USS_HOME)
+        		, false);
         hst.addTreeSelectionListener(this);
         
 		TransferModeCompositeFactory.getInstance().createComposite(shell
