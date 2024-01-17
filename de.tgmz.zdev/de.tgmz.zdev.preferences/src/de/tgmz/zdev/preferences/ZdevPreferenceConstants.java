@@ -67,6 +67,8 @@ public class ZdevPreferenceConstants {
     
     public static final String XSDOSRG_LIBPATH = "XSDOSRG_LIBPATH";
     
+    public static final String USS_HOME = "USS_HOME";
+    
     private ZdevPreferenceConstants() {
     	// Prevent unintentional instanciation
     }

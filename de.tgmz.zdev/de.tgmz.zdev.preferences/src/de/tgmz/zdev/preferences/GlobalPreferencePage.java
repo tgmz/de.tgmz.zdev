@@ -16,23 +16,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-/**
- * This class represents a preference page that
- * is contributed to the Preferences dialog. By 
- * subclassing <em>FieldEditorPreferencePage</em>, we
- * can use the field support built into JFace that allows
- * us to create a page that is small and knows how to 
- * save, restore and apply itself.
- * <p>
- * This page is used to modify preferences only. They
- * are stored in the preference store that belongs to
- * the main plug-in class. That way, preferences can
- * be accessed directly via the preference store.
- */
-
-public class JobPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
+public class GlobalPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 	
-	public JobPreferencePage() {
+	public GlobalPreferencePage() {
 		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 	}
@@ -53,6 +39,16 @@ public class JobPreferencePage extends FieldEditorPreferencePage implements IWor
 					BooleanFieldEditor.SEPARATE_LABEL,
 					fieldEditorParent));
 
+		addField(new TextAreaFieldEditor(
+				ZdevPreferenceConstants.JOB_CARD,  
+				Activator.getDefault().getString("ZdevPreferencePage.JOB_CARD"),
+				fieldEditorParent));
+		
+		addField(new TextAreaFieldEditor(
+				ZdevPreferenceConstants.USS_HOME,  
+				Activator.getDefault().getString("ZdevPreferencePage.USS_HOME"),
+				fieldEditorParent));
+		
 		addField(new ComboFieldEditor(
 				ZdevPreferenceConstants.LOG_LEVEL, 
 				Activator.getDefault().getString("ZdevPreferencePage.LOG_LEVEL"),
@@ -66,11 +62,6 @@ public class JobPreferencePage extends FieldEditorPreferencePage implements IWor
 								{"TRACE", "TRACE"},
 								{"ALL", "ALL"},
 				},
-				fieldEditorParent));
-		
-		addField(new TextAreaFieldEditor(
-				ZdevPreferenceConstants.JOB_CARD,  
-				Activator.getDefault().getString("ZdevPreferencePage.JOB_CARD"),
 				fieldEditorParent));
 	}
 

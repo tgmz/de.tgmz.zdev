@@ -19,7 +19,7 @@ import org.junit.Test;
 import org.junit.Test.None;
 
 import de.tgmz.zdev.preferences.EditorPreferencePage;
-import de.tgmz.zdev.preferences.JobPreferencePage;
+import de.tgmz.zdev.preferences.GlobalPreferencePage;
 import de.tgmz.zdev.preferences.LinkPreferencePage;
 import de.tgmz.zdev.preferences.XsdosrgPreferencePage;
 import de.tgmz.zdev.preferences.ZdevPreferencePage;
@@ -52,10 +52,10 @@ public class PreferencesTest {
 	}
 	@Test(expected = None.class)
 	public void testJobPreferencePage() {
-		JobPreferencePage jpp = new JobPreferencePage();
-		jpp.init(workbench);
-		jpp.createControl(parent);
-		jpp.createFieldEditors();
+		GlobalPreferencePage gpp = new GlobalPreferencePage();
+		gpp.init(workbench);
+		gpp.createControl(parent);
+		gpp.createFieldEditors();
 	}
 	@Test(expected = None.class)
 	public void testLinkPreferencePage() {

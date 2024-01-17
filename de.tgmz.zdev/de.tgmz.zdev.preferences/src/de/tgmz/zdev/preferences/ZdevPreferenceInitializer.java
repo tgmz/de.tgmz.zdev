@@ -32,7 +32,7 @@ public class ZdevPreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(ZdevPreferenceConstants.JOB_CARD, "//" 
 							+  userId
 							+ "B JOB '<Insert accounting information>',"
-							+ "'" + System.getProperty("user.name").trim() + "'"
+							+ "'" + userId + "'"
 							+ ",CLASS=Z,MSGCLASS=T," 
 							+ System.lineSeparator()
 							+ "//     MSGLEVEL=(1,1),REGION=0M");
@@ -70,5 +70,7 @@ public class ZdevPreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(ZdevPreferenceConstants.CICS_CPP, "CICS");
 		
 		store.setDefault(ZdevPreferenceConstants.XSDOSRG_LIBPATH, "/usr/lib:/usr/lpp/java/J8.0/lib/s390/classic/:/usr/lib/java_runtime");
+		
+		store.setDefault(ZdevPreferenceConstants.USS_HOME, "/z/" + userId);
 	}
 }
