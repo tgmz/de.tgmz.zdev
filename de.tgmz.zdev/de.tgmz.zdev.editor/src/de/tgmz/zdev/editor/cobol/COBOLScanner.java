@@ -13,12 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.text.TextAttribute;
+import org.eclipse.jface.text.rules.EndOfLineRule;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
-import org.eclipse.jface.text.rules.MultiLineRule;
 import org.eclipse.jface.text.rules.NumberRule;
-import org.eclipse.jface.text.rules.PatternRule;
 import org.eclipse.jface.text.rules.RuleBasedScanner;
+import org.eclipse.jface.text.rules.SingleLineRule;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
@@ -45,15 +45,15 @@ public class COBOLScanner extends RuleBasedScanner {
 		IToken literalToken = new Token(new TextAttribute(manager.getSwtColor(ZdevColor.LITERAL)));
 		final IToken commentToken = new Token(new TextAttribute(manager.getSwtColor(ZdevColor.COMMENT)));
 		
-		rules.add(new MultiLineRule("\"","\"", literalToken, (char) 0, false));
-		rules.add(new MultiLineRule("\'","\'", literalToken, (char) 0, false));
-		
-		rules.add(new WhitespaceRule(new DefaultWhitespaceDetector()));
-		
-		PatternRule pr = new PatternRule("*", null, commentToken, (char) 0, true);
+		EndOfLineRule pr = new EndOfLineRule("*", commentToken);
 		pr.setColumnConstraint(6);
 		
 		rules.add(pr);
+		
+		rules.add(new SingleLineRule("\"","\"", literalToken, (char) 0, false));
+		rules.add(new SingleLineRule("\'","\'", literalToken, (char) 0, false));
+		
+		rules.add(new WhitespaceRule(new DefaultWhitespaceDetector()));
 		
 		WordRule keywords = new WordRule(new COBOLWordDetector(), defaultToken, true);
 	
