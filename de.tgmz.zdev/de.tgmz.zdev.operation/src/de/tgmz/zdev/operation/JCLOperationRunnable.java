@@ -95,13 +95,7 @@ public class JCLOperationRunnable implements IRunnableWithProgress {
 
 				JobCompletion rc = ZdevConnectable.getConnectable().getJob(jobd.getId()).getCompletion();
 				
-	            switch (rc) {
-	            case ACTIVE, INPUT: 
-	            	break;
-	            default:
-	            	jobFinished = true;
-	            	break;
-	            }
+				jobFinished = (rc != JobCompletion.ACTIVE && rc != JobCompletion.INPUT);
 	            
 	            subMonitor.worked(1);
 			}
