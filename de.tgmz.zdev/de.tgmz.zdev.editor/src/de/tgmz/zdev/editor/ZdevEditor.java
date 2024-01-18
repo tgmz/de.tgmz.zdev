@@ -15,6 +15,8 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.text.ITextViewerExtension2;
+import org.eclipse.jface.text.MarginPainter;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.ISourceViewer;
@@ -23,7 +25,9 @@ import org.eclipse.jface.text.source.projection.ProjectionAnnotation;
 import org.eclipse.jface.text.source.projection.ProjectionAnnotationModel;
 import org.eclipse.jface.text.source.projection.ProjectionSupport;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IEditorSite;
@@ -94,6 +98,7 @@ public class ZdevEditor extends MemberEditor {
     private ProjectionSupport projectionSupport;
 	private Annotation[] oldAnnotations;
 	private ProjectionAnnotationModel projectionAnnotationModel;
+	private Language lang;
 	
 	public ZdevEditor() {
 		super();
@@ -132,7 +137,9 @@ public class ZdevEditor extends MemberEditor {
 		ZOSObjectEditorInput editorinput = (ZOSObjectEditorInput) input;
 		Member m = (Member) editorinput.getZOSObject();
 		
-		switch (Language.fromDatasetName(m.getParentPath())) {
+		lang = Language.fromDatasetName(m.getParentPath());
+		
+		switch (lang) {
 		case JCL:
 			setSourceViewerConfiguration(new JCLConfiguration(com.ibm.cics.zos.ui.editor.jcl.ColorManager.getDefault()));
 			myDocumentProvider = ZOSActivator.getDefault().getMemberDocumentProvider();
@@ -144,6 +151,7 @@ public class ZdevEditor extends MemberEditor {
 		case COBOL:
 			setSourceViewerConfiguration(new COBOLConfiguration(colorManager));
 			myDocumentProvider = ZOSActivator.getDefault().getMemberDocumentProvider();
+			
 			break;
 		case PLI:
 			PLIConfiguration pliConfiguration = new PLIConfiguration(colorManager);
@@ -309,6 +317,10 @@ public class ZdevEditor extends MemberEditor {
 	@Override
 	protected ISourceViewer createSourceViewer(Composite parent, IVerticalRuler ruler, int styles) {
 		ISourceViewer viewer = new ProjectionViewer(parent, ruler, getOverviewRuler(), isOverviewRulerVisible(), styles);
+		
+		if (lang == Language.COBOL) {
+			addMarginRuler(viewer, 0, 3, 6, 7, 9, 11);
+		}
 
 		// ensure decoration support has been created and configured.
 		getSourceViewerDecorationSupport(viewer);
@@ -362,4 +374,18 @@ public class ZdevEditor extends MemberEditor {
     public ProjectionAnnotationModel getProjectionAnnotationModel() {
 		return projectionAnnotationModel;
 	}
+    private void addMarginRuler(ISourceViewer viewer, int... margins) {
+		ITextViewerExtension2 extension = (ITextViewerExtension2) viewer;
+		
+		MarginPainter mp;
+		
+		for (int m : margins) {
+			mp  = new MarginPainter(viewer);
+			mp.setMarginRulerColumn(m);
+		    mp.setMarginRulerColor(Display.getDefault().getSystemColor(SWT.COLOR_GRAY));
+		    mp.setMarginRulerStyle(SWT.BORDER_DASH);
+		    
+			extension.addPainter(mp);
+		}
+    }
 }
