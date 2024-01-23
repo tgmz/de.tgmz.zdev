@@ -28,8 +28,8 @@ import jakarta.persistence.NamedQuery;
 		query="FROM HistoryItem h WHERE h.dsn = :dsn"
 )
 @NamedQuery(
-		name="byVersionAndDsn",
-		query="FROM HistoryItem h WHERE h.version = :version AND h.dsn = :dsn"
+		name="byVersion",
+		query="FROM HistoryItem h WHERE h.version = :version"
 )
 public class HistoryItem implements Serializable {
 	private static final long serialVersionUID = -5251258163182902698L;
