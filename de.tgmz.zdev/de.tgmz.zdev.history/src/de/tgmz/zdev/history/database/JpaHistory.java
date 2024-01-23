@@ -34,11 +34,11 @@ public class JpaHistory implements IHistoryModel {
 	private static final Logger LOG = LoggerFactory.getLogger(JpaHistory.class);
 	
 	@Override
-	public long save(byte[] content, String itemName) throws HistoryException {
+	public long save(byte[] content, String fqdn) throws HistoryException {
    		HistoryItem c = new HistoryItem();
    		
    		c.setContent(content);
-   		c.setDsn(itemName);
+   		c.setFqdn(fqdn);
    		c.setVersion((System.currentTimeMillis() / 1000) * 1000);
 
        	Session session = DbService.startTx();
@@ -70,16 +70,16 @@ public class JpaHistory implements IHistoryModel {
 	}
 
 	@Override
-	public List<HistoryIdentifyer> getVersions(String itemName) throws HistoryException {
+	public List<HistoryIdentifyer> getVersions(String fqdn) throws HistoryException {
 		List<HistoryIdentifyer> result = new LinkedList<>();
 	
        	Session session = DbService.startTx();
        	
        	try {
-			List<HistoryItem> zwerg = session.createNamedQuery("byDsn", HistoryItem.class).setParameter("dsn", itemName).list();
+			List<HistoryItem> zwerg = session.createNamedQuery("byFqdn", HistoryItem.class).setParameter("fqdn", fqdn).list();
        		
        		for (HistoryItem c : zwerg) {
-				result.add(new HistoryIdentifyer(c.getVersion(), c.getContent().length));
+				result.add(new HistoryIdentifyer(c.getFqdn(), c.getVersion(), c.getContent().length));
 			}
 		} catch (HibernateException e) {
 			throw new HistoryException(e);
@@ -109,7 +109,7 @@ public class JpaHistory implements IHistoryModel {
        			
        		    HistoryItem c = itemCursor.get();
            	
-				Integer i = m.get(c.getDsn());
+				Integer i = m.get(c.getFqdn());
 				
 				if (i != null) {
 					++i;
@@ -117,7 +117,7 @@ public class JpaHistory implements IHistoryModel {
 					i = 1;
 				}
 				
-				m.put(c.getDsn(), i);
+				m.put(c.getFqdn(), i);
     				
     			if (c.getVersion() < timeout.getTime() || i > maxVersions) {
     				++x;

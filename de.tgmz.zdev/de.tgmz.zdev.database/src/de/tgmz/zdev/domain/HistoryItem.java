@@ -24,8 +24,8 @@ import jakarta.persistence.NamedQuery;
 
 @Entity
 @NamedQuery(
-		name="byDsn",
-		query="FROM HistoryItem h WHERE h.dsn = :dsn"
+		name="byFqdn",
+		query="FROM HistoryItem h WHERE h.fqdn LIKE :fqdn"
 )
 @NamedQuery(
 		name="byVersion",
@@ -36,7 +36,7 @@ public class HistoryItem implements Serializable {
 	@Id
 	@GeneratedValue
 	private long id;
-    private String dsn;
+    private String fqdn;
     private long version;
     @Column(columnDefinition = "BLOB")
     private byte[] content;
@@ -48,12 +48,12 @@ public class HistoryItem implements Serializable {
         super();
     }
 
-	public String getDsn() {
-		return dsn;
+	public String getFqdn() {
+		return fqdn;
 	}
 
-	public void setDsn(String dsn) {
-		this.dsn = dsn;
+	public void setFqdn(String fqdn) {
+		this.fqdn = fqdn;
 	}
 
 	public long getVersion() {

@@ -21,11 +21,11 @@ public interface IHistoryModel {
 	/**
 	 * Saves the content of an item in the history and returns an identifier
 	 * @param content the content
-	 * @param itemName item name
+	 * @param fqdn fully qualified dataset name
 	 * @return identifier in history
 	 * @throws HistoryException if something happens
 	 */
-	long save(byte[] content, String itemName) throws HistoryException;
+	long save(byte[] content, String fqdn) throws HistoryException;
 	/**
 	 * Retrieves the contents of an item from the history
 	 * @param key the identifier
@@ -35,11 +35,11 @@ public interface IHistoryModel {
 	byte[] retrieve(long key) throws HistoryException;
 	/**
 	 * Returns the list of identifiers of an item in the history
-	 * @param itemName item name
+	 * @param fqdn fully qualified dataset name
 	 * @return the list of identifiers
 	 * @throws HistoryException if something happens
 	 */
-	List<HistoryIdentifyer> getVersions(String itemName) throws HistoryException;
+	List<HistoryIdentifyer> getVersions(String fqdn) throws HistoryException;
 	/**
 	 * Clears the history
 	 * @param offset Delete all entries older than offset
