@@ -10,10 +10,12 @@
 package de.tgmz.zdev.history.model;
 
 public class HistoryIdentifyer {
+	private String fqdn;
 	private long id;
 	private long size;
-	public HistoryIdentifyer(long id, long size) {
+	public HistoryIdentifyer(String fqdn, long id, long size) {
 		super();
+		this.fqdn = fqdn;
 		this.id = id;
 		this.size = size;
 	}
@@ -22,5 +24,8 @@ public class HistoryIdentifyer {
 	}
 	public long getSize() {
 		return size;
+	}
+	public String getFqdn() {
+		return fqdn;
 	}
 }
