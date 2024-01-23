@@ -78,9 +78,7 @@ public class RestoreHandler extends AbstractHandler {
 
 	private Object handleRestore(Member member) {
 		HistorySelectionDialog hsd = 
-				new HistorySelectionDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), member.toDisplayName());
-		
-		hsd.setInitialPattern("?");
+				new HistorySelectionDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), member);
 		
 		int open = hsd.open();
 		
@@ -89,7 +87,7 @@ public class RestoreHandler extends AbstractHandler {
 
 			byte[] history;
 			try {
-				history = LocalHistory.getInstance().retrieve(HistoryItemComparator.fromDisplay(selectedkey), member.toDisplayName());
+				history = LocalHistory.getInstance().retrieve(HistoryItemComparator.fromDisplay(selectedkey));
 			} catch (HistoryException | ParseException e) {
 				LOG.warn("Cannot get history entry {}, reason:", member.toDisplayName(), e);
 				

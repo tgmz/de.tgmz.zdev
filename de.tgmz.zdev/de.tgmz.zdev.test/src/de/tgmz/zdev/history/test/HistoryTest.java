@@ -36,14 +36,14 @@ public class HistoryTest {
 		
 		assertFalse("Versionlist is empty", history.getVersions(MEMBER_NAME).isEmpty());
 		
-		assertArrayEquals("Documents differ", CONTENT, history.retrieve(key, MEMBER_NAME));
+		assertArrayEquals("Documents differ", CONTENT, history.retrieve(key));
 	}
 	@Test
 	public void testNoHistory() throws HistoryException {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_YEAR, 1);
 		
-		assertArrayEquals("Documents differ", new byte[0], history.retrieve(cal.getTimeInMillis(), MEMBER_NAME));
+		assertArrayEquals("Documents differ", new byte[0], history.retrieve(cal.getTimeInMillis()));
 	}
 	@Test
 	public void testHistoryClear() throws HistoryException, InterruptedException {

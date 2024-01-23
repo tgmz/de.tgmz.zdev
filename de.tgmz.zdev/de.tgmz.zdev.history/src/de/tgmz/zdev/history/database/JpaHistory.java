@@ -55,11 +55,11 @@ public class JpaHistory implements IHistoryModel {
 	}
 
 	@Override
-	public byte[] retrieve(long key, String itemName) throws HistoryException {
+	public byte[] retrieve(long key) throws HistoryException {
        	Session session = DbService.startTx();
        	
        	try {
-       		HistoryItem c = session.createNamedQuery("byVersionAndDsn", HistoryItem.class).setParameter("version",  key).setParameter("dsn", itemName).uniqueResult();
+       		HistoryItem c = session.createNamedQuery("byVersion", HistoryItem.class).setParameter("version",  key).uniqueResult();
        		
        		return c != null ? c.getContent() : new byte[0];
 		} catch (HibernateException e) {

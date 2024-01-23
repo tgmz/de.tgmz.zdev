@@ -20,6 +20,9 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.Mockito;
+
+import com.ibm.cics.zos.model.Member;
 
 import de.tgmz.zdev.history.HistoryException;
 import de.tgmz.zdev.history.LocalHistory;
@@ -27,31 +30,18 @@ import de.tgmz.zdev.history.model.IHistoryModel;
 import de.tgmz.zdev.restore.HistorySelectionDialog;
 
 public class HistorySelectTest {
-	private static final String MEMBER_NAME = "HLQ.PLI(MYMEMBER)";
 	private static final byte[] CONTENT = "Some content".getBytes(Charset.defaultCharset());
 	private static final IHistoryModel history = LocalHistory.getInstance();
+	private static Member member;
 	
 	private Shell shell;
 	
-	private static long key;
-	
 	@Test
-	public void testGetElementName() {
-		HistorySelectionDialog d = new HistorySelectionDialog(shell, MEMBER_NAME);
-		
-		assertEquals(key, Long.parseLong(d.getElementName(key)));
-		
-		shell.dispose();
-	}
-	
-	@Test
-	public void testDialog() throws HistoryException {
-		HistorySelectionDialog hsd = new HistorySelectionDialog(shell, MEMBER_NAME);
+	public void testDialog() {
+		HistorySelectionDialog hsd = new HistorySelectionDialog(shell, member);
 		
 		hsd.create();
 		hsd.setBlockOnOpen(false);
-		hsd.setInitialPattern(MEMBER_NAME);
-		hsd.setInitialElementSelections(LocalHistory.getInstance().getVersions(MEMBER_NAME));
 		
 		assertEquals(0, hsd.open());
 		
@@ -62,7 +52,10 @@ public class HistorySelectTest {
 	public static void setupOnce() throws HistoryException {
 		history.clear(new Date(), 0);
 		
-		key = LocalHistory.getInstance().save(CONTENT, MEMBER_NAME);
+		member = Mockito.mock(Member.class);
+		Mockito.when(member.toDisplayName()).thenReturn("HLQ.PLI(MYMEMBER)");
+		
+		LocalHistory.getInstance().save(CONTENT, member.toDisplayName());
 	}
 	@AfterClass
 	public static void teardownOnce() throws HistoryException {

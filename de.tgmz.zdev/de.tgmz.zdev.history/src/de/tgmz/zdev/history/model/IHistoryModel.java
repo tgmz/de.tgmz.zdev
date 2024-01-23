@@ -29,11 +29,10 @@ public interface IHistoryModel {
 	/**
 	 * Retrieves the contents of an item from the history
 	 * @param key the identifier
-	 * @param itemName item name
 	 * @return the contents
 	 * @throws HistoryException if something happens
 	 */
-	byte[] retrieve(long key, String itemName) throws HistoryException;
+	byte[] retrieve(long key) throws HistoryException;
 	/**
 	 * Returns the list of identifiers of an item in the history
 	 * @param itemName item name
