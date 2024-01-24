@@ -9,8 +9,6 @@
 **********************************************************************/
 package de.tgmz.zdev.restore;
 
-import java.text.ParseException;
-
 import org.eclipse.compare.CompareConfiguration;
 import org.eclipse.compare.CompareUI;
 import org.eclipse.core.commands.AbstractHandler;
@@ -30,9 +28,9 @@ import com.ibm.cics.zos.model.Member;
 
 import de.tgmz.zdev.editor.ZdevEditor;
 import de.tgmz.zdev.history.HistoryException;
+import de.tgmz.zdev.history.HistoryIdentifyer;
 import de.tgmz.zdev.history.LocalHistory;
 import de.tgmz.zdev.restore.compare.CompareInput;
-import de.tgmz.zdev.restore.compare.HistoryItemComparator;
 
 /**
  * Restores a member from history.
@@ -83,12 +81,12 @@ public class RestoreHandler extends AbstractHandler {
 		int open = hsd.open();
 		
 		if (open == Window.OK) {
-			String selectedkey = (String) hsd.getFirstResult();
+			HistoryIdentifyer selectedkey = (HistoryIdentifyer) hsd.getFirstResult();
 
 			byte[] history;
 			try {
-				history = LocalHistory.getInstance().retrieve(HistoryItemComparator.fromDisplay(selectedkey));
-			} catch (HistoryException | ParseException e) {
+				history = LocalHistory.getInstance().retrieve(selectedkey.getId());
+			} catch (HistoryException e) {
 				LOG.warn("Cannot get history entry {}, reason:", member.toDisplayName(), e);
 				
 				MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()

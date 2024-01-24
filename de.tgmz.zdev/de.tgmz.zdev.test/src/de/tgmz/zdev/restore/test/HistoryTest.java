@@ -10,9 +10,7 @@
 package de.tgmz.zdev.restore.test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
-import java.text.ParseException;
 import java.util.Date;
 
 import org.junit.AfterClass;
@@ -22,11 +20,9 @@ import org.junit.Test;
 import de.tgmz.zdev.history.HistoryException;
 import de.tgmz.zdev.history.LocalHistory;
 import de.tgmz.zdev.history.model.IHistoryModel;
-import de.tgmz.zdev.restore.compare.HistoryItemComparator;
 
 public class HistoryTest {
 	private static final String NAME0 = "one";
-	private static final String NAME1 = "two";
 	private static final IHistoryModel history = LocalHistory.getInstance();
 	
 	@BeforeClass
@@ -39,27 +35,10 @@ public class HistoryTest {
 	}
 	@Test
 	public void testHistory() throws HistoryException {
-		long z = LocalHistory.getInstance().save(new byte[1], NAME0);
+		long z = history.save(new byte[1], NAME0).getId();
 		
-		assertEquals(z, LocalHistory.getInstance().getVersions(NAME0).get(0).getId());
-		assertEquals(1, LocalHistory.getInstance().getVersions(NAME0).get(0).getSize());
-	}
-	@Test
-	public void testHistoryCompare() throws HistoryException, ParseException {
-		long z0 = LocalHistory.getInstance().save(new byte[1], NAME0);
-		long z1 = LocalHistory.getInstance().save(new byte[1], NAME1);
-		
-		String s0 = HistoryItemComparator.fromTime(z0);
-		
-		assertEquals(z0, HistoryItemComparator.fromDisplay(s0));
-		
-		String s1 = HistoryItemComparator.fromTime(z1);
-		
-		HistoryItemComparator hic = new HistoryItemComparator();
-		
-		assertTrue(hic.compare(s0, s1) < 0);
-		
-		assertEquals(0, hic.compare("", ""));
+		assertEquals(z, history.getVersions(NAME0).get(0).getId());
+		assertEquals(1, history.getVersions(NAME0).get(0).getSize());
 	}
 }
  

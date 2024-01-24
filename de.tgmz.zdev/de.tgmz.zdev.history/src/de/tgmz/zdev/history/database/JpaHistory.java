@@ -9,8 +9,9 @@
 **********************************************************************/
 package de.tgmz.zdev.history.database;
 
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -24,7 +25,7 @@ import org.slf4j.LoggerFactory;
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.HistoryItem;
 import de.tgmz.zdev.history.HistoryException;
-import de.tgmz.zdev.history.model.HistoryIdentifyer;
+import de.tgmz.zdev.history.HistoryIdentifyer;
 import de.tgmz.zdev.history.model.IHistoryModel;
 
 /**
@@ -34,12 +35,12 @@ public class JpaHistory implements IHistoryModel {
 	private static final Logger LOG = LoggerFactory.getLogger(JpaHistory.class);
 	
 	@Override
-	public long save(byte[] content, String fqdn) throws HistoryException {
+	public HistoryIdentifyer save(byte[] content, String fqdn) throws HistoryException {
    		HistoryItem c = new HistoryItem();
    		
    		c.setContent(content);
    		c.setFqdn(fqdn);
-   		c.setVersion((System.currentTimeMillis() / 1000) * 1000);
+   		c.setVersion(Instant.now().toEpochMilli());
 
        	Session session = DbService.startTx();
        	
@@ -51,7 +52,7 @@ public class JpaHistory implements IHistoryModel {
 			DbService.endTx(session);
 		}
 		
-		return c.getVersion();
+		return new HistoryIdentifyer(fqdn, c.getVersion(), content.length);
 	}
 
 	@Override
@@ -71,7 +72,7 @@ public class JpaHistory implements IHistoryModel {
 
 	@Override
 	public List<HistoryIdentifyer> getVersions(String fqdn) throws HistoryException {
-		List<HistoryIdentifyer> result = new LinkedList<>();
+		List<HistoryIdentifyer> result = new ArrayList<>();
 	
        	Session session = DbService.startTx();
        	

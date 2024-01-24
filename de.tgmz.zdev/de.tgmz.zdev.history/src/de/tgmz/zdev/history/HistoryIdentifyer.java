@@ -7,12 +7,19 @@
 *
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
-package de.tgmz.zdev.history.model;
+package de.tgmz.zdev.history;
+
+import java.text.DateFormat;
+import java.text.MessageFormat;
+import java.util.Date;
 
 public class HistoryIdentifyer {
+	protected static final ThreadLocal<DateFormat> DF = ThreadLocal.withInitial(() -> DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG));
+	
 	private String fqdn;
 	private long id;
 	private long size;
+	
 	public HistoryIdentifyer(String fqdn, long id, long size) {
 		super();
 		this.fqdn = fqdn;
@@ -27,5 +34,9 @@ public class HistoryIdentifyer {
 	}
 	public String getFqdn() {
 		return fqdn;
+	}
+	@Override
+	public String toString() {
+		return MessageFormat.format("{0} - {1} ({2} bytes)", fqdn, DF.get().format(new Date(id)), size);
 	}
 }

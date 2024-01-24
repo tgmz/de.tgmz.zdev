@@ -32,7 +32,7 @@ public class HistoryTest {
 	private static final IHistoryModel history = LocalHistory.getInstance();
 	@Test
 	public void testHistory() throws HistoryException {
-		long key = history.save(CONTENT, MEMBER_NAME);
+		long key = history.save(CONTENT, MEMBER_NAME).getId();
 		
 		assertFalse("Versionlist is empty", history.getVersions(MEMBER_NAME).isEmpty());
 		
