@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 import de.tgmz.zdev.history.HistoryException;
+import de.tgmz.zdev.history.HistoryIdentifyer;
 
 /**
  * The history model
@@ -25,7 +26,7 @@ public interface IHistoryModel {
 	 * @return identifier in history
 	 * @throws HistoryException if something happens
 	 */
-	long save(byte[] content, String fqdn) throws HistoryException;
+	HistoryIdentifyer save(byte[] content, String fqdn) throws HistoryException;
 	/**
 	 * Retrieves the contents of an item from the history
 	 * @param key the identifier

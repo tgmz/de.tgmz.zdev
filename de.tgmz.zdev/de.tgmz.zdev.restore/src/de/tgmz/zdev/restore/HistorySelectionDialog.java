@@ -10,9 +10,7 @@
 
 package de.tgmz.zdev.restore;
 
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jface.viewers.LabelProvider;
@@ -24,21 +22,15 @@ import org.slf4j.LoggerFactory;
 import com.ibm.cics.zos.model.DataEntry;
 
 import de.tgmz.zdev.history.HistoryException;
+import de.tgmz.zdev.history.HistoryIdentifyer;
 import de.tgmz.zdev.history.LocalHistory;
-import de.tgmz.zdev.history.model.HistoryIdentifyer;
-import de.tgmz.zdev.restore.compare.HistoryItemComparator;
 
 /**
  * Dialog for selecting a history item. 
  */
 public class HistorySelectionDialog extends ElementListSelectionDialog {
 	private static final Logger LOG = LoggerFactory.getLogger(HistorySelectionDialog.class);
-	private List<HistoryIdentifyer> history = new ArrayList<>();
-	
-    protected static final ThreadLocal<NumberFormat> NF = ThreadLocal.withInitial(NumberFormat::getNumberInstance);
     
-	private static final Comparator<String> COMP = new HistoryItemComparator();
-		
 	public HistorySelectionDialog(Shell shell, DataEntry de) {
 		super(shell, new LabelProvider());
 		
@@ -47,22 +39,15 @@ public class HistorySelectionDialog extends ElementListSelectionDialog {
 		setTitle(act != null ? act.getString("Restore.Title") : "");
 		
 		try {
-			history = LocalHistory.getInstance().getVersions(de.toDisplayName());
+			List<HistoryIdentifyer> history = LocalHistory.getInstance().getVersions(de.toDisplayName());
+			
+			HistoryIdentifyer[] elements = history.toArray(new HistoryIdentifyer[history.size()]);
+			
+			Arrays.sort(elements, (o1, o2) -> o1.getId() < o2.getId() ? 1 : -1);
+			
+			setElements(elements);
 		} catch (HistoryException e) {
-			LOG.error("Cannot access history, reason:" , e);
+			LOG.error("Cannot access history, reason:", e);
 		}
-		
-		setElements(getSelectionList());
-	}
-	private String[] getSelectionList() {
-		List<String> l = new ArrayList<>();
-		
-		for (HistoryIdentifyer hi : history) {
-			l.add(HistoryItemComparator.fromTime(hi.getId()) + " (" + NF.get().format(hi.getSize()) + " bytes)");
-		}
-		
-		l.sort(COMP);
-		
-		return l.toArray(new String[l.size()]);
 	}
 }
