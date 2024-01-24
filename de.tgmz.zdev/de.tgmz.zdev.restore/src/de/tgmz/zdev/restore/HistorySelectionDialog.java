@@ -10,20 +10,13 @@
 
 package de.tgmz.zdev.restore;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ibm.cics.zos.model.DataEntry;
-
-import de.tgmz.zdev.history.HistoryException;
 import de.tgmz.zdev.history.HistoryIdentifyer;
-import de.tgmz.zdev.history.LocalHistory;
 
 /**
  * Dialog for selecting a history item. 
@@ -31,23 +24,15 @@ import de.tgmz.zdev.history.LocalHistory;
 public class HistorySelectionDialog extends ElementListSelectionDialog {
 	private static final Logger LOG = LoggerFactory.getLogger(HistorySelectionDialog.class);
     
-	public HistorySelectionDialog(Shell shell, DataEntry de) {
+	public HistorySelectionDialog(Shell shell, HistoryIdentifyer... elements) {
 		super(shell, new LabelProvider());
+		
+		LOG.info("Init new HistorySelectionDialog");
 		
 		Activator act = Activator.getDefault();
 		
 		setTitle(act != null ? act.getString("Restore.Title") : "");
 		
-		try {
-			List<HistoryIdentifyer> history = LocalHistory.getInstance().getVersions(de.toDisplayName());
-			
-			HistoryIdentifyer[] elements = history.toArray(new HistoryIdentifyer[history.size()]);
-			
-			Arrays.sort(elements, (o1, o2) -> o1.getId() < o2.getId() ? 1 : -1);
-			
-			setElements(elements);
-		} catch (HistoryException e) {
-			LOG.error("Cannot access history, reason:", e);
-		}
+		setElements(elements);
 	}
 }
