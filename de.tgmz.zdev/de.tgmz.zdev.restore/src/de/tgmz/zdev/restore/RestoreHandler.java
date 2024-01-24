@@ -9,6 +9,10 @@
 **********************************************************************/
 package de.tgmz.zdev.restore;
 
+import java.io.ByteArrayInputStream;
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.compare.CompareConfiguration;
 import org.eclipse.compare.CompareUI;
 import org.eclipse.core.commands.AbstractHandler;
@@ -24,8 +28,15 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ibm.cics.core.comm.ConnectionException;
+import com.ibm.cics.zos.model.DataEntry;
+import com.ibm.cics.zos.model.DataPath;
 import com.ibm.cics.zos.model.Member;
+import com.ibm.cics.zos.model.PartitionedDataSet;
+import com.ibm.cics.zos.model.PermissionDeniedException;
+import com.ibm.cics.zos.model.UpdateFailedException;
 
+import de.tgmz.zdev.connection.ZdevConnectable;
 import de.tgmz.zdev.editor.ZdevEditor;
 import de.tgmz.zdev.history.HistoryException;
 import de.tgmz.zdev.history.HistoryIdentifyer;
@@ -67,25 +78,70 @@ public class RestoreHandler extends AbstractHandler {
 					}
 				}
 				
-				return handleRestore(member);
+				return handleReplace(member);
+			} else {
+				return handleRestore((PartitionedDataSet) o);
 			}
 		}
 		
 		return null;
 	}
 
-	private Object handleRestore(Member member) {
-		HistorySelectionDialog hsd = 
-				new HistorySelectionDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), member);
+	private Object handleRestore(PartitionedDataSet pds) {
+		List<HistoryIdentifyer> history;
+		try {
+			history = LocalHistory.getInstance().getVersions(pds.getFullPath() + "%");
+		} catch (HistoryException e) {
+			LOG.error("Cannot access history, reason:", e);
+
+			return null;
+		}
+
+		try {
+			List<DataEntry> dataSetEntries = ZdevConnectable.getConnectable().getDataSetEntries(new DataPath(pds.getFullPath()));
+
+			dataSetEntries.forEach(de -> history.removeIf(x -> x.getFqdn().equals(de.getPath())));
+			
+			HistorySelectionDialog hsd = new HistorySelectionDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), getElements(history));
+
+			int open = hsd.open();
+
+			if (open == Window.OK) {
+				HistoryIdentifyer selectedkey = (HistoryIdentifyer) hsd.getFirstResult();
+
+				byte[] b = LocalHistory.getInstance().retrieve(selectedkey.getId());
+
+				DataEntry de = DataEntry.newFrom(selectedkey.getFqdn(), ZdevConnectable.getConnectable());
+
+				ZdevConnectable.getConnectable().save(de, new ByteArrayInputStream(b));
+			}
+		} catch (PermissionDeniedException | UpdateFailedException | ConnectionException | HistoryException e) {
+			LOG.error("Cannot restore, reason:", e);
+		}
+
+		return null;
+	}
+
+	private Object handleReplace(Member member) {
+		List<HistoryIdentifyer> history;
+		try {
+			history = LocalHistory.getInstance().getVersions(member.toDisplayName());
+		} catch (HistoryException e) {
+			LOG.error("Cannot access history, reason:", e);
+			
+			return null;
+		}
+		
+		HistorySelectionDialog hsd = new HistorySelectionDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), getElements(history));
 		
 		int open = hsd.open();
 		
 		if (open == Window.OK) {
 			HistoryIdentifyer selectedkey = (HistoryIdentifyer) hsd.getFirstResult();
 
-			byte[] history;
+			byte[] b;
 			try {
-				history = LocalHistory.getInstance().retrieve(selectedkey.getId());
+				b = LocalHistory.getInstance().retrieve(selectedkey.getId());
 			} catch (HistoryException e) {
 				LOG.warn("Cannot get history entry {}, reason:", member.toDisplayName(), e);
 				
@@ -96,22 +152,23 @@ public class RestoreHandler extends AbstractHandler {
 				return null;
 			}
 
-			if (history != null) {
-				CompareConfiguration cc = new CompareConfiguration();
-				cc.setLeftEditable(true);
-				cc.setRightEditable(false);
-				
-				cc.setLeftLabel(Activator.getDefault().getString("Restore.Online") + " " + member.toDisplayName());
-				cc.setRightLabel(Activator.getDefault().getString("Restore.History") + " " + selectedkey);
-				
-				CompareUI.openCompareDialog(new CompareInput(cc, member, history));
-			} else {
-				MessageDialog.openWarning(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()
-						, Activator.getDefault().getString(TITLE) 
-						, Activator.getDefault().getString("Restore.NoHistory", (member).getName()));
-			}
+			CompareConfiguration cc = new CompareConfiguration();
+			cc.setLeftEditable(true);
+			cc.setRightEditable(false);
+
+			cc.setLeftLabel(Activator.getDefault().getString("Restore.Online") + " " + member.toDisplayName());
+			cc.setRightLabel(Activator.getDefault().getString("Restore.History") + " " + selectedkey);
+
+			CompareUI.openCompareDialog(new CompareInput(cc, member, b));
 		}
 		
 		return null;
+	}
+	private HistoryIdentifyer[] getElements(List<HistoryIdentifyer> history) {
+		HistoryIdentifyer[] elements = history.toArray(new HistoryIdentifyer[history.size()]);
+		
+		Arrays.sort(elements, (o1, o2) -> o1.getId() < o2.getId() ? 1 : -1);
+
+		return elements;
 	}
 }

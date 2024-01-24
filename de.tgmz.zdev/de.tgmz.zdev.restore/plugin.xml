@@ -24,7 +24,10 @@
          		<visibleWhen>
          			<with variable="activeMenuSelection">
          				<iterate>
-         					<instanceof value="com.ibm.cics.zos.model.Member" />
+         					<or>
+	         					<instanceof value="com.ibm.cics.zos.model.Member" />
+	         					<instanceof value="com.ibm.cics.zos.model.PartitionedDataSet" />
+         					</or>
          				</iterate>
          			</with>
          		</visibleWhen>

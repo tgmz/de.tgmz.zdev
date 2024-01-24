@@ -11,34 +11,20 @@ package de.tgmz.zdev.restore.test;
 
 import static org.junit.Assert.assertEquals;
 
-import java.nio.charset.Charset;
-import java.util.Date;
-
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mockito.Mockito;
 
-import com.ibm.cics.zos.model.Member;
-
-import de.tgmz.zdev.history.HistoryException;
-import de.tgmz.zdev.history.LocalHistory;
-import de.tgmz.zdev.history.model.IHistoryModel;
+import de.tgmz.zdev.history.HistoryIdentifyer;
 import de.tgmz.zdev.restore.HistorySelectionDialog;
 
 public class HistorySelectTest {
-	private static final byte[] CONTENT = "Some content".getBytes(Charset.defaultCharset());
-	private static final IHistoryModel history = LocalHistory.getInstance();
-	private static Member member;
-	
-	private Shell shell;
+	private static Shell shell;
 	
 	@Test
 	public void testDialog() {
-		HistorySelectionDialog hsd = new HistorySelectionDialog(shell, member);
+		HistorySelectionDialog hsd = new HistorySelectionDialog(shell, new HistoryIdentifyer("HLQ.PLI(MYMEMBER)", 0L, 1));
 		
 		hsd.create();
 		hsd.setBlockOnOpen(false);
@@ -49,20 +35,7 @@ public class HistorySelectTest {
 	}
 	
 	@BeforeClass
-	public static void setupOnce() throws HistoryException {
-		history.clear(new Date(), 0);
-		
-		member = Mockito.mock(Member.class);
-		Mockito.when(member.toDisplayName()).thenReturn("HLQ.PLI(MYMEMBER)");
-		
-		LocalHistory.getInstance().save(CONTENT, member.toDisplayName());
-	}
-	@AfterClass
-	public static void teardownOnce() throws HistoryException {
-		history.clear(new Date(), 0);
-	}
-	@Before
-	public void setup() {
+	public static void setup() {
 		shell = new Shell((Display) null);
 	}
 }
