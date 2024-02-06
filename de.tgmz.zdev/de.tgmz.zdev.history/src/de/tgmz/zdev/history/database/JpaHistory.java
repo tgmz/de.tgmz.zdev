@@ -35,7 +35,7 @@ public class JpaHistory implements IHistoryModel {
 	private static final Logger LOG = LoggerFactory.getLogger(JpaHistory.class);
 	
 	@Override
-	public HistoryIdentifyer save(byte[] content, String fqdn) throws HistoryException {
+	public HistoryIdentifyer save(String fqdn, byte[] content) throws HistoryException {
    		HistoryItem c = new HistoryItem();
    		
    		c.setContent(content);
@@ -56,11 +56,11 @@ public class JpaHistory implements IHistoryModel {
 	}
 
 	@Override
-	public byte[] retrieve(long key) throws HistoryException {
+	public byte[] retrieve(HistoryIdentifyer key) throws HistoryException {
        	Session session = DbService.startTx();
        	
        	try {
-       		HistoryItem c = session.createNamedQuery("byVersion", HistoryItem.class).setParameter("version",  key).uniqueResult();
+       		HistoryItem c = session.createNamedQuery("byVersion", HistoryItem.class).setParameter("version",  key.getId()).uniqueResult();
        		
        		return c != null ? c.getContent() : new byte[0];
 		} catch (HibernateException e) {

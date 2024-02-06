@@ -64,7 +64,7 @@ public class CompareInput extends CompareEditorInput {
 		try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
 			IOUtils.copy(left.getContents(), os);
 			
-			LocalHistory.getInstance().save(os.toByteArray(), left.getName());
+			LocalHistory.getInstance().save(left.getName(), os.toByteArray());
 		} catch (HistoryException | IOException e) {
 			LOG.warn("Cannot write history for {}", member.toDisplayName(), e);
 		}

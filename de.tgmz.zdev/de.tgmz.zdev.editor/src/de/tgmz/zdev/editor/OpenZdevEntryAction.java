@@ -62,7 +62,7 @@ public class OpenZdevEntryAction extends OpenDataEntryAction {
 		try {
 			if (LocalHistory.getInstance().getVersions(m.toDisplayName()).isEmpty()) {
 				try (ByteArrayOutputStream contents = ZdevConnectable.getConnectable().getContents(m, FileType.EBCDIC)) {
-					LocalHistory.getInstance().save(contents.toByteArray(), m.toDisplayName());
+					LocalHistory.getInstance().save(m.toDisplayName(), contents.toByteArray());
 				} catch (ConnectionException | IOException | HistoryException e) {
 					LOG.error("Cannot write history for {}",  m.toDisplayName(), e);
 				}

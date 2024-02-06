@@ -251,7 +251,7 @@ public class ZdevEditor extends MemberEditor {
 		
 		if (content != null && content.trim().length() > 0) {
 			try {
-				LocalHistory.getInstance().save(content.getBytes(Charset.defaultCharset()), getMember().toDisplayName());
+				LocalHistory.getInstance().save(getMember().toDisplayName(), content.getBytes(Charset.defaultCharset()));
 			} catch (HistoryException e) {
 				LOG.warn("Exception caching {}", getMember(), e);
 			}

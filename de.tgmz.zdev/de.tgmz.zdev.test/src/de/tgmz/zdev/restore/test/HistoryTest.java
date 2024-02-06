@@ -35,7 +35,7 @@ public class HistoryTest {
 	}
 	@Test
 	public void testHistory() throws HistoryException {
-		long z = history.save(new byte[1], NAME0).getId();
+		long z = history.save(NAME0, new byte[1]).getId();
 		
 		assertEquals(z, history.getVersions(NAME0).get(0).getId());
 		assertEquals(1, history.getVersions(NAME0).get(0).getSize());
