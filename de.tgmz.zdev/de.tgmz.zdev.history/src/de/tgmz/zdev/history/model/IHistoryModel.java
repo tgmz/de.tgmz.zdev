@@ -21,19 +21,19 @@ import de.tgmz.zdev.history.HistoryIdentifyer;
 public interface IHistoryModel {
 	/**
 	 * Saves the content of an item in the history and returns an identifier
-	 * @param content the content
 	 * @param fqdn fully qualified dataset name
+	 * @param content the content
 	 * @return identifier in history
 	 * @throws HistoryException if something happens
 	 */
-	HistoryIdentifyer save(byte[] content, String fqdn) throws HistoryException;
+	HistoryIdentifyer save(String fqdn, byte[] content) throws HistoryException;
 	/**
 	 * Retrieves the contents of an item from the history
 	 * @param key the identifier
 	 * @return the contents
 	 * @throws HistoryException if something happens
 	 */
-	byte[] retrieve(long key) throws HistoryException;
+	byte[] retrieve(HistoryIdentifyer key) throws HistoryException;
 	/**
 	 * Returns the list of identifiers of an item in the history
 	 * @param fqdn fully qualified dataset name

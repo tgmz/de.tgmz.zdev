@@ -109,7 +109,7 @@ public class RestoreHandler extends AbstractHandler {
 			if (open == Window.OK) {
 				HistoryIdentifyer selectedkey = (HistoryIdentifyer) hsd.getFirstResult();
 
-				byte[] b = LocalHistory.getInstance().retrieve(selectedkey.getId());
+				byte[] b = LocalHistory.getInstance().retrieve(selectedkey);
 
 				DataEntry de = DataEntry.newFrom(selectedkey.getFqdn(), ZdevConnectable.getConnectable());
 
@@ -141,7 +141,7 @@ public class RestoreHandler extends AbstractHandler {
 
 			byte[] b;
 			try {
-				b = LocalHistory.getInstance().retrieve(selectedkey.getId());
+				b = LocalHistory.getInstance().retrieve(selectedkey);
 			} catch (HistoryException e) {
 				LOG.warn("Cannot get history entry {}, reason:", member.toDisplayName(), e);
 				

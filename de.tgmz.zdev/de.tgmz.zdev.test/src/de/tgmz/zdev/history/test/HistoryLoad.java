@@ -40,7 +40,7 @@ public class HistoryLoad {
 			for (int j = 0; j < VERSIONS; j++) {
 				String s1 = RandomString.make(32000);
 				
-				history.save(s1.getBytes(StandardCharsets.UTF_8), s0);
+				history.save(s0, s1.getBytes(StandardCharsets.UTF_8));
 			}
 		}
 	}

@@ -22,6 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.tgmz.zdev.history.HistoryException;
+import de.tgmz.zdev.history.HistoryIdentifyer;
 import de.tgmz.zdev.history.LocalHistory;
 import de.tgmz.zdev.history.model.IHistoryModel;
 
@@ -32,7 +33,7 @@ public class HistoryTest {
 	private static final IHistoryModel history = LocalHistory.getInstance();
 	@Test
 	public void testHistory() throws HistoryException {
-		long key = history.save(CONTENT, MEMBER_NAME).getId();
+		HistoryIdentifyer key = history.save(MEMBER_NAME, CONTENT);
 		
 		assertFalse("Versionlist is empty", history.getVersions(MEMBER_NAME).isEmpty());
 		
@@ -43,16 +44,16 @@ public class HistoryTest {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_YEAR, 1);
 		
-		assertArrayEquals("Documents differ", new byte[0], history.retrieve(cal.getTimeInMillis()));
+		assertArrayEquals("Documents differ", new byte[0], history.retrieve(new HistoryIdentifyer(null, cal.getTimeInMillis(), 0L)));
 	}
 	@Test
 	public void testHistoryClear() throws HistoryException, InterruptedException {
-		history.save(CONTENT, MEMBER_NAME);
+		history.save(MEMBER_NAME, CONTENT);
 		
 		// Enforce second version. DevOps pipeline sometimes overwrites because timestamps are identical.
 		Thread.sleep(10);
 		
-		history.save(CONTENT, MEMBER_NAME);
+		history.save(MEMBER_NAME, CONTENT);
 		
 		history.clear(new Date(System.currentTimeMillis() - 1000), 1);
 		
