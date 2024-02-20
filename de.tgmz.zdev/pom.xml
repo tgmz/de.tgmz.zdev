@@ -57,7 +57,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<tycho-version>3.0.4</tycho-version>
 		<java-version>17</java-version>
-		<jacoco.version>0.8.10</jacoco.version>
+		<jacoco.version>0.8.11</jacoco.version>
 		<sonar.java.source>17</sonar.java.source>
  		<sonar.exclusions>src/testresources/**/*.*</sonar.exclusions>
  		<maven-jarsigner-version>3.0.0</maven-jarsigner-version>
@@ -340,6 +340,7 @@
 						<version>${jacoco.version}</version>
 						<executions>
 							<execution>
+								<id>prepare-agent</id>
 								<goals>
 									<goal>prepare-agent</goal>
 								</goals>
@@ -350,6 +351,11 @@
 									<goal>report-aggregate</goal>
 								</goals>
 								<phase>verify</phase>
+								<configuration>
+									<formats>
+										<format>XML</format>
+									</formats>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
@@ -366,7 +372,7 @@
 		            <plugin>
     	    	        <groupId>org.owasp</groupId>
         	    	    <artifactId>dependency-check-maven</artifactId>
-            	    	<version>9.0.7</version>
+            	    	<version>9.0.9</version>
             	    	<configuration>
 							<assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
 							<failBuildOnCVSS>8.2</failBuildOnCVSS>
