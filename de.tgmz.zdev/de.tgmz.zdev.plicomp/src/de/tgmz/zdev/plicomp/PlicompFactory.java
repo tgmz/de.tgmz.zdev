@@ -28,6 +28,7 @@ import org.xml.sax.SAXException;
 
 import com.ibm.cics.common.util.IOUtils;
 
+import de.tgmz.zdev.connection.ZdevConnectable;
 import de.tgmz.zdev.xinfo.generated.FILE;
 import de.tgmz.zdev.xinfo.generated.MESSAGE;
 import de.tgmz.zdev.xinfo.generated.ObjectFactory;
@@ -99,7 +100,9 @@ public class PlicompFactory {
 		// 2. For some reason the PL/I compiler write "<ÜDOCTYPE" instead of "<!DOCTYPE". Don't know why.
 
 		try {
-			String xml = IOUtils.readInputStreamAsString(is, true, Charset.defaultCharset().name());
+			String sbcsLocal = ZdevConnectable.getConnectable().getConnection().getConfiguration().getExtendedAttribute("SBCS_LOCAL");
+			
+			String xml = IOUtils.readInputStreamAsString(is, true, sbcsLocal != null ? sbcsLocal : Charset.defaultCharset().name());
 
 			is.close();
 			
