@@ -93,8 +93,6 @@
 		<module>de.tgmz.zdev.xsdosrg</module>
 		<module>de.tgmz.zdev.zos.client</module>
 		<module>de.tgmz.zdev.zos.server</module>
-		<module>de.tgmz.zdev.zowe</module>
-		<module>de.tgmz.zdev.zowe.test</module>
 	</modules>
 
 	<build>
