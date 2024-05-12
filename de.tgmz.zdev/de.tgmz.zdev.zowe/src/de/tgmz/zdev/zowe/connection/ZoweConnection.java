@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -46,6 +47,7 @@ import zowe.client.sdk.zosfiles.dsn.methods.DsnGet;
 import zowe.client.sdk.zosfiles.dsn.methods.DsnList;
 import zowe.client.sdk.zosfiles.dsn.methods.DsnWrite;
 import zowe.client.sdk.zosfiles.dsn.response.Dataset;
+import zowe.client.sdk.zosfiles.dsn.response.Member;
 import zowe.client.sdk.zosfiles.dsn.types.AttributeType;
 import zowe.client.sdk.zosfiles.uss.methods.UssList;
 import zowe.client.sdk.zosfiles.uss.response.UnixFile;
@@ -224,33 +226,7 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 
 	@Override
 	public List<ZOSConnectionResponse> getDataSetMembers(String p0) throws ConnectionException {
-		LOG.debug("getDataSetMembers {}", p0);
-		// TODO Auto-generated method stub
-		
-		List<ZOSConnectionResponse> result = new LinkedList<>();
-		
-		try {
-			List<Dataset> dss = dsnList.getDatasets(p0, new ListParams.Builder().attribute(AttributeType.BASE).build());
-			
-			for (Dataset ds : dss) {
-				ZOSConnectionResponse cr = new ZOSConnectionResponse();
-				cr.addAttribute("FILE_NAME", ds.getDsname().orElse(UNKNOWN));
-				cr.addAttribute("FILE_BLOCK_SIZE", ds.getBlksz().orElse(UNKNOWN));
-				cr.addAttribute("FILE_DSORG", ds.getDsorg().orElse(UNKNOWN));
-				cr.addAttribute("FILE_EXT", ds.getExtx().orElse(UNKNOWN));
-				cr.addAttribute("FILE_RECORD_LENGTH", ds.getLrectl().orElse(UNKNOWN));
-				cr.addAttribute("FILE_REFERRED_DATE", ds.getRdate().orElse(UNKNOWN));
-				cr.addAttribute("FILE_RECORD_FORMAT", ds.getRecfm().orElse(UNKNOWN));
-				cr.addAttribute("FILE_ALLOCATED", ds.getUsed().orElse(UNKNOWN));
-				cr.addAttribute("FILE_VOLUME", ds.getVol().orElse(UNKNOWN));
-				
-				result.add(cr);
-			}
-		} catch (ZosmfRequestException e) {
-			e.printStackTrace();
-		}
-		
-		return result;
+		return p0.endsWith("*") ? getDataSets(p0) : getMembers(p0);
 	}
 
 	@Override
@@ -349,7 +325,7 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 		// Trailing slash yields "incorrect path"
 		String path = p0.endsWith("/") ? p0.substring(0, p0.length() - 1) : p0;
 
-    	List<ZOSConnectionResponse> result = new LinkedList<>();
+    	List<ZOSConnectionResponse> result;
         List<UnixFile> items;
         
         try {
@@ -359,6 +335,8 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
             throw new ConnectionException(e);
         }
 
+        result = new ArrayList<ZOSConnectionResponse>(items.size());
+        
         for (UnixFile item : items) {
 			ZOSConnectionResponse cr = new ZOSConnectionResponse();
 			
@@ -500,12 +478,69 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 		LOG.debug("setConfiguration {}", p0);
 		super.setConfiguration(p0);
 	}
-	public void initSSLConfiguration() {
+	
+	private void initSSLConfiguration() {
 		try {
 			Object[] helper = ExplorerSecurityHelper.getSSLContext(getConfiguration().getName(), getConfiguration().getHost());
 			sslContext = (SSLContext) helper[0];
 		} catch (IOException e) {
 			LOG.info("Cannot get SSL context");
 		}
+	}
+	
+	private List<ZOSConnectionResponse> getDataSets(String pattern) throws ConnectionException {
+		List<ZOSConnectionResponse> result;
+		List<Dataset> items;
+		
+		try {
+			items = dsnList.getDatasets(pattern, new ListParams.Builder().attribute(AttributeType.BASE).build());
+		} catch (ZosmfRequestException e) {
+			throw new ConnectionException(e);
+		}
+			
+		result = new ArrayList<ZOSConnectionResponse>(items.size());
+			
+		for (Dataset item : items) {
+			ZOSConnectionResponse cr = new ZOSConnectionResponse();
+			cr.addAttribute("FILE_NAME", item.getDsname().orElse(UNKNOWN));
+			cr.addAttribute("FILE_BLOCK_SIZE", item.getBlksz().orElse(UNKNOWN));
+			cr.addAttribute("FILE_DSORG", item.getDsorg().orElse(UNKNOWN));
+			cr.addAttribute("FILE_EXT", item.getExtx().orElse(UNKNOWN));
+			cr.addAttribute("FILE_RECORD_LENGTH", item.getLrectl().orElse(UNKNOWN));
+			cr.addAttribute("FILE_REFERRED_DATE", item.getRdate().orElse(UNKNOWN));
+			cr.addAttribute("FILE_RECORD_FORMAT", item.getRecfm().orElse(UNKNOWN));
+			cr.addAttribute("FILE_ALLOCATED", item.getUsed().orElse(UNKNOWN));
+			cr.addAttribute("FILE_VOLUME", item.getVol().orElse(UNKNOWN));
+			
+			result.add(cr);
+		}
+		
+		return result;
+	}
+	private List<ZOSConnectionResponse> getMembers(String dsn) throws ConnectionException {
+		List<ZOSConnectionResponse> result;
+		List<Member> items;
+		
+		try {
+			items = dsnList.getMembers(dsn, new ListParams.Builder().attribute(AttributeType.MEMBER).build());
+		} catch (ZosmfRequestException e) {
+			throw new ConnectionException(e);
+		}
+			
+		result = new ArrayList<ZOSConnectionResponse>(items.size());
+			
+		for (Member item : items) {
+			ZOSConnectionResponse cr = new ZOSConnectionResponse();
+			
+			cr.addAttribute("FILE_PARENTPATH", dsn);
+			cr.addAttribute("NAME", item.getMember().orElse(UNKNOWN));
+			cr.addAttribute("FILE_CREATION_DATE", item.getC4date().orElse(UNKNOWN));
+			cr.addAttribute("FILE_CHANGED_DATE", item.getM4date().orElse(UNKNOWN));
+			cr.addAttribute("FILE_MOD", item.getVers().orElse(0L));
+			
+			result.add(cr);
+		}
+		
+		return result;
 	}
 }
