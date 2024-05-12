@@ -17,6 +17,8 @@ import java.io.Reader;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.net.ssl.SSLContext;
+
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import com.ibm.cics.core.comm.ConnectionConfiguration;
 import com.ibm.cics.core.comm.ConnectionException;
 import com.ibm.cics.core.comm.CredentialsConfiguration;
+import com.ibm.cics.core.comm.ExplorerSecurityHelper;
 import com.ibm.cics.core.connections.ConnectionsPlugin;
 import com.ibm.cics.core.connections.ICredentialsManager;
 import com.ibm.cics.zos.comm.AbstractZOSConnection;
@@ -44,6 +47,8 @@ import zowe.client.sdk.zosfiles.dsn.methods.DsnList;
 import zowe.client.sdk.zosfiles.dsn.methods.DsnWrite;
 import zowe.client.sdk.zosfiles.dsn.response.Dataset;
 import zowe.client.sdk.zosfiles.dsn.types.AttributeType;
+import zowe.client.sdk.zosfiles.uss.methods.UssList;
+import zowe.client.sdk.zosfiles.uss.response.UnixFile;
 import zowe.client.sdk.zosjobs.input.GetJobParams;
 import zowe.client.sdk.zosjobs.methods.JobGet;
 import zowe.client.sdk.zosjobs.response.Job;
@@ -69,7 +74,13 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	private DsnWrite dsnWrite;
 	private DsnDelete dsnDelete;
 	private DsnList dsnList;
+	
+	private UssList ussList;
+
+	
     private JobGet jobGet;
+
+	private SSLContext sslContext;
 
 	public ZoweConnection() {
 		this.credentialsManager = ConnectionsPlugin.getDefault().getCredentialsManager();
@@ -86,10 +97,14 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 					, new String(cc.getPasswordAsCharArray()));
 		}
 		
+		initSSLConfiguration();
+		
 		dsnWrite = new DsnWrite(connection);
 		dsnDelete = new DsnDelete(connection);
 		dsnGet = new DsnGet(connection);
 		dsnList = new DsnList(connection);
+		
+		ussList = new UssList(connection);
 		
 		jobGet = new JobGet(connection);
 		
@@ -151,8 +166,7 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 
 	@Override
 	public boolean isSecure() {
-		LOG.debug("isSecure");
-		return true;
+		return sslContext != null;
 	}
 
 	@Override
@@ -213,7 +227,7 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 		LOG.debug("getDataSetMembers {}", p0);
 		// TODO Auto-generated method stub
 		
-		List<ZOSConnectionResponse> l = new LinkedList<>();
+		List<ZOSConnectionResponse> result = new LinkedList<>();
 		
 		try {
 			List<Dataset> dss = dsnList.getDatasets(p0, new ListParams.Builder().attribute(AttributeType.BASE).build());
@@ -230,13 +244,13 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 				cr.addAttribute("FILE_ALLOCATED", ds.getUsed().orElse(UNKNOWN));
 				cr.addAttribute("FILE_VOLUME", ds.getVol().orElse(UNKNOWN));
 				
-				l.add(cr);
+				result.add(cr);
 			}
 		} catch (ZosmfRequestException e) {
 			e.printStackTrace();
 		}
 		
-		return l;
+		return result;
 	}
 
 	@Override
@@ -331,8 +345,38 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	@Override
 	public List<ZOSConnectionResponse> getHFSChildren(String p0, boolean p1) throws ConnectionException {
 		LOG.debug("getHFSChildren {}, {}", p0, p1);
-		// TODO Auto-generated method stub
-		return null;
+		
+		// Trailing slash yields "incorrect path"
+		String path = p0.endsWith("/") ? p0.substring(0, p0.length() - 1) : p0;
+
+    	List<ZOSConnectionResponse> result = new LinkedList<>();
+        List<UnixFile> items;
+        
+        try {
+            zowe.client.sdk.zosfiles.uss.input.ListParams params = new zowe.client.sdk.zosfiles.uss.input.ListParams.Builder().path(path).build();
+            items = ussList.getFiles(params);
+        } catch (ZosmfRequestException e) {
+            throw new ConnectionException(e);
+        }
+
+        for (UnixFile item : items) {
+			ZOSConnectionResponse cr = new ZOSConnectionResponse();
+			
+			String mode = item.getMode().orElse("-rw-r-----");
+			
+			cr.addAttribute("HFS_PARENT_PATH", p0);
+			cr.addAttributeDontTrim("NAME", item.getName().orElse(UNKNOWN));
+			cr.addAttribute("HFS_SIZE", item.getSize().orElse(0L));
+			cr.addAttribute("HFS_DIRECTORY", mode.startsWith("d"));
+			cr.addAttribute("HFS_USER", item.getUser().orElse(UNKNOWN));
+			cr.addAttribute("HFS_GROUP", item.getGroup().orElse(UNKNOWN));
+			cr.addAttribute("HFS_PERMISSIONS", mode);
+			cr.addAttribute("HFS_LAST_USED_DATE", item.getMtime().orElse(UNKNOWN));
+
+			result.add(cr);
+        }
+
+		return result;
 	}
 
 	@Override
@@ -455,5 +499,13 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	public void setConfiguration(ConnectionConfiguration p0) {
 		LOG.debug("setConfiguration {}", p0);
 		super.setConfiguration(p0);
+	}
+	public void initSSLConfiguration() {
+		try {
+			Object[] helper = ExplorerSecurityHelper.getSSLContext(getConfiguration().getName(), getConfiguration().getHost());
+			sslContext = (SSLContext) helper[0];
+		} catch (IOException e) {
+			LOG.info("Cannot get SSL context");
+		}
 	}
 }
