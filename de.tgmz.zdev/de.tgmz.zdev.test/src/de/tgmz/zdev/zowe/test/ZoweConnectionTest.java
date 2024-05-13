@@ -12,13 +12,11 @@ package de.tgmz.zdev.zowe.test;
 import org.junit.Test;
 import org.junit.Test.None;
 
-import com.ibm.cics.core.comm.ConnectionException;
-
 import de.tgmz.zdev.zowe.connection.ZoweConnection;
 
 public class ZoweConnectionTest {
 	@Test(expected = None.class)
-	public void testCleanup() throws ConnectionException {
+	public void testConnection() {
 		new ZoweConnection();
 	}
 }

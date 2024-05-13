@@ -17,6 +17,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.net.ssl.SSLContext;
 
@@ -24,7 +25,6 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ibm.cics.core.comm.ConnectionConfiguration;
 import com.ibm.cics.core.comm.ConnectionException;
 import com.ibm.cics.core.comm.CredentialsConfiguration;
 import com.ibm.cics.core.comm.ExplorerSecurityHelper;
@@ -34,8 +34,8 @@ import com.ibm.cics.zos.comm.AbstractZOSConnection;
 import com.ibm.cics.zos.comm.IZOSConnection;
 import com.ibm.cics.zos.comm.ZOSConnectionResponse;
 import com.ibm.cics.zos.comm.ZOSFileNotFoundException;
-import com.ibm.cics.zos.comm.ZOSPermissionDeniedException;
-import com.ibm.cics.zos.comm.ZOSUnsupportedOperationException;
+import com.ibm.cics.zos.model.IJob;
+import com.ibm.cics.zos.model.IJob.JobCompletion;
 
 import zowe.client.sdk.core.ZosConnection;
 import zowe.client.sdk.rest.Response;
@@ -52,6 +52,7 @@ import zowe.client.sdk.zosfiles.dsn.types.AttributeType;
 import zowe.client.sdk.zosfiles.uss.methods.UssList;
 import zowe.client.sdk.zosfiles.uss.response.UnixFile;
 import zowe.client.sdk.zosjobs.input.GetJobParams;
+import zowe.client.sdk.zosjobs.input.JobFile;
 import zowe.client.sdk.zosjobs.methods.JobGet;
 import zowe.client.sdk.zosjobs.response.Job;
 import zowe.client.sdk.zosmfinfo.methods.ZosmfStatus;
@@ -61,7 +62,6 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	public static final String CATEGORY_ID = "com.ibm.cics.zos.comm.connection";
 
 	private static final Logger LOG = LoggerFactory.getLogger(ZoweConnection.class);
-	
 	private static final String UNKNOWN = "UNKNOWN";
 
 	private ICredentialsManager credentialsManager;
@@ -92,12 +92,11 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	public void connect() throws ConnectionException {
 		CredentialsConfiguration cc = credentialsManager.findCredentialsConfigurationByID(super.getConfiguration().getCredentialsID());
 		
-		if (cc != null) {
-			connection = new ZosConnection(getConfiguration().getHost()
-					, String.valueOf(getConfiguration().getPort())
-					, cc.getUserID()
-					, new String(cc.getPasswordAsCharArray()));
-		}
+		this.connect(getConfiguration().getHost(), getConfiguration().getPort(), cc.getUserID(), new String(cc.getPasswordAsCharArray()));
+	}
+	
+	public void connect(String host, int port, String user, String pass) throws ConnectionException {
+		connection = new ZosConnection(host, String.valueOf(port), user, pass);
 		
 		initSSLConfiguration();
 		
@@ -115,26 +114,24 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
         try {
         	ZosmfInfoResponse zosmfInfoResponse = zosmfStatus.get();
         	
-        	String host = zosmfInfoResponse.getZosmfHostName().orElse(UNKNOWN);
+        	String realHost = zosmfInfoResponse.getZosmfHostName().orElse(UNKNOWN);
         	String osVersion =  zosmfInfoResponse.getZosVersion().orElse(UNKNOWN);
         	
         	connected = true;
         	
-        	LOG.info("Connected to {} running on z/OS version {}", host, osVersion);
+        	LOG.info("Connected to {} running on z/OS version {}", realHost, osVersion);
         } catch (ZosmfRequestException e) {
         	connected = false;
         	
         	throw new ConnectionException(e);
         }
-
-		
 	}
 
 	@Override
 	public void disconnect() throws ConnectionException {
 		LOG.debug("disconnect");
-		// TODO Auto-generated method stub
 		
+		connected = false;
 	}
 
 	@Override
@@ -188,13 +185,12 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	@Override
 	public List<ZOSConnectionResponse> getJobSteps(String p0) throws ConnectionException {
 		LOG.debug("getJobSteps {}", p0);
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
-	public List<ZOSConnectionResponse> getJobs(String p0, JobStatus p1, String p2)
-			throws ZOSUnsupportedOperationException, ConnectionException {
+	public List<ZOSConnectionResponse> getJobs(String p0, JobStatus p1, String p2) throws ConnectionException {
 		LOG.debug("getJobs {}, {}, {}", p0, p1, p2);
 
     	List<ZOSConnectionResponse> result = new LinkedList<>();
@@ -214,9 +210,25 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
        		cr.addAttribute("NAME", job.getJobName().orElse(UNKNOWN));
        		cr.addAttribute("JOB_ID", job.getJobId().orElse(UNKNOWN));
        		cr.addAttribute("JOB_USER", job.getOwner().orElse(UNKNOWN));
-       		cr.addAttribute("JOB_STATUS", job.getStatus().orElse(UNKNOWN));
        		cr.addAttribute("JOB_CLASS", job.getClasss().orElse(UNKNOWN));
        		cr.addAttribute("JOB_ERROR_CODE", job.getRetCode().orElse(UNKNOWN));
+       		cr.addAttribute("JOB_HAS_SPOOL_FILES", job.getStepData().isPresent());
+       		cr.addAttribute("JOB_STATUS", job.getStatus().orElse(UNKNOWN));
+       		cr.addAttribute("JOB_SPOOL_FILES_AVAILABLE", job.getStepData().isPresent());
+       		
+       		Optional<String> oStatus = job.getStatus();
+       		
+       		if (oStatus.isPresent()) {
+       			String status = oStatus.get();
+       			JobCompletion jc;
+       			try {
+       				jc = IJob.JobCompletion.valueOf(oStatus.get());
+       			} catch (IllegalArgumentException e) {
+       				jc = "OUTPUT".equals(status) ? JobCompletion.NORMAL : JobCompletion.NA;
+       			}
+       			
+           		cr.addAttribute("JOB_COMPLETION", jc);
+       		}
 
        		result.add(cr);
        	}
@@ -290,18 +302,29 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	}
 
 	@Override
-	public ZOSConnectionResponse getDataSet(String p0) throws ConnectionException, ZOSFileNotFoundException {
+	public ZOSConnectionResponse getDataSet(String p0) throws ConnectionException {
 		LOG.debug("getDataSet {}", p0);
-		// TODO Auto-generated method stub
-		return null;
+		
+		Optional<ZOSConnectionResponse> first = getDataSets(p0).stream().filter(s -> p0.equals(s.getAttribute("FILE_NAME"))).findFirst();
+
+		if (first.isPresent()) {
+			return first.get();
+		} else {
+			throw new ZOSFileNotFoundException(p0, null);
+		}
 	}
 
 	@Override
-	public ZOSConnectionResponse getDataSetMember(String p0, String p1)
-			throws ConnectionException, ZOSFileNotFoundException {
+	public ZOSConnectionResponse getDataSetMember(String p0, String p1)	throws ConnectionException {
 		LOG.debug("getDataSetMember {}, {}", p0, p1);
-		// TODO Auto-generated method stub
-		return null;
+
+		Optional<ZOSConnectionResponse> first = getDataSetMembers(p0).stream().filter(s -> p1.equals(s.getAttribute("NAME"))).findFirst();
+		
+		if (first.isPresent()) {
+			return first.get();
+		} else {
+			throw new ZOSFileNotFoundException(p0, p1);
+		}
 	}
 
 	@Override
@@ -325,7 +348,6 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 		// Trailing slash yields "incorrect path"
 		String path = p0.endsWith("/") ? p0.substring(0, p0.length() - 1) : p0;
 
-    	List<ZOSConnectionResponse> result;
         List<UnixFile> items;
         
         try {
@@ -335,7 +357,7 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
             throw new ConnectionException(e);
         }
 
-        result = new ArrayList<ZOSConnectionResponse>(items.size());
+        List<ZOSConnectionResponse> result = new ArrayList<>(items.size());
         
         for (UnixFile item : items) {
 			ZOSConnectionResponse cr = new ZOSConnectionResponse();
@@ -428,8 +450,7 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	}
 
 	@Override
-	public void cancelJob(String p0)
-			throws ConnectionException, ZOSFileNotFoundException, ZOSPermissionDeniedException {
+	public void cancelJob(String p0) throws ConnectionException {
 		LOG.debug("cancelJob {}", p0);
 		// TODO Auto-generated method stub
 		
@@ -468,16 +489,6 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
         	throw new ConnectionException(String.format("Cannot retrieve %s", p0), e);
 		}
 	}
-	@Override
-	public ConnectionConfiguration getConfiguration() {
-		LOG.debug("getConfiguration");
-		return super.getConfiguration();
-	}
-	@Override
-	public void setConfiguration(ConnectionConfiguration p0) {
-		LOG.debug("setConfiguration {}", p0);
-		super.setConfiguration(p0);
-	}
 	
 	private void initSSLConfiguration() {
 		try {
@@ -489,7 +500,6 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	}
 	
 	private List<ZOSConnectionResponse> getDataSets(String pattern) throws ConnectionException {
-		List<ZOSConnectionResponse> result;
 		List<Dataset> items;
 		
 		try {
@@ -498,7 +508,7 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 			throw new ConnectionException(e);
 		}
 			
-		result = new ArrayList<ZOSConnectionResponse>(items.size());
+		List<ZOSConnectionResponse> result = new ArrayList<>(items.size());
 			
 		for (Dataset item : items) {
 			ZOSConnectionResponse cr = new ZOSConnectionResponse();
@@ -518,7 +528,6 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 		return result;
 	}
 	private List<ZOSConnectionResponse> getMembers(String dsn) throws ConnectionException {
-		List<ZOSConnectionResponse> result;
 		List<Member> items;
 		
 		try {
@@ -527,7 +536,7 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 			throw new ConnectionException(e);
 		}
 			
-		result = new ArrayList<ZOSConnectionResponse>(items.size());
+		List<ZOSConnectionResponse> result = new ArrayList<>(items.size());
 			
 		for (Member item : items) {
 			ZOSConnectionResponse cr = new ZOSConnectionResponse();
