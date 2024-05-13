@@ -42,8 +42,10 @@ import com.ibm.cics.zos.model.IJob.JobCompletion;
 import zowe.client.sdk.core.ZosConnection;
 import zowe.client.sdk.rest.Response;
 import zowe.client.sdk.rest.exception.ZosmfRequestException;
+import zowe.client.sdk.zosfiles.dsn.input.CreateParams;
 import zowe.client.sdk.zosfiles.dsn.input.DownloadParams;
 import zowe.client.sdk.zosfiles.dsn.input.ListParams;
+import zowe.client.sdk.zosfiles.dsn.methods.DsnCreate;
 import zowe.client.sdk.zosfiles.dsn.methods.DsnDelete;
 import zowe.client.sdk.zosfiles.dsn.methods.DsnGet;
 import zowe.client.sdk.zosfiles.dsn.methods.DsnList;
@@ -56,7 +58,9 @@ import zowe.client.sdk.zosfiles.uss.methods.UssList;
 import zowe.client.sdk.zosfiles.uss.response.UnixFile;
 import zowe.client.sdk.zosjobs.input.GetJobParams;
 import zowe.client.sdk.zosjobs.input.JobFile;
+import zowe.client.sdk.zosjobs.methods.JobDelete;
 import zowe.client.sdk.zosjobs.methods.JobGet;
+import zowe.client.sdk.zosjobs.methods.JobSubmit;
 import zowe.client.sdk.zosjobs.response.Job;
 import zowe.client.sdk.zosmfinfo.methods.ZosmfStatus;
 import zowe.client.sdk.zosmfinfo.response.ZosmfInfoResponse;
@@ -79,11 +83,14 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	private DsnWrite dsnWrite;
 	private DsnDelete dsnDelete;
 	private DsnList dsnList;
+	private DsnCreate dsnCreate;
 	
 	private UssList ussList;
     private UssGet ussGet;
 
     private JobGet jobGet;
+    private JobSubmit jobSubmit;
+    private JobDelete jobDelete;
 
 	private SSLContext sslContext;
 
@@ -107,11 +114,14 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 		dsnDelete = new DsnDelete(connection);
 		dsnGet = new DsnGet(connection);
 		dsnList = new DsnList(connection);
+		dsnCreate = new DsnCreate(connection);
 		
 		ussList = new UssList(connection);
 		ussGet = new UssGet(connection);
 
 		jobGet = new JobGet(connection);
+		jobSubmit = new JobSubmit(connection);
+		jobDelete = new JobDelete(connection);
 		
         ZosmfStatus zosmfStatus = new ZosmfStatus(connection);
 
@@ -175,8 +185,16 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	@Override
 	public ZOSConnectionResponse getJob(String p0) throws ConnectionException {
 		LOG.debug("getJob {}", p0);
-		// TODO Auto-generated method stub
-		return null;
+		
+		Job byId;
+		
+		try {
+			byId = jobGet.getById(p0);
+		} catch (ZosmfRequestException e) {
+        	throw new ConnectionException(e);
+		}
+
+		return convertJob(byId);
 	}
 
 	@Override
@@ -230,34 +248,7 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
         	throw new ConnectionException(e);
         }
         	
-       	for (Job job : jobs) {
-       		ZOSConnectionResponse cr = new ZOSConnectionResponse();
-
-       		cr.addAttribute(IZOSConstants.NAME, job.getJobName().orElse(UNKNOWN));
-       		cr.addAttribute(IZOSConstants.JOB_ID, job.getJobId().orElse(UNKNOWN));
-       		cr.addAttribute(IZOSConstants.JOB_USER, job.getOwner().orElse(UNKNOWN));
-       		cr.addAttribute(IZOSConstants.JOB_CLASS, job.getClasss().orElse(UNKNOWN));
-       		cr.addAttribute(IZOSConstants.JOB_ERROR_CODE, job.getRetCode().orElse(UNKNOWN));
-       		cr.addAttribute(IZOSConstants.JOB_HAS_SPOOL_FILES, true);
-       		cr.addAttribute(IZOSConstants.JOB_STATUS, job.getStatus().orElse(UNKNOWN));
-       		cr.addAttribute(IZOSConstants.JOB_SPOOL_FILES_AVAILABLE, true);
-       		
-       		Optional<String> oStatus = job.getStatus();
-       		
-       		if (oStatus.isPresent()) {
-       			String status = oStatus.get();
-       			JobCompletion jc;
-       			try {
-       				jc = IJob.JobCompletion.valueOf(oStatus.get());
-       			} catch (IllegalArgumentException e) {
-       				jc = "OUTPUT".equals(status) ? JobCompletion.NORMAL : JobCompletion.NA;
-       			}
-       			
-           		cr.addAttribute(IZOSConstants.JOB_COMPLETION, jc);
-       		}
-
-       		result.add(cr);
-       	}
+        jobs.forEach(j -> result.add(convertJob(j)));
 		
 		return result;
 	}
@@ -323,7 +314,38 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	@Override
 	public void createDataSet(String p0, DataSetArguments p1) throws ConnectionException {
 		LOG.debug("createDataSet {}, {}", p0, p1);
-		// TODO Auto-generated method stub
+		
+		// Convert alcunit com.ibm.cics.zos.model.DataSet$SpaceUnits
+		String alcunit;
+		
+		switch (p1.spaceUnits) {
+		case "CYLINDERS":
+			alcunit = "CYL"; break;
+		case "TRACKS":
+			alcunit = "TRK"; break;
+		case "BLOCKS":
+		default:
+			alcunit = "BLK"; break;
+		}
+		
+        CreateParams createParams = new CreateParams.Builder()
+                .dsorg(p1.datasetType)
+                .alcunit(alcunit)
+                .primary((int) p1.primaryAllocation)
+                .secondary((int) p1.secondaryAllocation)
+                .dirblk((int) p1.directoryBlocks)
+                .recfm(p1.recordFormat)
+                .blksize((int) p1.blockSize)
+                .lrecl((int) p1.recordLength)
+                .build();
+
+		try {
+			response = dsnCreate.create(p0, createParams);
+			
+			LOG.debug("Response {}", response);
+		} catch (ZosmfRequestException e) {
+			throw new ConnectionException(e);
+		}
 		
 	}
 
@@ -480,15 +502,34 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	@Override
 	public ZOSConnectionResponse submitJob(InputStream p0) throws ConnectionException {
 		LOG.debug("submitJob {}", p0);
-		// TODO Auto-generated method stub
-		return null;
+		
+		Job job;
+		
+		try (Reader r = new InputStreamReader(p0)) {
+			job = jobSubmit.submitByJcl(IOUtils.toString(r), null, null);
+		} catch (ZosmfRequestException | IOException e) {
+			throw new ConnectionException(e);
+		}
+		
+		ZOSConnectionResponse cr = new ZOSConnectionResponse();
+		cr.addAttribute(IZOSConstants.JOB_NAME, job.getJobName().orElse(UNKNOWN));
+		cr.addAttribute(IZOSConstants.JOB_ID, job.getJobId().orElse(UNKNOWN));
+		cr.addAttribute(IZOSConstants.JOB_USER, job.getOwner().orElse(connection.getUser()));
+
+		return cr;
 	}
 
 	@Override
 	public void deleteJob(String p0) throws ConnectionException {
 		LOG.debug("deleteJob {}", p0);
-		// TODO Auto-generated method stub
 		
+		try {
+			response = jobDelete.deleteByJob(new Job.Builder().jobId(p0).build(), "2.0");
+			
+			LOG.debug("deleteJob {}", response);
+		} catch (ZosmfRequestException e) {
+			throw new ConnectionException(e);
+		}
 	}
 
 	@Override
@@ -617,4 +658,32 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 		
 		return result;
 	}
+	private ZOSConnectionResponse convertJob(Job job) {
+		ZOSConnectionResponse cr = new ZOSConnectionResponse();
+
+		cr.addAttribute(IZOSConstants.NAME, job.getJobName().orElse(UNKNOWN));
+		cr.addAttribute(IZOSConstants.JOB_ID, job.getJobId().orElse(UNKNOWN));
+		cr.addAttribute(IZOSConstants.JOB_USER, job.getOwner().orElse(UNKNOWN));
+		cr.addAttribute(IZOSConstants.JOB_CLASS, job.getClasss().orElse(UNKNOWN));
+		cr.addAttribute(IZOSConstants.JOB_ERROR_CODE, job.getRetCode().orElse(UNKNOWN));
+		cr.addAttribute(IZOSConstants.JOB_HAS_SPOOL_FILES, true);
+		cr.addAttribute(IZOSConstants.JOB_STATUS, job.getStatus().orElse(UNKNOWN));
+		cr.addAttribute(IZOSConstants.JOB_SPOOL_FILES_AVAILABLE, true);
+		
+		Optional<String> oStatus = job.getStatus();
+		
+		if (oStatus.isPresent()) {
+			String status = oStatus.get();
+			JobCompletion jc;
+			try {
+				jc = IJob.JobCompletion.valueOf(oStatus.get());
+			} catch (IllegalArgumentException e) {
+				jc = "OUTPUT".equals(status) ? JobCompletion.NORMAL : JobCompletion.NA;
+			}
+			
+			cr.addAttribute(IZOSConstants.JOB_COMPLETION, jc);
+		}
+		return cr;
+	}
+
 }
