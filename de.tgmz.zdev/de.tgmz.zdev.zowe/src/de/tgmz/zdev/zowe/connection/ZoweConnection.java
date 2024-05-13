@@ -186,7 +186,29 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	public List<ZOSConnectionResponse> getJobSteps(String p0) throws ConnectionException {
 		LOG.debug("getJobSteps {}", p0);
 
-		return null;
+		List<JobFile> spoolFilesByJob;
+		
+		try {
+			Job byId = jobGet.getById(p0);
+			 spoolFilesByJob = jobGet.getSpoolFilesByJob(byId);
+		} catch (ZosmfRequestException e) {
+        	throw new ConnectionException(e);
+		}
+
+		List<ZOSConnectionResponse> result = new ArrayList<>(spoolFilesByJob.size());
+
+		for (JobFile jf : spoolFilesByJob) {
+			ZOSConnectionResponse cr = new ZOSConnectionResponse();
+			
+			cr.addAttribute("JOB_STEPNAME", jf.getDdName().orElse(UNKNOWN));
+			cr.addAttribute("JOB_ID", jf.getJobId().orElse(p0));
+			cr.addAttribute("JOB_DDNAME", jf.getDdName().orElse(p0));
+			cr.addAttribute("JOB_SPOOL_FILES_AVAILABLE", true);
+
+			result.add(cr);
+		}
+	
+		return result;
 	}
 
 	@Override
@@ -212,9 +234,9 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
        		cr.addAttribute("JOB_USER", job.getOwner().orElse(UNKNOWN));
        		cr.addAttribute("JOB_CLASS", job.getClasss().orElse(UNKNOWN));
        		cr.addAttribute("JOB_ERROR_CODE", job.getRetCode().orElse(UNKNOWN));
-       		cr.addAttribute("JOB_HAS_SPOOL_FILES", job.getStepData().isPresent());
+       		cr.addAttribute("JOB_HAS_SPOOL_FILES", true);
        		cr.addAttribute("JOB_STATUS", job.getStatus().orElse(UNKNOWN));
-       		cr.addAttribute("JOB_SPOOL_FILES_AVAILABLE", job.getStepData().isPresent());
+       		cr.addAttribute("JOB_SPOOL_FILES_AVAILABLE", true);
        		
        		Optional<String> oStatus = job.getStatus();
        		
