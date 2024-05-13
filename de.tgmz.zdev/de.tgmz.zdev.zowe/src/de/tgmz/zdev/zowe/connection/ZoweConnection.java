@@ -225,6 +225,7 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 			cr.addAttribute(IZOSConstants.JOB_STEPNAME, jf.getDdName().orElse(UNKNOWN));
 			cr.addAttribute(IZOSConstants.JOB_ID, jf.getJobId().orElse(p0));
 			cr.addAttribute(IZOSConstants.JOB_DDNAME, jf.getDdName().orElse(p0));
+			cr.addAttribute(IZOSConstants.JOB_DSNAME, jf.getDdName().orElse(p0));
 			cr.addAttribute(IZOSConstants.JOB_SPOOL_FILES_AVAILABLE, true);
 
 			result.add(cr);
