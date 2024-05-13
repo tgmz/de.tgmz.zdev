@@ -9,6 +9,7 @@
 **********************************************************************/
 package de.tgmz.zdev.zowe.connection;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,6 +51,7 @@ import zowe.client.sdk.zosfiles.dsn.methods.DsnWrite;
 import zowe.client.sdk.zosfiles.dsn.response.Dataset;
 import zowe.client.sdk.zosfiles.dsn.response.Member;
 import zowe.client.sdk.zosfiles.dsn.types.AttributeType;
+import zowe.client.sdk.zosfiles.uss.methods.UssGet;
 import zowe.client.sdk.zosfiles.uss.methods.UssList;
 import zowe.client.sdk.zosfiles.uss.response.UnixFile;
 import zowe.client.sdk.zosjobs.input.GetJobParams;
@@ -79,6 +81,7 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	private DsnList dsnList;
 	
 	private UssList ussList;
+    private UssGet ussGet;
 
     private JobGet jobGet;
 
@@ -106,7 +109,8 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 		dsnList = new DsnList(connection);
 		
 		ussList = new UssList(connection);
-		
+		ussGet = new UssGet(connection);
+
 		jobGet = new JobGet(connection);
 		
         ZosmfStatus zosmfStatus = new ZosmfStatus(connection);
@@ -446,8 +450,24 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	@Override
 	public ByteArrayOutputStream getFileHFS(String p0, FileType p1) throws ConnectionException {
 		LOG.debug("getFileHFS {}, {}", p0, p1);
-		// TODO Auto-generated method stub
-		return null;
+		
+		byte[] content;
+		
+		try {
+			content = p1 == FileType.BINARY ?  ussGet.getBinary(p0) : ussGet.getText(p0).getBytes();
+		} catch (ZosmfRequestException e) {
+			throw new ConnectionException(e);
+		}
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream(content.length);
+		
+		try (InputStream is = new ByteArrayInputStream(content)) {
+			IOUtils.copy(is, baos);
+		} catch (IOException e) {
+			LOG.error("Error converting content", e);
+		}
+		
+		return baos;
 	}
 
 	@Override
