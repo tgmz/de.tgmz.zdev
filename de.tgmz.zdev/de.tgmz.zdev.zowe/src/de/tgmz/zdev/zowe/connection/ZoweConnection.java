@@ -32,6 +32,7 @@ import com.ibm.cics.core.connections.ConnectionsPlugin;
 import com.ibm.cics.core.connections.ICredentialsManager;
 import com.ibm.cics.zos.comm.AbstractZOSConnection;
 import com.ibm.cics.zos.comm.IZOSConnection;
+import com.ibm.cics.zos.comm.IZOSConstants;
 import com.ibm.cics.zos.comm.ZOSConnectionResponse;
 import com.ibm.cics.zos.comm.ZOSFileNotFoundException;
 import com.ibm.cics.zos.model.IJob;
@@ -79,7 +80,6 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	
 	private UssList ussList;
 
-	
     private JobGet jobGet;
 
 	private SSLContext sslContext;
@@ -200,10 +200,10 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 		for (JobFile jf : spoolFilesByJob) {
 			ZOSConnectionResponse cr = new ZOSConnectionResponse();
 			
-			cr.addAttribute("JOB_STEPNAME", jf.getDdName().orElse(UNKNOWN));
-			cr.addAttribute("JOB_ID", jf.getJobId().orElse(p0));
-			cr.addAttribute("JOB_DDNAME", jf.getDdName().orElse(p0));
-			cr.addAttribute("JOB_SPOOL_FILES_AVAILABLE", true);
+			cr.addAttribute(IZOSConstants.JOB_STEPNAME, jf.getDdName().orElse(UNKNOWN));
+			cr.addAttribute(IZOSConstants.JOB_ID, jf.getJobId().orElse(p0));
+			cr.addAttribute(IZOSConstants.JOB_DDNAME, jf.getDdName().orElse(p0));
+			cr.addAttribute(IZOSConstants.JOB_SPOOL_FILES_AVAILABLE, true);
 
 			result.add(cr);
 		}
@@ -229,14 +229,14 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
        	for (Job job : jobs) {
        		ZOSConnectionResponse cr = new ZOSConnectionResponse();
 
-       		cr.addAttribute("NAME", job.getJobName().orElse(UNKNOWN));
-       		cr.addAttribute("JOB_ID", job.getJobId().orElse(UNKNOWN));
-       		cr.addAttribute("JOB_USER", job.getOwner().orElse(UNKNOWN));
-       		cr.addAttribute("JOB_CLASS", job.getClasss().orElse(UNKNOWN));
-       		cr.addAttribute("JOB_ERROR_CODE", job.getRetCode().orElse(UNKNOWN));
-       		cr.addAttribute("JOB_HAS_SPOOL_FILES", true);
-       		cr.addAttribute("JOB_STATUS", job.getStatus().orElse(UNKNOWN));
-       		cr.addAttribute("JOB_SPOOL_FILES_AVAILABLE", true);
+       		cr.addAttribute(IZOSConstants.NAME, job.getJobName().orElse(UNKNOWN));
+       		cr.addAttribute(IZOSConstants.JOB_ID, job.getJobId().orElse(UNKNOWN));
+       		cr.addAttribute(IZOSConstants.JOB_USER, job.getOwner().orElse(UNKNOWN));
+       		cr.addAttribute(IZOSConstants.JOB_CLASS, job.getClasss().orElse(UNKNOWN));
+       		cr.addAttribute(IZOSConstants.JOB_ERROR_CODE, job.getRetCode().orElse(UNKNOWN));
+       		cr.addAttribute(IZOSConstants.JOB_HAS_SPOOL_FILES, true);
+       		cr.addAttribute(IZOSConstants.JOB_STATUS, job.getStatus().orElse(UNKNOWN));
+       		cr.addAttribute(IZOSConstants.JOB_SPOOL_FILES_AVAILABLE, true);
        		
        		Optional<String> oStatus = job.getStatus();
        		
@@ -249,7 +249,7 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
        				jc = "OUTPUT".equals(status) ? JobCompletion.NORMAL : JobCompletion.NA;
        			}
        			
-           		cr.addAttribute("JOB_COMPLETION", jc);
+           		cr.addAttribute(IZOSConstants.JOB_COMPLETION, jc);
        		}
 
        		result.add(cr);
@@ -386,14 +386,14 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 			
 			String mode = item.getMode().orElse("-rw-r-----");
 			
-			cr.addAttribute("HFS_PARENT_PATH", p0);
-			cr.addAttributeDontTrim("NAME", item.getName().orElse(UNKNOWN));
-			cr.addAttribute("HFS_SIZE", item.getSize().orElse(0L));
-			cr.addAttribute("HFS_DIRECTORY", mode.startsWith("d"));
-			cr.addAttribute("HFS_USER", item.getUser().orElse(UNKNOWN));
-			cr.addAttribute("HFS_GROUP", item.getGroup().orElse(UNKNOWN));
-			cr.addAttribute("HFS_PERMISSIONS", mode);
-			cr.addAttribute("HFS_LAST_USED_DATE", item.getMtime().orElse(UNKNOWN));
+			cr.addAttribute(IZOSConstants.HFS_PARENT_PATH, p0);
+			cr.addAttribute(IZOSConstants.NAME, item.getName().orElse(UNKNOWN));
+			cr.addAttribute(IZOSConstants.HFS_SIZE, item.getSize().orElse(0L));
+			cr.addAttribute(IZOSConstants.HFS_DIRECTORY, mode.startsWith("d"));
+			cr.addAttribute(IZOSConstants.HFS_USER, item.getUser().orElse(UNKNOWN));
+			cr.addAttribute(IZOSConstants.HFS_GROUP, item.getGroup().orElse(UNKNOWN));
+			cr.addAttribute(IZOSConstants.HFS_PERMISSIONS, mode);
+			cr.addAttribute(IZOSConstants.HFS_LAST_USED_DATE, item.getMtime().orElse(UNKNOWN));
 
 			result.add(cr);
         }
@@ -534,15 +534,38 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 			
 		for (Dataset item : items) {
 			ZOSConnectionResponse cr = new ZOSConnectionResponse();
-			cr.addAttribute("FILE_NAME", item.getDsname().orElse(UNKNOWN));
-			cr.addAttribute("FILE_BLOCK_SIZE", item.getBlksz().orElse(UNKNOWN));
-			cr.addAttribute("FILE_DSORG", item.getDsorg().orElse(UNKNOWN));
-			cr.addAttribute("FILE_EXT", item.getExtx().orElse(UNKNOWN));
-			cr.addAttribute("FILE_RECORD_LENGTH", item.getLrectl().orElse(UNKNOWN));
-			cr.addAttribute("FILE_REFERRED_DATE", item.getRdate().orElse(UNKNOWN));
-			cr.addAttribute("FILE_RECORD_FORMAT", item.getRecfm().orElse(UNKNOWN));
-			cr.addAttribute("FILE_ALLOCATED", item.getUsed().orElse(UNKNOWN));
-			cr.addAttribute("FILE_VOLUME", item.getVol().orElse(UNKNOWN));
+			cr.addAttribute(IZOSConstants.FILE_NAME, item.getDsname().orElse(UNKNOWN));
+			cr.addAttribute(IZOSConstants.FILE_BLOCK_SIZE, item.getBlksz().orElse(UNKNOWN));
+			cr.addAttribute(IZOSConstants.FILE_EXT, item.getExtx().orElse(UNKNOWN));
+			cr.addAttribute(IZOSConstants.FILE_RECORD_LENGTH, item.getLrectl().orElse(UNKNOWN));
+			cr.addAttribute(IZOSConstants.FILE_REFERRED_DATE, item.getRdate().orElse(UNKNOWN));
+			cr.addAttribute(IZOSConstants.FILE_RECORD_FORMAT, item.getRecfm().orElse(UNKNOWN));
+			cr.addAttribute(IZOSConstants.FILE_ALLOCATED, item.getUsed().orElse(UNKNOWN));
+			cr.addAttribute(IZOSConstants.FILE_VOLUME, item.getVol().orElse(UNKNOWN));
+			cr.addAttribute(IZOSConstants.FILE_CREATION_DATE, item.getCdate().orElse(UNKNOWN));
+			cr.addAttribute(IZOSConstants.FILE_SIZE, item.getSizex().orElse(UNKNOWN));
+			
+			if (item.getMigr().isPresent() && "YES".equals(item.getMigr().get())) {
+				cr.addAttribute(IZOSConstants.FILE_UNAVAILABLE, IZOSConstants.Unavailable.Migrated);
+			}
+
+			if (item.getDsorg().isPresent()) {
+				String dsorg = item.getDsorg().get();
+				
+				if ("VS".equals(dsorg)) {
+					cr.addAttribute(IZOSConstants.FILE_DSORG, "VSAM");
+					
+					if (cr.getAttribute(IZOSConstants.FILE_NAME).endsWith(".DATA")) {
+						cr.addAttribute(IZOSConstants.FILE_VSAM_DATA, true);
+					}
+					
+					if (cr.getAttribute(IZOSConstants.FILE_NAME).endsWith(".INDEX")) {
+						cr.addAttribute(IZOSConstants.FILE_VSAM_INDEX, true);
+					}
+				} else {
+					cr.addAttribute(IZOSConstants.FILE_DSORG, dsorg);
+				}
+			}
 			
 			result.add(cr);
 		}
@@ -563,11 +586,11 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 		for (Member item : items) {
 			ZOSConnectionResponse cr = new ZOSConnectionResponse();
 			
-			cr.addAttribute("FILE_PARENTPATH", dsn);
-			cr.addAttribute("NAME", item.getMember().orElse(UNKNOWN));
-			cr.addAttribute("FILE_CREATION_DATE", item.getC4date().orElse(UNKNOWN));
-			cr.addAttribute("FILE_CHANGED_DATE", item.getM4date().orElse(UNKNOWN));
-			cr.addAttribute("FILE_MOD", item.getVers().orElse(0L));
+			cr.addAttribute(IZOSConstants.FILE_PARENTPATH, dsn);
+			cr.addAttribute(IZOSConstants.NAME, item.getMember().orElse(UNKNOWN));
+			cr.addAttribute(IZOSConstants.FILE_CREATION_DATE, item.getC4date().orElse(UNKNOWN));
+			cr.addAttribute(IZOSConstants.FILE_CHANGED_DATE, item.getM4date().orElse(UNKNOWN));
+			cr.addAttribute(IZOSConstants.FILE_MOD, item.getVers().orElse(0L));
 			
 			result.add(cr);
 		}
