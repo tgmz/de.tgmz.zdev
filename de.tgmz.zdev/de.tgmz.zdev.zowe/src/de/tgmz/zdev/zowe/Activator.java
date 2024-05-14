@@ -16,11 +16,13 @@ public class Activator extends AbstractUIPlugin {
 	public static final String PLUGIN_ID = "de.tgmz.zdev.zowe";
 	private static Activator plugin;
 	
+	@Override
 	public void start(final BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
 	}
 
+	@Override
 	public void stop(final BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);

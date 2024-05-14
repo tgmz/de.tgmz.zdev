@@ -9,6 +9,7 @@
 Exclude
 - javax.activation !!!!! Avoid warning "Mirror tool: Problems resolving provisioning plan.: [Unable to satisfy dependency from zdev 5.0.0.202210181314 to org.eclipse.equinox.p2.iu; javax.activation [2.0.0.v20201118-1818,2.0.0.v20201118-1818].]" which breaks the "materialize" phase
 - de.tgmz.zdev.test
+- de.tgmz.zdev.zowe.test
 - de.tgmz.zdev.zos.server
 - com.ibm.zosconnect.ui.service.cics
 - com.ibm.zosconnect.ui.service.mq

@@ -30,12 +30,12 @@ import com.ibm.cics.core.comm.ConnectionException;
 import com.ibm.cics.core.comm.CredentialsConfiguration;
 import com.ibm.cics.core.comm.ExplorerSecurityHelper;
 import com.ibm.cics.core.connections.ConnectionsPlugin;
-import com.ibm.cics.core.connections.ICredentialsManager;
 import com.ibm.cics.zos.comm.AbstractZOSConnection;
 import com.ibm.cics.zos.comm.IZOSConnection;
 import com.ibm.cics.zos.comm.IZOSConstants;
 import com.ibm.cics.zos.comm.ZOSConnectionResponse;
 import com.ibm.cics.zos.comm.ZOSFileNotFoundException;
+import com.ibm.cics.zos.comm.ZOSUnsupportedOperationException;
 import com.ibm.cics.zos.model.IJob;
 import com.ibm.cics.zos.model.IJob.JobCompletion;
 
@@ -53,6 +53,7 @@ import zowe.client.sdk.zosfiles.dsn.methods.DsnWrite;
 import zowe.client.sdk.zosfiles.dsn.response.Dataset;
 import zowe.client.sdk.zosfiles.dsn.response.Member;
 import zowe.client.sdk.zosfiles.dsn.types.AttributeType;
+import zowe.client.sdk.zosfiles.uss.methods.UssDelete;
 import zowe.client.sdk.zosfiles.uss.methods.UssGet;
 import zowe.client.sdk.zosfiles.uss.methods.UssList;
 import zowe.client.sdk.zosfiles.uss.response.UnixFile;
@@ -71,8 +72,6 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	private static final Logger LOG = LoggerFactory.getLogger(ZoweConnection.class);
 	private static final String UNKNOWN = "UNKNOWN";
 
-	private ICredentialsManager credentialsManager;
-
 	private boolean connected;
 	
 	private ZosConnection connection;
@@ -87,6 +86,7 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	
 	private UssList ussList;
     private UssGet ussGet;
+    private UssDelete ussDelete;
 
     private JobGet jobGet;
     private JobSubmit jobSubmit;
@@ -94,20 +94,16 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 
 	private SSLContext sslContext;
 
-	public ZoweConnection() {
-		this.credentialsManager = ConnectionsPlugin.getDefault().getCredentialsManager();
-	}
-	
 	@Override
 	public void connect() throws ConnectionException {
-		CredentialsConfiguration cc = credentialsManager.findCredentialsConfigurationByID(super.getConfiguration().getCredentialsID());
+		CredentialsConfiguration cc = ConnectionsPlugin.getDefault().getCredentialsManager().findCredentialsConfigurationByID(super.getConfiguration().getCredentialsID());
 		
 		this.connect(getConfiguration().getHost(), getConfiguration().getPort(), cc.getUserID(), new String(cc.getPasswordAsCharArray()));
 	}
 	
 	public void connect(String host, int port, String user, String pass) throws ConnectionException {
 		connection = new ZosConnection(host, String.valueOf(port), user, pass);
-		
+
 		initSSLConfiguration();
 		
 		dsnWrite = new DsnWrite(connection);
@@ -118,6 +114,7 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 		
 		ussList = new UssList(connection);
 		ussGet = new UssGet(connection);
+		ussDelete = new UssDelete(connection);
 
 		jobGet = new JobGet(connection);
 		jobSubmit = new JobSubmit(connection);
@@ -142,33 +139,28 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	}
 
 	@Override
-	public void disconnect() throws ConnectionException {
-		LOG.debug("disconnect");
-		
+	public void disconnect() {
+		connection = null;
 		connected = false;
 	}
 
 	@Override
 	public String getHost() {
-		LOG.debug("getHost");
 		return connection.getHost();
 	}
 
 	@Override
 	public String getName() {
-		LOG.debug("getName");
 		return CATEGORY_ID;
 	}
 
 	@Override
 	public int getPort() {
-		LOG.debug("getPort");
 		return Integer.parseInt(connection.getZosmfPort());
 	}
 
 	@Override
 	public String getUserID() {
-		LOG.debug("getUserID");
 		return connection.getUser();
 	}
 
@@ -184,8 +176,6 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 
 	@Override
 	public ZOSConnectionResponse getJob(String p0) throws ConnectionException {
-		LOG.debug("getJob {}", p0);
-		
 		Job byId;
 		
 		try {
@@ -200,14 +190,11 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	@Override
 	public ByteArrayOutputStream getJobStepSpool(String p0) throws ConnectionException {
 		LOG.debug("getJobStepSpool {}", p0);
-		// TODO Auto-generated method stub
-		return null;
+		return super.getJobSpool(p0);
 	}
 
 	@Override
 	public List<ZOSConnectionResponse> getJobSteps(String p0) throws ConnectionException {
-		LOG.debug("getJobSteps {}", p0);
-
 		List<JobFile> spoolFilesByJob;
 		
 		try {
@@ -236,8 +223,6 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 
 	@Override
 	public List<ZOSConnectionResponse> getJobs(String p0, JobStatus p1, String p2) throws ConnectionException {
-		LOG.debug("getJobs {}, {}, {}", p0, p1, p2);
-
     	List<ZOSConnectionResponse> result = new LinkedList<>();
     	List<Job> jobs;
     	
@@ -261,15 +246,13 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 
 	@Override
 	public ByteArrayOutputStream retrieveDataSetMember(String p0, String p1) throws ConnectionException {
-		LOG.debug("retrieveDataSetMember {}, {}", p0, p1);
 		return retrieve(String.format("%s(%s)", p0, p1));
 	}
 
 	@Override
 	public void recallDataSetMember(String p0, String p1) throws ConnectionException {
-		LOG.debug("recallDataSetMember {}, {}", p0, p1);
-		// TODO Auto-generated method stub
-		
+		LOG.debug("recallDataSetMember {} {}", p0, p1);
+		super.recallDataSetMember(p0, p1);
 	}
 
 	@Override
@@ -280,14 +263,12 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 
 	@Override
 	public ByteArrayOutputStream submitDataSetMember(String p0, String p1) throws ConnectionException {
-		LOG.debug("submitDataSetMember {}, {}", p0, p1);
-		// TODO Auto-generated method stub
-		return null;
+		LOG.debug("submitDataSetMember {} {}", p0, p1);
+		return super.submitDataSetMember(p0, p1);
 	}
 
 	@Override
 	public void saveDataSetMember(String p0, String p1, InputStream p2) throws ConnectionException {
-		LOG.debug("saveDataSetMember {}, {}, {}", p0, p1, p2);
 		try (Reader r = new InputStreamReader(p2)) {
 			dsnWrite.write(p0, p1, IOUtils.toString(r));
 		} catch (ZosmfRequestException | IOException e) {
@@ -297,8 +278,6 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 
 	@Override
 	public void deleteDataSet(String p0, String p1) throws ConnectionException {
-		LOG.debug("deleteDataSet {}, {}", p0, p1);
-
 		try {
 			if (p0 == null) {
 				response = dsnDelete.delete(p1);
@@ -314,8 +293,6 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 
 	@Override
 	public void createDataSet(String p0, DataSetArguments p1) throws ConnectionException {
-		LOG.debug("createDataSet {}, {}", p0, p1);
-		
 		// Convert alcunit com.ibm.cics.zos.model.DataSet$SpaceUnits
 		String alcunit;
 		
@@ -352,8 +329,6 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 
 	@Override
 	public ZOSConnectionResponse getDataSet(String p0) throws ConnectionException {
-		LOG.debug("getDataSet {}", p0);
-		
 		Optional<ZOSConnectionResponse> first = getDataSets(p0).stream().filter(s -> p0.equals(s.getAttribute("FILE_NAME"))).findFirst();
 
 		if (first.isPresent()) {
@@ -365,8 +340,6 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 
 	@Override
 	public ZOSConnectionResponse getDataSetMember(String p0, String p1)	throws ConnectionException {
-		LOG.debug("getDataSetMember {}, {}", p0, p1);
-
 		Optional<ZOSConnectionResponse> first = getDataSetMembers(p0).stream().filter(s -> p1.equals(s.getAttribute("NAME"))).findFirst();
 		
 		if (first.isPresent()) {
@@ -378,16 +351,14 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 
 	@Override
 	public ZOSConnectionResponse createDataSetMember(String p0, String p1) throws ConnectionException {
-		LOG.debug("createDataSetMember {}, {}", p0, p1);
-		// TODO Auto-generated method stub
-		return null;
+		LOG.debug("createDataSetMember {} {}", p0, p1);
+		return super.createDataSetMember(p0, p1);
 	}
 
 	@Override
 	public void createDataSet(String p0, String p1, InputStream p2) throws ConnectionException {
-		LOG.debug("createDataSet {}, {}, {}", p0, p1, p2);
-		// TODO Auto-generated method stub
-		
+		LOG.debug("createDataSet {} {} {}", p0, p1, p2);
+		super.createDataSet(p0, p1, p2);
 	}
 
 	@Override
@@ -431,43 +402,41 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	@Override
 	public boolean existsHFS(String p0) throws ConnectionException {
 		LOG.debug("existsHFS {}", p0);
-		// TODO Auto-generated method stub
-		return false;
+		return super.existsHFS(p0);
 	}
 
 	@Override
 	public boolean existsHFSFile(String p0, String p1) throws ConnectionException {
-		LOG.debug("existsHFSFile {}, {}", p0, p1);
-		// TODO Auto-generated method stub
-		return false;
+		LOG.debug("existsHFSFile {} {}", p0, p1);
+		return super.existsHFSFile(p0, p1);
 	}
 
 	@Override
 	public void createFolderHFS(String p0) throws ConnectionException {
 		LOG.debug("createFolderHFS {}", p0);
-		// TODO Auto-generated method stub
-		
+		super.createFolderHFS(p0);
 	}
 
 	@Override
 	public void deletePathHFS(String p0) throws ConnectionException {
-		LOG.debug("deletePathHFS {}", p0);
-		// TODO Auto-generated method stub
-		
+		try {
+			response = ussDelete.delete(p0, true);
+			
+			LOG.debug("Delete {}", response);
+		} catch (ZosmfRequestException e) {
+			throw new ConnectionException(e);
+		}
 	}
 
 	@Override
 	public void saveFileHFS(String p0, InputStream p1, FileType p2) throws ConnectionException {
-		LOG.debug("changePermissions {}, {}, {}", p0, p1, p2);
-		// TODO Auto-saveFileHFS method stub
-		
+		LOG.debug("saveFileHFS {} {} {}", p0, p1, p2);
+		super.saveFileHFS(p0, p1, p2);
 	}
 
 	@Override
 	public void saveFileHFS(String p0, InputStream p1, String p2) throws ConnectionException {
-		LOG.debug("saveFileHFS {}, {}, {}", p0, p1, p2);
-		// TODO Auto-generated method stub
-		
+		throw new ZOSUnsupportedOperationException("");
 	}
 
 	@Override
@@ -496,8 +465,7 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	@Override
 	public ByteArrayOutputStream getJobSpool(String p0) throws ConnectionException {
 		LOG.debug("getJobSpool {}", p0);
-		// TODO Auto-generated method stub
-		return null;
+		return super.getJobSpool(p0);
 	}
 
 	@Override
@@ -525,7 +493,8 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 		LOG.debug("deleteJob {}", p0);
 		
 		try {
-			response = jobDelete.deleteByJob(new Job.Builder().jobId(p0).build(), "2.0");
+			Job byId = jobGet.getById(p0);
+			response = jobDelete.deleteByJob(new Job.Builder().jobId(p0).jobName(byId.getJobName().orElseThrow(() -> new ConnectionException(String.format("Job %s not found", p0 )))).build(), "2.0");
 			
 			LOG.debug("deleteJob {}", response);
 		} catch (ZosmfRequestException e) {
@@ -536,29 +505,24 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	@Override
 	public void cancelJob(String p0) throws ConnectionException {
 		LOG.debug("cancelJob {}", p0);
-		// TODO Auto-generated method stub
-		
+		super.cancelJob(p0);
 	}
 
 	@Override
 	public boolean canPerform(String p0, String p1) {
-		LOG.debug("canPerform {}, {}", p0, p1);
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public void perform(String p0, String p1) throws ConnectionException {
-		LOG.debug("perform {}, {}", p0, p1);
-		// TODO Auto-generated method stub
-		
+		LOG.debug("perform {} {}", p0, p1);
+		super.perform(p0, p1);
 	}
 
 	@Override
 	public void changePermissions(String p0, String p1) throws ConnectionException {
-		LOG.debug("changePermissions {}, {}", p0, p1);
-		// TODO Auto-generated method stub
-		
+		LOG.debug("changePermissions {} {}", p0, p1);
+		super.changePermissions(p0, p1);
 	}
 	
 	private ByteArrayOutputStream retrieve(String p0) throws ConnectionException {
@@ -607,26 +571,24 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 			cr.addAttribute(IZOSConstants.FILE_CREATION_DATE, item.getCdate().orElse(UNKNOWN));
 			cr.addAttribute(IZOSConstants.FILE_SIZE, item.getSizex().orElse(UNKNOWN));
 			
-			if (item.getMigr().isPresent() && "YES".equals(item.getMigr().get())) {
+			if ("YES".equals(item.getMigr().orElse("NO"))) {
 				cr.addAttribute(IZOSConstants.FILE_UNAVAILABLE, IZOSConstants.Unavailable.Migrated);
 			}
 
-			if (item.getDsorg().isPresent()) {
-				String dsorg = item.getDsorg().get();
+			String dsorg = item.getDsorg().orElse(UNKNOWN);
 				
-				if ("VS".equals(dsorg)) {
-					cr.addAttribute(IZOSConstants.FILE_DSORG, "VSAM");
+			if ("VS".equals(dsorg)) {
+				cr.addAttribute(IZOSConstants.FILE_DSORG, "VSAM");
 					
-					if (cr.getAttribute(IZOSConstants.FILE_NAME).endsWith(".DATA")) {
-						cr.addAttribute(IZOSConstants.FILE_VSAM_DATA, true);
-					}
-					
-					if (cr.getAttribute(IZOSConstants.FILE_NAME).endsWith(".INDEX")) {
-						cr.addAttribute(IZOSConstants.FILE_VSAM_INDEX, true);
-					}
-				} else {
-					cr.addAttribute(IZOSConstants.FILE_DSORG, dsorg);
+				if (cr.getAttribute(IZOSConstants.FILE_NAME).endsWith(".DATA")) {
+					cr.addAttribute(IZOSConstants.FILE_VSAM_DATA, true);
 				}
+					
+				if (cr.getAttribute(IZOSConstants.FILE_NAME).endsWith(".INDEX")) {
+					cr.addAttribute(IZOSConstants.FILE_VSAM_INDEX, true);
+				}
+			} else {
+				cr.addAttribute(IZOSConstants.FILE_DSORG, dsorg);
 			}
 			
 			result.add(cr);
