@@ -4,7 +4,7 @@ Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-SymbolicName: de.tgmz.zdev.database
-Bundle-Version: 1.1.2.qualifier
+Bundle-Version: 1.2.0.qualifier
 Bundle-Activator: de.tgmz.zdev.database.Activator
 Require-Bundle: de.tgmz.zdev.logging,
  de.tgmz.zdev.preferences,
