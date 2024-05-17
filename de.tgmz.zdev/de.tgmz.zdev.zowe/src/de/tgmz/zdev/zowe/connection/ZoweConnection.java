@@ -25,6 +25,7 @@ import com.ibm.cics.core.comm.ExplorerSecurityHelper;
 import com.ibm.cics.core.connections.ConnectionsPlugin;
 import com.ibm.cics.zos.comm.AbstractZOSConnection;
 import com.ibm.cics.zos.comm.IZOSConnection;
+import com.ibm.cics.zos.comm.IZOSConstants;
 import com.ibm.cics.zos.comm.ZOSConnectionResponse;
 
 import zowe.client.sdk.core.ZosConnection;
@@ -120,159 +121,159 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	}
 
 	@Override
-	public ZOSConnectionResponse getJob(String p0) throws ConnectionException {
-		return jobConnection.getJob(p0);
+	public ZOSConnectionResponse getJob(String jobID) throws ConnectionException {
+		return jobConnection.getJob(jobID);
 	}
 
 	@Override
-	public ByteArrayOutputStream getJobStepSpool(String p0) throws ConnectionException {
-		return jobConnection.getJobStepSpool(p0);
+	public ByteArrayOutputStream getJobStepSpool(String jobID) throws ConnectionException {
+		return jobConnection.getJobStepSpool(jobID);
 	}
 
 	@Override
-	public List<ZOSConnectionResponse> getJobSteps(String p0) throws ConnectionException {
-		return jobConnection.getJobSteps(p0);
+	public List<ZOSConnectionResponse> getJobSteps(String jobID) throws ConnectionException {
+		return jobConnection.getJobSteps(jobID);
 	}
 
 	@Override
-	public List<ZOSConnectionResponse> getJobs(String p0, JobStatus p1, String p2) throws ConnectionException {
-		return jobConnection.getJobs(p0, p1, p2);
+	public List<ZOSConnectionResponse> getJobs(String jobName, JobStatus aJobStatus, String owner) throws ConnectionException {
+		return jobConnection.getJobs(jobName, aJobStatus, owner);
 	}
 
 	@Override
-	public List<ZOSConnectionResponse> getDataSetMembers(String p0) throws ConnectionException {
-		return dsnConnection.getDataSetMembers(p0);
+	public List<ZOSConnectionResponse> getDataSetMembers(String dataSetName) throws ConnectionException {
+		return dsnConnection.getDataSetMembers(dataSetName);
 	}
 
 	@Override
-	public ByteArrayOutputStream retrieveDataSetMember(String p0, String p1) throws ConnectionException {
-		return dsnConnection.retrieveDataSetMember(p0, p1);
+	public ByteArrayOutputStream retrieveDataSetMember(String dataSetName, String memberName) throws ConnectionException {
+		return dsnConnection.retrieveDataSetMember(dataSetName, memberName);
 	}
 
 	@Override
-	public void recallDataSetMember(String p0, String p1) throws ConnectionException {
-		dsnConnection.recallDataSetMember(p0, p1);
+	public void recallDataSetMember(String dataSetName, String memberName) throws ConnectionException {
+		dsnConnection.recallDataSetMember(dataSetName, memberName);
 	}
 
 	@Override
-	public ByteArrayOutputStream retrieveSequentialDataSet(String p0) throws ConnectionException {
-		return dsnConnection.retrieveSequentialDataSet(p0);
+	public ByteArrayOutputStream retrieveSequentialDataSet(String dataSetName) throws ConnectionException {
+		return dsnConnection.retrieveSequentialDataSet(dataSetName);
 	}
 
 	@Override
-	public ByteArrayOutputStream submitDataSetMember(String p0, String p1) throws ConnectionException {
-		return jobConnection.submitDataSetMember(p0, p1);
+	public ByteArrayOutputStream submitDataSetMember(String dataSetName, String memberName) throws ConnectionException {
+		return jobConnection.submitDataSetMember(dataSetName, memberName);
 	}
 
 	@Override
-	public void saveDataSetMember(String p0, String p1, InputStream p2) throws ConnectionException {
-		dsnConnection.saveDataSetMember(p0, p1, p2);
+	public void saveDataSetMember(String dataSetName, String memberName, InputStream dataSetContents) throws ConnectionException {
+		dsnConnection.saveDataSetMember(dataSetName, memberName, dataSetContents);
 	}
 
 	@Override
-	public void deleteDataSet(String p0, String p1) throws ConnectionException {
-		dsnConnection.deleteDataSet(p0, p1);
+	public void deleteDataSet(String dataSetName, String memberName) throws ConnectionException {
+		dsnConnection.deleteDataSet(dataSetName, memberName);
 	}
 
 	@Override
-	public void createDataSet(String p0, DataSetArguments p1) throws ConnectionException {
-		dsnConnection.createDataSet(p0, p1);
+	public void createDataSet(String dataSetName, DataSetArguments memberName) throws ConnectionException {
+		dsnConnection.createDataSet(dataSetName, memberName);
 	}
 
 	@Override
-	public ZOSConnectionResponse getDataSet(String p0) throws ConnectionException {
-		return dsnConnection.getDataSet(p0);
+	public ZOSConnectionResponse getDataSet(String dataSetName) throws ConnectionException {
+		return dsnConnection.getDataSet(dataSetName);
 	}
 
 	@Override
-	public ZOSConnectionResponse getDataSetMember(String p0, String p1)	throws ConnectionException {
-		return dsnConnection.getDataSetMember(p0, p1);
+	public ZOSConnectionResponse getDataSetMember(String dataSetName, String memberName)	throws ConnectionException {
+		return dsnConnection.getDataSetMember(dataSetName, memberName);
 	}
 
 	@Override
-	public ZOSConnectionResponse createDataSetMember(String p0, String p1) throws ConnectionException {
-		return dsnConnection.createDataSetMember(p0, p1);
+	public ZOSConnectionResponse createDataSetMember(String dataSetName, String memberName) throws ConnectionException {
+		return dsnConnection.createDataSetMember(dataSetName, memberName);
 	}
 
 	@Override
-	public void createDataSet(String p0, String p1, InputStream p2) throws ConnectionException {
-		dsnConnection.createDataSet(p0, p1, p2);
+	public void createDataSet(String dataSetName, String basedOnDataSetPath, InputStream contents) throws ConnectionException {
+		dsnConnection.createDataSet(dataSetName, basedOnDataSetPath, contents);
 	}
 
 	@Override
-	public List<ZOSConnectionResponse> getHFSChildren(String p0, boolean p1) throws ConnectionException {
-		return ussConnection.getHFSChildren(p0, p1);
+	public List<ZOSConnectionResponse> getHFSChildren(String aPath, boolean includeHiddenFiles) throws ConnectionException {
+		return ussConnection.getHFSChildren(aPath, includeHiddenFiles);
 	}
 
 	@Override
-	public boolean existsHFS(String p0) throws ConnectionException {
-		return ussConnection.existsHFS(p0);
+	public boolean existsHFS(String aPath) throws ConnectionException {
+		return ussConnection.existsHFS(aPath);
 	}
 
 	@Override
-	public boolean existsHFSFile(String p0, String p1) throws ConnectionException {
-		return ussConnection.existsHFSFile(p0, p1);
+	public boolean existsHFSFile(String aPath, String aName) throws ConnectionException {
+		return ussConnection.existsHFSFile(aPath, aName);
 	}
 
 	@Override
-	public void createFolderHFS(String p0) throws ConnectionException {
-		ussConnection.createFolderHFS(p0);
+	public void createFolderHFS(String aPath) throws ConnectionException {
+		ussConnection.createFolderHFS(aPath);
 	}
 
 	@Override
-	public void deletePathHFS(String p0) throws ConnectionException {
-		ussConnection.deletePathHFS(p0);
+	public void deletePathHFS(String aPath) throws ConnectionException {
+		ussConnection.deletePathHFS(aPath);
 	}
 
 	@Override
-	public void saveFileHFS(String p0, InputStream p1, FileType p2) throws ConnectionException {
-		ussConnection.saveFileHFS(p0, p1, p2);
+	public void saveFileHFS(String aPath, InputStream fileContents, IZOSConstants.FileType aFileType) throws ConnectionException {
+		ussConnection.saveFileHFS(aPath, fileContents, aFileType);
 	}
 
 	@Override
-	public void saveFileHFS(String p0, InputStream p1, String p2) throws ConnectionException {
-		ussConnection.saveFileHFS(p0, p1, p2);
+	public void saveFileHFS(String filePath, InputStream fileContents, String charset) throws ConnectionException {
+		ussConnection.saveFileHFS(filePath, fileContents, charset);
 	}
 
 	@Override
-	public ByteArrayOutputStream getFileHFS(String p0, FileType p1) throws ConnectionException {
-		return ussConnection.getFileHFS(p0, p1);
+	public ByteArrayOutputStream getFileHFS(String fileName, FileType p1) throws ConnectionException {
+		return ussConnection.getFileHFS(fileName, p1);
 	}
 
 	@Override
-	public ByteArrayOutputStream getJobSpool(String p0) throws ConnectionException {
-		return jobConnection.getJobSpool(p0);
+	public ByteArrayOutputStream getJobSpool(String jobId) throws ConnectionException {
+		return jobConnection.getJobSpool(jobId);
 	}
 
 	@Override
-	public ZOSConnectionResponse submitJob(InputStream p0) throws ConnectionException {
-		return jobConnection.submitJob(p0);
+	public ZOSConnectionResponse submitJob(InputStream stream) throws ConnectionException {
+		return jobConnection.submitJob(stream);
 	}
 
 	@Override
-	public void deleteJob(String p0) throws ConnectionException {
-		jobConnection.deleteJob(p0);
+	public void deleteJob(String jobId) throws ConnectionException {
+		jobConnection.deleteJob(jobId);
 	}
 
 	@Override
-	public void cancelJob(String p0) throws ConnectionException {
-		jobConnection.cancelJob(p0);
+	public void cancelJob(String jobId) throws ConnectionException {
+		jobConnection.cancelJob(jobId);
 	}
 
 	@Override
-	public boolean canPerform(String p0, String p1) {
+	public boolean canPerform(String actionID, String iD) {
 		return true;
 	}
 
 	@Override
-	public void perform(String p0, String p1) throws ConnectionException {
-		LOG.debug("perform {} {}", p0, p1);
-		super.perform(p0, p1);
+	public void perform(String request, String argument) throws ConnectionException {
+		LOG.debug("perform {} {}", request, argument);
+		super.perform(request, argument);
 	}
 
 	@Override
-	public void changePermissions(String p0, String p1) throws ConnectionException {
-		ussConnection.changePermissions(p0, p1);
+	public void changePermissions(String anHFSEntry, String octal) throws ConnectionException {
+		ussConnection.changePermissions(anHFSEntry, octal);
 	}
 	
 	private void initSSLConfiguration() {

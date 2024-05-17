@@ -37,7 +37,6 @@ import org.mockserver.model.HttpResponse;
 import org.mockserver.socket.PortFactory;
 import org.mockserver.socket.tls.KeyStoreFactory;
 
-import com.google.common.base.Charsets;
 import com.ibm.cics.core.comm.ConnectionException;
 import com.ibm.cics.zos.comm.IZOSConnection.DataSetArguments;
 import com.ibm.cics.zos.comm.IZOSConstants;
@@ -144,7 +143,7 @@ public class ZoweConnectionMockTest {
 		assertThrows(ConnectionException.class, () -> connection.getFileHFS(HFS_PATH, FileType.ASCII));
 		assertThrows(ConnectionException.class, () -> connection.getHFSChildren(HFS_PATH, true));
 		assertThrows(ConnectionException.class, () -> connection.saveFileHFS(HFS_PATH, new NullInputStream(), FileType.ASCII));
-		assertThrows(ConnectionException.class, () -> connection.saveFileHFS(HFS_PATH, new NullInputStream(), Charsets.UTF_8.name()));
+		assertThrows(ConnectionException.class, () -> connection.saveFileHFS(HFS_PATH, new NullInputStream(), StandardCharsets.UTF_8.name()));
 
 		// Mock successful responses 
 		server.when(HttpRequest.request().withMethod(HTTP_PUT).withPath(getUri(ZosmfPaths.FILES, ".*"))).respond(HttpResponse.response().withStatusCode(201));
@@ -165,7 +164,7 @@ public class ZoweConnectionMockTest {
 		assertNotNull(connection.getFileHFS(HFS_PATH, FileType.ASCII));
 		assertEquals(3, connection.getHFSChildren(HFS_PATH, true).size());
 		connection.saveFileHFS(HFS_PATH, new NullInputStream(), FileType.ASCII);
-		connection.saveFileHFS(HFS_PATH, new NullInputStream(), Charsets.UTF_8.name());
+		connection.saveFileHFS(HFS_PATH, new NullInputStream(), StandardCharsets.UTF_8.name());
 	}
 	
 	@Test
