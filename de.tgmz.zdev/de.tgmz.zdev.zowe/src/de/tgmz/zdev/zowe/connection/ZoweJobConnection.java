@@ -65,11 +65,11 @@ public class ZoweJobConnection {
 		jobCancel = new JobCancel(connection);
 		
 	}
-	public ZOSConnectionResponse getJob(String p0) throws ConnectionException {
+	public ZOSConnectionResponse getJob(String jobID) throws ConnectionException {
 		Job byId;
 		
 		try {
-			byId = jobGet.getById(p0);
+			byId = jobGet.getById(jobID);
 		} catch (ZosmfRequestException e) {
         	throw new ConnectionException(e);
 		}
@@ -77,10 +77,10 @@ public class ZoweJobConnection {
 		return convertJob(byId);
 	}
 
-	public ByteArrayOutputStream getJobStepSpool(String p0) throws ConnectionException {
-		LOG.debug("getJobStepSpool {}", p0);
+	public ByteArrayOutputStream getJobStepSpool(String jobID) throws ConnectionException {
+		LOG.debug("getJobStepSpool {}", jobID);
 		
-		String[] split = p0.split("\\.");
+		String[] split = jobID.split("\\.");
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		
@@ -104,11 +104,11 @@ public class ZoweJobConnection {
 		return baos;
 	}
 
-	public List<ZOSConnectionResponse> getJobSteps(String p0) throws ConnectionException {
+	public List<ZOSConnectionResponse> getJobSteps(String jobID) throws ConnectionException {
 		List<JobFile> spoolFilesByJob;
 		
 		try {
-			Job byId = jobGet.getById(p0);
+			Job byId = jobGet.getById(jobID);
 			spoolFilesByJob = jobGet.getSpoolFilesByJob(byId);
 		} catch (ZosmfRequestException e) {
         	throw new ConnectionException(e);
@@ -119,12 +119,12 @@ public class ZoweJobConnection {
 		for (JobFile jf : spoolFilesByJob) {
 			ZOSConnectionResponse cr = new ZOSConnectionResponse();
 			
-			String id = jf.getJobId().orElse(p0);
+			String id = jf.getJobId().orElse(jobID);
 			
 			cr.addAttribute(IZOSConstants.JOB_STEPNAME, id + "." + jf.getDdName().orElse(ZoweConnection.UNKNOWN));
 			cr.addAttribute(IZOSConstants.JOB_ID, id);
-			cr.addAttribute(IZOSConstants.JOB_DDNAME, jf.getDdName().orElse(p0));
-			cr.addAttribute(IZOSConstants.JOB_DSNAME, id + "." + jf.getDdName().orElse(p0));
+			cr.addAttribute(IZOSConstants.JOB_DDNAME, jf.getDdName().orElse(jobID));
+			cr.addAttribute(IZOSConstants.JOB_DSNAME, id + "." + jf.getDdName().orElse(jobID));
 			cr.addAttribute(IZOSConstants.JOB_SPOOL_FILES_AVAILABLE, true);
 			
 			result.add(cr);
@@ -133,11 +133,11 @@ public class ZoweJobConnection {
 		return result;
 	}
 
-	public List<ZOSConnectionResponse> getJobs(String p0, JobStatus p1, String p2) throws ConnectionException {
+	public List<ZOSConnectionResponse> getJobs(String jobName, IZOSConstants.JobStatus aJobStatus, String owner) throws ConnectionException {
     	List<ZOSConnectionResponse> result = new LinkedList<>();
     	List<Job> jobs;
     	
-        GetJobParams params = new GetJobParams.Builder(p2).prefix(p0).build();
+        GetJobParams params = new GetJobParams.Builder(owner).prefix(jobName).build();
 
         try {
         	jobs = jobGet.getCommon(params);
@@ -146,7 +146,7 @@ public class ZoweJobConnection {
         }
         	
         for (Job job : jobs) {
-        	if (p1 == JobStatus.ALL || JobStatus.valueOf(job.getStatus().orElse(ZoweConnection.UNKNOWN)) == p1) {
+        	if (aJobStatus == JobStatus.ALL || JobStatus.valueOf(job.getStatus().orElse(ZoweConnection.UNKNOWN)) == aJobStatus) {
         		result.add(convertJob(job));
         	}
         }
@@ -154,11 +154,11 @@ public class ZoweJobConnection {
 		return result;
 	}
 
-	public ByteArrayOutputStream submitDataSetMember(String p0, String p1) throws ConnectionException {
-		LOG.debug("submitDataSetMember {} {}", p0, p1);
+	public ByteArrayOutputStream submitDataSetMember(String dataSetName, String memberName) throws ConnectionException {
+		LOG.debug("submitDataSetMember {} {}", dataSetName, memberName);
 
 		try {
-			Job job = jobSubmit.submit(String.format("%s(%s)", p0, p1));
+			Job job = jobSubmit.submit(String.format("%s(%s)", dataSetName, memberName));
 			
 			LOG.debug("jobSubmit {}", job);
 		} catch (ZosmfRequestException e) {
@@ -168,10 +168,10 @@ public class ZoweJobConnection {
 		return new ByteArrayOutputStream(0);
 	}
 
-	public ByteArrayOutputStream getJobSpool(String p0) throws ConnectionException {
-		LOG.debug("getJobSpool {}", p0);
+	public ByteArrayOutputStream getJobSpool(String jobID) throws ConnectionException {
+		LOG.debug("getJobSpool {}", jobID);
 
-        GetJobParams params = new GetJobParams.Builder("*").jobId(p0).build();
+        GetJobParams params = new GetJobParams.Builder("*").jobId(jobID).build();
         
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             List<Job> jobs = jobGet.getCommon(params);
@@ -197,12 +197,12 @@ public class ZoweJobConnection {
 		}
 	}
 
-	public ZOSConnectionResponse submitJob(InputStream p0) throws ConnectionException {
-		LOG.debug("submitJob {}", p0);
+	public ZOSConnectionResponse submitJob(InputStream stream) throws ConnectionException {
+		LOG.debug("submitJob {}", stream);
 		
 		Job job;
 		
-		try (Reader r = new InputStreamReader(p0)) {
+		try (Reader r = new InputStreamReader(stream)) {
 			job = jobSubmit.submitByJcl(IOUtils.toString(r), null, null);
 		} catch (ZosmfRequestException | IOException e) {
 			throw new ConnectionException(e);
@@ -216,12 +216,12 @@ public class ZoweJobConnection {
 		return cr;
 	}
 
-	public void deleteJob(String p0) throws ConnectionException {
-		LOG.debug("deleteJob {}", p0);
+	public void deleteJob(String jobID) throws ConnectionException {
+		LOG.debug("deleteJob {}", jobID);
 		
 		try {
-			Job byId = jobGet.getById(p0);
-			response = jobDelete.deleteByJob(new Job.Builder().jobId(p0).jobName(byId.getJobName().orElseThrow(() -> new ConnectionException(String.format("Job %s not found", p0 )))).build(), "2.0");
+			Job byId = jobGet.getById(jobID);
+			response = jobDelete.deleteByJob(new Job.Builder().jobId(jobID).jobName(byId.getJobName().orElseThrow(() -> new ConnectionException(String.format("Job %s not found", jobID )))).build(), "2.0");
 			
 			LOG.debug("jobDelete {}", response);
 		} catch (ZosmfRequestException e) {

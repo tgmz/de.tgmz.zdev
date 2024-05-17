@@ -176,8 +176,8 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	}
 
 	@Override
-	public void createDataSet(String dataSetName, DataSetArguments memberName) throws ConnectionException {
-		dsnConnection.createDataSet(dataSetName, memberName);
+	public void createDataSet(String dataSetName, DataSetArguments dataSetArguments) throws ConnectionException {
+		dsnConnection.createDataSet(dataSetName, dataSetArguments);
 	}
 
 	@Override
@@ -272,8 +272,8 @@ public class ZoweConnection extends AbstractZOSConnection implements IZOSConnect
 	}
 
 	@Override
-	public void changePermissions(String anHFSEntry, String octal) throws ConnectionException {
-		ussConnection.changePermissions(anHFSEntry, octal);
+	public void changePermissions(String aHFSEntry, String octal) throws ConnectionException {
+		ussConnection.changePermissions(aHFSEntry, octal);
 	}
 	
 	private void initSSLConfiguration() {

@@ -67,39 +67,39 @@ public class ZoweDsnConnection {
 		dsnCopy = new DsnCopy(connection);
 	}
 
-	public List<ZOSConnectionResponse> getDataSetMembers(String p0) throws ConnectionException {
-		return p0.endsWith("*") ? getDataSets(p0) : getMembers(p0);
+	public List<ZOSConnectionResponse> getDataSetMembers(String dataSetName) throws ConnectionException {
+		return dataSetName.endsWith("*") ? getDataSets(dataSetName) : getMembers(dataSetName);
 	}
 
-	public ByteArrayOutputStream retrieveDataSetMember(String p0, String p1) throws ConnectionException {
-		return retrieve(String.format("%s(%s)", p0, p1));
+	public ByteArrayOutputStream retrieveDataSetMember(String dataSetName, String memberName) throws ConnectionException {
+		return retrieve(String.format("%s(%s)", dataSetName, memberName));
 	}
 
-	public void recallDataSetMember(String p0, String p1) throws ConnectionException {
-		LOG.debug("recallDataSetMember {} {}", p0, p1);
+	public void recallDataSetMember(String dataSetName, String memberName) throws ConnectionException {
+		LOG.debug("recallDataSetMember {} {}", dataSetName, memberName);
 		
 		throw new ZOSUnsupportedOperationException("");
 	}
 
-	public ByteArrayOutputStream retrieveSequentialDataSet(String p0) throws ConnectionException {
-		LOG.debug("retrieveSequentialDataSet {}", p0);
-		return retrieve(p0);
+	public ByteArrayOutputStream retrieveSequentialDataSet(String dataSetName) throws ConnectionException {
+		LOG.debug("retrieveSequentialDataSet {}", dataSetName);
+		return retrieve(dataSetName);
 	}
 
-	public void saveDataSetMember(String p0, String p1, InputStream p2) throws ConnectionException {
-		try (Reader r = new InputStreamReader(p2)) {
-			dsnWrite.write(p0, p1, IOUtils.toString(r));
+	public void saveDataSetMember(String dataSetName, String memberName, InputStream contents) throws ConnectionException {
+		try (Reader r = new InputStreamReader(contents)) {
+			dsnWrite.write(dataSetName, memberName, IOUtils.toString(r));
 		} catch (ZosmfRequestException | IOException e) {
 			throw new ConnectionException(e);
 		}
 	}
 
-	public void deleteDataSet(String p0, String p1) throws ConnectionException {
+	public void deleteDataSet(String dataSetName, String memberName) throws ConnectionException {
 		try {
-			if (p0 == null) {
-				response = dsnDelete.delete(p1);
+			if (dataSetName == null) {
+				response = dsnDelete.delete(memberName);
 			} else {
-				response = dsnDelete.delete(p0, p1);
+				response = dsnDelete.delete(dataSetName, memberName);
 			}
 			
 			LOG.debug("dsnDelete {}", response);
@@ -108,11 +108,11 @@ public class ZoweDsnConnection {
 		}
 	}
 
-	public void createDataSet(String p0, DataSetArguments p1) throws ConnectionException {
+	public void createDataSet(String dataSetName, DataSetArguments dataSetArguments) throws ConnectionException {
 		// Convert alcunit com.ibm.cics.zos.model.DataSet$SpaceUnits
 		String alcunit;
 		
-		switch (p1.spaceUnits) {
+		switch (dataSetArguments.spaceUnits) {
 		case "CYLINDERS":
 			alcunit = "CYL"; break;
 		case "TRACKS":
@@ -123,19 +123,19 @@ public class ZoweDsnConnection {
 		}
 		
         CreateParams createParams = new CreateParams.Builder()
-                .dsorg(p1.datasetType.startsWith("PDS") ? "PO" : p1.datasetType)
-                .dsntype("PDSE".equals(p1.datasetType) ? "LIBRARY" : null)
+                .dsorg(dataSetArguments.datasetType.startsWith("PDS") ? "PO" : dataSetArguments.datasetType)
+                .dsntype("PDSE".equals(dataSetArguments.datasetType) ? "LIBRARY" : null)
                 .alcunit(alcunit)
-                .primary((int) p1.primaryAllocation)
-                .secondary((int) p1.secondaryAllocation)
-                .dirblk((int) p1.directoryBlocks)
-                .recfm(p1.recordFormat)
-                .blksize((int) p1.blockSize)
-                .lrecl((int) p1.recordLength)
+                .primary((int) dataSetArguments.primaryAllocation)
+                .secondary((int) dataSetArguments.secondaryAllocation)
+                .dirblk((int) dataSetArguments.directoryBlocks)
+                .recfm(dataSetArguments.recordFormat)
+                .blksize((int) dataSetArguments.blockSize)
+                .lrecl((int) dataSetArguments.recordLength)
                 .build();
 
 		try {
-			response = dsnCreate.create(p0, createParams);
+			response = dsnCreate.create(dataSetName, createParams);
 			
 			LOG.debug("dsnCreate {}", response);
 		} catch (ZosmfRequestException e) {
@@ -144,31 +144,31 @@ public class ZoweDsnConnection {
 		
 	}
 
-	public ZOSConnectionResponse getDataSet(String p0) throws ConnectionException {
-		Optional<ZOSConnectionResponse> first = getDataSets(p0).stream().filter(s -> p0.equals(s.getAttribute("FILE_NAME"))).findFirst();
+	public ZOSConnectionResponse getDataSet(String dataSetName) throws ConnectionException {
+		Optional<ZOSConnectionResponse> first = getDataSets(dataSetName).stream().filter(s -> dataSetName.equals(s.getAttribute("FILE_NAME"))).findFirst();
 
 		if (first.isPresent()) {
 			return first.get();
 		} else {
-			throw new ZOSFileNotFoundException(p0, null);
+			throw new ZOSFileNotFoundException(dataSetName, null);
 		}
 	}
 
-	public ZOSConnectionResponse getDataSetMember(String p0, String p1)	throws ConnectionException {
-		Optional<ZOSConnectionResponse> first = getDataSetMembers(p0).stream().filter(s -> p1.equals(s.getAttribute("NAME"))).findFirst();
+	public ZOSConnectionResponse getDataSetMember(String dataSetName, String memberName)	throws ConnectionException {
+		Optional<ZOSConnectionResponse> first = getDataSetMembers(dataSetName).stream().filter(s -> memberName.equals(s.getAttribute("NAME"))).findFirst();
 		
 		if (first.isPresent()) {
 			return first.get();
 		} else {
-			throw new ZOSFileNotFoundException(p0, p1);
+			throw new ZOSFileNotFoundException(dataSetName, memberName);
 		}
 	}
 
-	public ZOSConnectionResponse createDataSetMember(String p0, String p1) throws ConnectionException {
-		LOG.debug("createDataSetMember {} {}", p0, p1);
+	public ZOSConnectionResponse createDataSetMember(String dataSetName, String memberName) throws ConnectionException {
+		LOG.debug("createDataSetMember {} {}", dataSetName, memberName);
 		
 		try {
-			response = dsnWrite.write(p0, p1, "");
+			response = dsnWrite.write(dataSetName, memberName, "");
 		} catch (ZosmfRequestException e) {
             throw new ConnectionException(e);
 		}
@@ -177,15 +177,15 @@ public class ZoweDsnConnection {
 			
 		ZOSConnectionResponse cr = new ZOSConnectionResponse();
 		
-		cr.addAttribute(IZOSConstants.NAME, p1);
+		cr.addAttribute(IZOSConstants.NAME, memberName);
 		
 		return cr;
 	}
 
-	public void createDataSet(String p0, String p1, InputStream p2) throws ConnectionException {
-		LOG.debug("createDataSet {} {} {}", p0, p1, p2);
+	public void createDataSet(String dataSetName, String basedOnDataSetPath, InputStream contents) throws ConnectionException {
+		LOG.debug("createDataSet {} {} {}", dataSetName, basedOnDataSetPath, contents);
 
-        CopyParams copyParams = new CopyParams.Builder().fromDataSet(p1).toDataSet(p0).build();
+        CopyParams copyParams = new CopyParams.Builder().fromDataSet(basedOnDataSetPath).toDataSet(dataSetName).build();
         
         try {
         	response = dsnCopy.copyCommon(copyParams);
@@ -195,23 +195,23 @@ public class ZoweDsnConnection {
             throw new ConnectionException(e);
         }
         
-		try (Reader r = new InputStreamReader(p2)) {
-			dsnWrite.write(p0, IOUtils.toString(r));
+		try (Reader r = new InputStreamReader(contents)) {
+			dsnWrite.write(dataSetName, IOUtils.toString(r));
 		} catch (ZosmfRequestException | IOException e) {
 			throw new ConnectionException(e);
 		}
 	}
 
-	private ByteArrayOutputStream retrieve(String p0) throws ConnectionException {
+	private ByteArrayOutputStream retrieve(String dataSetName) throws ConnectionException {
         DownloadParams params = new DownloadParams.Builder().build();
 
-        try (InputStream is = dsnGet.get(p0, params);
+        try (InputStream is = dsnGet.get(dataSetName, params);
         		ByteArrayOutputStream os = new ByteArrayOutputStream()) {
         	IOUtils.copy(is, os);
         	
         	return os;
         } catch (IOException | ZosmfRequestException e) {
-        	throw new ConnectionException(String.format("Cannot retrieve %s", p0), e);
+        	throw new ConnectionException(String.format("Cannot retrieve %s", dataSetName), e);
 		}
 	}
 	
@@ -264,11 +264,11 @@ public class ZoweDsnConnection {
 		
 		return result;
 	}
-	private List<ZOSConnectionResponse> getMembers(String dsn) throws ConnectionException {
+	private List<ZOSConnectionResponse> getMembers(String dataSetName) throws ConnectionException {
 		List<Member> items;
 		
 		try {
-			items = dsnList.getMembers(dsn, new ListParams.Builder().attribute(AttributeType.MEMBER).build());
+			items = dsnList.getMembers(dataSetName, new ListParams.Builder().attribute(AttributeType.MEMBER).build());
 		} catch (ZosmfRequestException e) {
 			throw new ConnectionException(e);
 		}
@@ -278,7 +278,7 @@ public class ZoweDsnConnection {
 		for (Member item : items) {
 			ZOSConnectionResponse cr = new ZOSConnectionResponse();
 			
-			cr.addAttribute(IZOSConstants.FILE_PARENTPATH, dsn);
+			cr.addAttribute(IZOSConstants.FILE_PARENTPATH, dataSetName);
 			cr.addAttribute(IZOSConstants.NAME, item.getMember().orElse(ZoweConnection.UNKNOWN));
 			cr.addAttribute(IZOSConstants.FILE_CREATION_DATE, item.getC4date().orElse(ZoweConnection.UNKNOWN));
 			cr.addAttribute(IZOSConstants.FILE_CHANGED_DATE, item.getM4date().orElse(ZoweConnection.UNKNOWN));
