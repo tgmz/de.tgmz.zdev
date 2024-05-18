@@ -15,8 +15,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 import java.util.OptionalInt;
 
 import org.apache.commons.io.IOUtils;
@@ -46,6 +51,8 @@ import zowe.client.sdk.zosfiles.uss.types.CreateType;
 
 public class ZoweUssConnection {
 	private static final Logger LOG = LoggerFactory.getLogger(ZoweUssConnection.class);
+	
+	public static final ThreadLocal<DateFormat> DF = ThreadLocal.withInitial(() ->  new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
 
 	private Response response;
 	
@@ -94,8 +101,23 @@ public class ZoweUssConnection {
 			cr.addAttribute(IZOSConstants.HFS_USER, item.getUser().orElse(ZoweConnection.UNKNOWN));
 			cr.addAttribute(IZOSConstants.HFS_GROUP, item.getGroup().orElse(ZoweConnection.UNKNOWN));
 			cr.addAttribute(IZOSConstants.HFS_PERMISSIONS, mode.substring(1));
-			cr.addAttribute(IZOSConstants.HFS_LAST_USED_DATE, item.getMtime().orElse(ZoweConnection.UNKNOWN));
 
+			long time = 0L;
+			Optional<String> oMtime = item.getMtime();
+			
+			if (oMtime.isPresent()) {
+				try {
+					time = DF.get().parse(oMtime.get()).getTime();
+				} catch (ParseException e) {
+					LOG.warn("Cannot convert mtime {}", oMtime.get());
+				}
+			}
+			
+			Calendar cal = Calendar.getInstance();
+			cal.setTimeInMillis(time);
+			
+			cr.addAttribute(IZOSConstants.HFS_LAST_USED_DATE, cal);
+			
 			result.add(cr);
         }
 
