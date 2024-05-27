@@ -182,9 +182,18 @@ public class ZoweConnectionMockTest {
 
 		// Mock successful responses 
 		try (InputStream is0 = ZoweConnectionMockTest.class.getClassLoader().getResourceAsStream("testresources/jcl0.json");
-				InputStream is1 = ZoweConnectionMockTest.class.getClassLoader().getResourceAsStream("testresources/jcl1.json")) {
-			server.when(HttpRequest.request().withMethod(HTTP_GET).withPath(getUri(ZosmfPaths.JOBS, ".*"))).respond(HttpResponse.response(IOUtils.toString(is0, StandardCharsets.UTF_8)));
-			server.when(HttpRequest.request().withMethod(HTTP_PUT).withPath(getUri(ZosmfPaths.JOBS, ".*"))).respond(HttpResponse.response(IOUtils.toString(is1, StandardCharsets.UTF_8)));
+			InputStream is1 = ZoweConnectionMockTest.class.getClassLoader().getResourceAsStream("testresources/jcl1.json");
+			InputStream is2 = ZoweConnectionMockTest.class.getClassLoader().getResourceAsStream("testresources/jcl2.json")) {
+			
+			String s0 = IOUtils.toString(is0, StandardCharsets.UTF_8);
+			String s1 = IOUtils.toString(is1, StandardCharsets.UTF_8);
+			String s2 = IOUtils.toString(is2, StandardCharsets.UTF_8);
+			
+			s2 = s2.replace("localhost:80", String.format("%s:%s", server.remoteAddress().getHostName(), server.getPort()));
+			
+			server.when(HttpRequest.request().withMethod(HTTP_GET).withPath(getUri(ZosmfPaths.JOBS, ".*files*"))).respond(HttpResponse.response(s2));
+			server.when(HttpRequest.request().withMethod(HTTP_PUT).withPath(getUri(ZosmfPaths.JOBS, ".*"))).respond(HttpResponse.response(s1));
+			server.when(HttpRequest.request().withMethod(HTTP_GET).withPath(getUri(ZosmfPaths.JOBS, ".*"))).respond(HttpResponse.response(s0));
 		}
 		server.when(HttpRequest.request().withMethod(HTTP_DELETE).withPath(getUri(ZosmfPaths.JOBS, "/.*"))).respond(HttpResponse.response().withStatusCode(204));
 
@@ -196,8 +205,8 @@ public class ZoweConnectionMockTest {
 		assertEquals(1, connection.getJobs("*", JobStatus.OUTPUT, JOB_NAME).size());
 		assertEquals(1, connection.getJobs("*", JobStatus.ALL, JOB_NAME).size());
 		assertNotNull(connection.getJobSpool(JOB_NAME));
-		assertEquals(1, connection.getJobSteps(JOB_NAME).size());
-		assertNotNull(connection.getJobStepSpool(String.format("%s.%s", JOB_NAME, "JESMSGLG")));
+		assertEquals(5, connection.getJobSteps(JOB_NAME).size());
+		assertNotNull(connection.getJobStepSpool(String.format("%s.%s", JOB_NAME, "101")));
 		assertNotNull(connection.submitDataSetMember(JOB_NAME, MEMBER_NAME));
 		assertNotNull(connection.submitJob(IOUtils.toInputStream(JOB_CARD, Charset.defaultCharset())));
 	}

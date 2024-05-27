@@ -66,6 +66,8 @@ public class ZoweJobConnection {
 		
 	}
 	public ZOSConnectionResponse getJob(String jobID) throws ConnectionException {
+		LOG.debug("getJob {}", jobID);
+
 		Job byId;
 		
 		try {
@@ -89,7 +91,7 @@ public class ZoweJobConnection {
             List<JobFile> files = jobGet.getSpoolFilesByJob(jobs);
         	
         	for (JobFile file : files) {
-        		if (split[1].equals(file.getDdName().orElse(ZoweConnection.UNKNOWN))) {
+        		if (Long.parseLong(split[1]) == file.getId().orElse(0L)) {
         			response = download(file.getRecordsUrl().orElseThrow(() -> new ConnectionException("No download URL available")));
 
         			baos.writeBytes(((String) response.getResponsePhrase().orElse("")).getBytes());
@@ -124,7 +126,7 @@ public class ZoweJobConnection {
 			cr.addAttribute(IZOSConstants.JOB_STEPNAME, id + "." + jf.getDdName().orElse(ZoweConnection.UNKNOWN));
 			cr.addAttribute(IZOSConstants.JOB_ID, id);
 			cr.addAttribute(IZOSConstants.JOB_DDNAME, jf.getDdName().orElse(jobID));
-			cr.addAttribute(IZOSConstants.JOB_DSNAME, id + "." + jf.getDdName().orElse(jobID));
+			cr.addAttribute(IZOSConstants.JOB_DSNAME, id + "." + jf.getId().orElse(0L));
 			cr.addAttribute(IZOSConstants.JOB_SPOOL_FILES_AVAILABLE, true);
 			
 			result.add(cr);
@@ -134,6 +136,8 @@ public class ZoweJobConnection {
 	}
 
 	public List<ZOSConnectionResponse> getJobs(String jobName, IZOSConstants.JobStatus aJobStatus, String owner) throws ConnectionException {
+		LOG.debug("getJobs {} {} {}", jobName, aJobStatus, owner);
+
     	List<ZOSConnectionResponse> result = new LinkedList<>();
     	List<Job> jobs;
     	
