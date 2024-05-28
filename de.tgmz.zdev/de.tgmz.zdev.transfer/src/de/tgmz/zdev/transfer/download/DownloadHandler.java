@@ -123,8 +123,6 @@ public class DownloadHandler extends AbstractDownloadHandler {
 					MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
 							Activator.getDefault().getString(MSG_DIALOG_TITLE),
 							Activator.getDefault().getString("Download.Error.Memberlist", pds.toDisplayName()));
-
-					continue;
 				}
 			}
 		}

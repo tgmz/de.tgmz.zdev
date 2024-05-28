@@ -12,23 +12,44 @@ package de.tgmz.zdev.zowe;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import de.tgmz.zdev.zowe.connection.ZoweUssConnection;
+
 public class Activator extends AbstractUIPlugin {
 	public static final String PLUGIN_ID = "de.tgmz.zdev.zowe";
+	// The shared instance
 	private static Activator plugin;
-	
-	@Override
-	public void start(final BundleContext context) throws Exception {
-		super.start(context);
-		plugin = this;
-	}
 
-	@Override
-	public void stop(final BundleContext context) throws Exception {
-		plugin = null;
-		super.stop(context);
-	}
-
+	/**
+	 * @return the shared instance
+	 */
 	public static Activator getDefault() {
 		return plugin;
+	}
+	
+	private static void setDefault(Activator aPlugin) {
+		Activator.plugin = aPlugin;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+	 */
+	//CHECKSTYLE DISABLE IllegalThrows
+    // start() und stop() müssen super... aufrufen und beide deklarieren ... throws Excpetion.
+	@Override
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
+		setDefault(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
+	 */
+	@Override
+	public void stop(BundleContext context) throws Exception {
+		setDefault(null);
+		ZoweUssConnection.DF.remove();
+		super.stop(context);
 	}
 }

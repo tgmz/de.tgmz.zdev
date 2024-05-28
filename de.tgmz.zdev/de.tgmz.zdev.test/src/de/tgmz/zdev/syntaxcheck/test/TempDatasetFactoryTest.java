@@ -33,7 +33,6 @@ import de.tgmz.zdev.syntaxcheck.TempDataSetFactory;
 
 public class TempDatasetFactoryTest {
 	private static IZOSConnectable origin;
-	private static IZOSConnectable connectable;
 	
 	@BeforeClass
 	@SuppressWarnings("deprecation")
@@ -44,7 +43,7 @@ public class TempDatasetFactoryTest {
 		Mockito.when(connection.getConfiguration()).thenReturn(Mockito.mock(ConnectionConfiguration.class));
 		Mockito.when(connection.getUserID()).thenReturn("userId");
 		
-		connectable = Mockito.mock(IZOSConnectable.class);
+		IZOSConnectable connectable = Mockito.mock(IZOSConnectable.class);
 		Mockito.when(connectable.getConnection()).thenReturn(connection);
 		Mockito.when(connectable.create(any(DataSetBuilder.class))).thenReturn(Mockito.mock(SequentialDataSet.class));
 		

@@ -66,13 +66,15 @@ public class ZdevDataSetsExplorer extends DataSetsExplorer {
 				public void widgetDefaultSelected(SelectionEvent e) {
 					if (theTree.getSelectionCount() > 0) {
 						TreeItem selectedTreeItem = theTree.getSelection()[0];
-						if (selectedTreeItem.getData() instanceof Member) {
+						if (selectedTreeItem.getData() instanceof Member
+							|| selectedTreeItem.getData() instanceof DataSet) {
 							OpenDataEntryAction openAction = new OpenZdevEntryAction();	// THIS IS IT!!!!!
 							openAction.selectionChanged(null, new StructuredSelection(selectedTreeItem.getData()));
 							openAction.setActivePart(null, ZdevDataSetsExplorer.this);
 							openAction.run(null);
-						} else if (selectedTreeItem.getData() instanceof DataSet dataSet) {
-							if ("PS".equals(dataSet.getOrganization())) {
+						} else { 
+							if (selectedTreeItem.getData() instanceof DataSet dataSet 
+								&& "PS".equals(dataSet.getOrganization())) {
 								OpenDataEntryAction openAction = new OpenDataEntryAction();
 								openAction.setActivePart(null, ZdevDataSetsExplorer.this);
 								openAction.selectionChanged(null, new StructuredSelection(selectedTreeItem.getData()));

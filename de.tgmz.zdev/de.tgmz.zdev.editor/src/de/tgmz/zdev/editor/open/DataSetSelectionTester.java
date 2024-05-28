@@ -21,36 +21,35 @@ import com.ibm.cics.common.util.StringUtil;
 public class DataSetSelectionTester extends PropertyTester {
 	@Override
 	public boolean test(Object receiver, String property, Object[] args, Object expectedValue) {
-		if (receiver instanceof ITextSelection textSelection) {
-			if ("isDataSet".equals(property)) {
+		if (receiver instanceof ITextSelection textSelection 
+			&& "isDataSet".equals(property)) {
 				String text = textSelection.getText();
 				
-				if (StringUtil.isEmpty(text)) {
-					return false;
-				}
-				
-				if (text.indexOf('(') == -1 && text.length() > 44) {
-					return false;
-				}
-				
-				if (text.indexOf('(') > -1 && text.length() > 54) {
-					return false;
-				}
-
-				String[] names = text.split("[\\.\\(\\)]");
-				
-				if (names.length > 1) {
-					for (String s : names) {
-						if (!s.matches("^[\\w#@\\$\\-]{1,8}")) {
-							return false;
-						}
-					}
-				} else {
-					return false;
-				}
-				
-				return true;
+			if (StringUtil.isEmpty(text)) {
+				return false;
 			}
+				
+			if (text.indexOf('(') == -1 && text.length() > 44) {
+				return false;
+			}
+				
+			if (text.indexOf('(') > -1 && text.length() > 54) {
+				return false;
+			}
+
+			String[] names = text.split("[\\.\\(\\)]");
+				
+			if (names.length > 1) {
+				for (String s : names) {
+					if (!s.matches("^[\\w#@\\$\\-]{1,8}")) {
+						return false;
+					}
+				}
+			} else {
+				return false;
+			}
+				
+			return true;
 		}
 		
 		return false;
