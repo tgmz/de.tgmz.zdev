@@ -9,6 +9,7 @@
 **********************************************************************/
 package de.tgmz.zdev.view.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -36,7 +37,12 @@ public class SelectionDialogTest {
 	public void testDataSetSelectionDialog() {
 		DatasetSelectionDialog dsd = new DatasetSelectionDialog(shell);
 		
-		assertNull(dsd.getTarget());
+		dsd.create();
+		dsd.setBlockOnOpen(false);
+		
+		assertEquals(0, dsd.open());
+		
+		dsd.close();
 	}
 	
 	@Test

@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.window.Window;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.slf4j.Logger;
@@ -54,11 +55,12 @@ public class UploadHandler extends AbstractHandler {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
 		
 		if (selection instanceof IStructuredSelection iss) {
-			DatasetSelectionDialog dsds = new DatasetSelectionDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell()
-					, DatasetSelectionDialog.AllowedTypes.PDS);
+			DatasetSelectionDialog dsds = new DatasetSelectionDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell());
 			
-			if (dsds.open()) {
-				PartitionedDataSet destination = (PartitionedDataSet) dsds.getTarget();
+			int open = dsds.open();
+			
+			if (open == Window.OK) {
+				PartitionedDataSet destination = (PartitionedDataSet) dsds.getFirstResult();
 			
 				List<IFile> fileList = new LinkedList<>();
 			

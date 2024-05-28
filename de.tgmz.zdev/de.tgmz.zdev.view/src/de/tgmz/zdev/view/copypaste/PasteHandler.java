@@ -33,7 +33,6 @@ import de.tgmz.zdev.view.ZdevDataSetsExplorer;
  */
 public class PasteHandler extends AbstractHandler {
 	private static final Logger LOG = LoggerFactory.getLogger(PasteHandler.class);
-	private static final String TARGET_VIEW_ID = "de.tgmz.zdev.view.ZdevDataSetsExplorer";
 	
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -62,11 +61,11 @@ public class PasteHandler extends AbstractHandler {
 			
            	// Refresh ZdevDataSetsExplorer view
        		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-       		ZdevDataSetsExplorer view = (ZdevDataSetsExplorer) page.findView(TARGET_VIEW_ID);
+       		ZdevDataSetsExplorer view = (ZdevDataSetsExplorer) page.findView(ZdevDataSetsExplorer.VIEW_ID);
        		if (view == null) {
        			try {
-       				page.showView(TARGET_VIEW_ID);
-       				view = (ZdevDataSetsExplorer) page.findView(TARGET_VIEW_ID);
+       				page.showView(ZdevDataSetsExplorer.VIEW_ID);
+       				view = (ZdevDataSetsExplorer) page.findView(ZdevDataSetsExplorer.VIEW_ID);
        			} catch (PartInitException e) {
        				LOG.error("findDataSetExplorer", e);
        			}
@@ -76,7 +75,7 @@ public class PasteHandler extends AbstractHandler {
        			page.bringToTop(view);
        			view.forceRefresh();
        		} else {
-       			LOG.warn("Cannot switch to view {}", TARGET_VIEW_ID);
+       			LOG.warn("Cannot switch to view {}", ZdevDataSetsExplorer.VIEW_ID);
        		}
 
 		}
