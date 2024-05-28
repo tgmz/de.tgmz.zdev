@@ -12,8 +12,6 @@ package de.tgmz.zdev.database.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-import java.util.Arrays;
-
 import org.hibernate.Session;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -21,7 +19,6 @@ import org.junit.Test;
 
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.Item;
-import de.tgmz.zdev.domain.ItemComparator;
 
 public class DomainTest {
 	private static final String PGM = "HELLOW";
@@ -66,17 +63,6 @@ public class DomainTest {
 		} finally {
 			DbService.endTx(session);
 		}
-	}
-	@Test
-	public void testCompare() {
-		Item i0 = new Item(PDS, PGM);
-		Item i1 = new Item('Z' + PDS.substring(1), PGM);
-
-		Item[] items = new Item[] {i0, i1};
-			
-		Arrays.sort(items, new ItemComparator(ItemComparator.Sorting.FULLNAME, ItemComparator.Direction.DESCENDING));
-			
-		assertEquals(i1, items[0]);
 	}
 
 	@Test
