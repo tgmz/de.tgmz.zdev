@@ -9,14 +9,13 @@
 **********************************************************************/
 package de.tgmz.zdev.quickaccess.test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Iterator;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.hibernate.Session;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -27,7 +26,6 @@ import de.tgmz.zdev.quickaccess.MemberSelectionDialog;
 public class QuickaccessTest {
 	private static final String PGM = "HELLOW";
 	private static final String PDS = "HLQ.PLI";
-	private Shell shell;
 	
 	@BeforeClass
 	public static void setupOnce() {
@@ -49,26 +47,19 @@ public class QuickaccessTest {
 			DbService.endTx(session);
 		}
 	}
-	@Before
-	public void setup() {
-		shell = new Shell((Display) null);
-	}
 	
 	@Test
 	public void testMemberSelectionDialog() {
-		Item item = null;
+		Shell shell = new Shell((Display) null);
 		
-		Session session = DbService.startTx();
+		MemberSelectionDialog msd = new MemberSelectionDialog(shell, false);
 		
-		try {
-			item = session.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", PDS).setParameter("member", PGM).uniqueResult();
-		} finally {
-			DbService.endTx(session);
-		}
-			
-		MemberSelectionDialog d = new MemberSelectionDialog(shell, false);
+		msd.create();
+		msd.setBlockOnOpen(false);
 		
-		assertTrue(d.getElementName(item).length() > 0);
+		assertEquals(0, msd.open());
+		
+		msd.close();
 		
 		shell.dispose();
 	}

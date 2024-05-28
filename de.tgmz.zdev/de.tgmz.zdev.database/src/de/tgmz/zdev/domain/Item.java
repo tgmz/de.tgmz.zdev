@@ -10,6 +10,7 @@
 package de.tgmz.zdev.domain;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -87,7 +88,7 @@ public class Item implements Serializable {
 	 * @return returns the full name.
 	 */
 	public String getFullName() {
-		return dsn.trim() + '(' + member.trim() + ')';
+		return String.format("%s(%s)", dsn, member);
 	}
 	/**
 	 * @param aMember The member name to set.
@@ -95,32 +96,32 @@ public class Item implements Serializable {
 	public void setMember(final String aMember) {
 		this.member = aMember;
 	}
-	/** {@inheritDoc} */
-    @Override
-    //BEGIN-GENERATED
-	public boolean equals(final Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        
-        if (!(obj instanceof Item)) {
-            return false;
-        }
-        
-        if (this == obj) {
-            return true;
-        }
-        
-        Item i1 = (Item) obj;
-        
-        return dsn.equals(i1.getDsn())
-                && member.equals(i1.getMember());
-    }
-	/** {@inheritDoc} */
-    @Override
+	@Override
 	public int hashCode() {
-        return dsn.hashCode() + member.hashCode();
-    }
+		return Objects.hash(dsn, member);
+	}
+	/** {@inheritDoc} */
+	@Override
+	//BEGIN-GENERATED
+	public boolean equals(final Object obj) {
+	    if (obj == null) {
+	        return false;
+	    }
+	    
+	    if (!(obj instanceof Item)) {
+	        return false;
+	    }
+	    
+	    if (this == obj) {
+	        return true;
+	    }
+	    
+	    Item i1 = (Item) obj;
+	    
+	    return dsn.equals(i1.getDsn())
+	            && member.equals(i1.getMember());
+	}
+	/** {@inheritDoc} */
     //END-GENERATED
 	@Override
 	public String toString() {

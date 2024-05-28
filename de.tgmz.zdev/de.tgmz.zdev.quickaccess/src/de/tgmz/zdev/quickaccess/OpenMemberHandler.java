@@ -50,8 +50,6 @@ public class OpenMemberHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		MemberSelectionDialog msd = new MemberSelectionDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), true);
 	
-		msd.setInitialPattern("?");
-		
 		int open = msd.open();
 		
 		if (open == Window.OK) {

@@ -10,29 +10,60 @@
 
 package de.tgmz.zdev.restore;
 
-import org.eclipse.jface.viewers.LabelProvider;
+import java.util.Comparator;
+
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.dialogs.ElementListSelectionDialog;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import de.tgmz.zdev.history.HistoryIdentifyer;
+import de.tgmz.zdev.view.AbstractFilteredItemsSelectionDialog;
 
 /**
  * Dialog for selecting a history item. 
  */
-public class HistorySelectionDialog extends ElementListSelectionDialog {
-	private static final Logger LOG = LoggerFactory.getLogger(HistorySelectionDialog.class);
-    
+public class HistorySelectionDialog extends AbstractFilteredItemsSelectionDialog<HistoryIdentifyer> {
+	private static final String DIALOG_SETTINGS = "HistorySelectionDialog";
+
+	private class HistoryIdentifyerFilter extends ItemsFilter {
+		@Override
+		public boolean matchItem(Object o) {
+			if (o instanceof HistoryIdentifyer item) {
+				return matches(item.getFqdn());
+			}
+			
+			return false;
+		}
+
+		@Override
+		public boolean isConsistentItem(Object o) {
+			return o instanceof HistoryIdentifyer;
+		}
+	}
+	
 	public HistorySelectionDialog(Shell shell, HistoryIdentifyer... elements) {
-		super(shell, new LabelProvider());
-		
-		LOG.info("Init new HistorySelectionDialog");
+		super(shell, false, elements);
 		
 		Activator act = Activator.getDefault();
 		
 		setTitle(act != null ? act.getString("Restore.Title") : "");
-		
-		setElements(elements);
+	}
+
+	@Override
+	protected Comparator<HistoryIdentifyer> getItemsComparator() {
+		return (o1, o2) -> (int) (o2.getId() - o1.getId()); 
+	}
+
+	@Override
+	public String getElementName(Object item) {
+		return ((HistoryIdentifyer) item).getFqdn();
+	}
+
+	@Override
+	protected String getDialogSettingsId() {
+		return DIALOG_SETTINGS;
+	}
+
+	@Override
+	protected ItemsFilter createFilter() {
+		return new HistoryIdentifyerFilter();
 	}
 }
