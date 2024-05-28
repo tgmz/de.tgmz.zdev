@@ -36,6 +36,8 @@ import de.tgmz.zdev.editor.OpenZdevEntryAction;
  * z/Dev adaption of IBMs DataSetsExplorer.
  */
 public class ZdevDataSetsExplorer extends DataSetsExplorer {
+	public static final String VIEW_ID = "de.tgmz.zdev.view.ZdevDataSetsExplorer";
+	
 	private static final Logger LOG = LoggerFactory.getLogger(ZdevDataSetsExplorer.class);
 
 	@Override

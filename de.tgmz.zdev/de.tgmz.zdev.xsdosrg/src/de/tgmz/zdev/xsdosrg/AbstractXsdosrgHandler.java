@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ibm.cics.core.comm.ConnectionException;
 import com.ibm.cics.zos.comm.IZOSConstants.FileType;
+import com.ibm.cics.zos.model.DataEntry;
 import com.ibm.cics.zos.model.HFSFile;
 import com.ibm.cics.zos.model.HFSFolder;
 import com.ibm.cics.zos.model.IJob;
@@ -162,15 +163,17 @@ public abstract class AbstractXsdosrgHandler extends AbstractHandler {
 	}
 	
 	protected Member getOsrMember(String schema) {
-		DatasetSelectionDialog dsd = new DatasetSelectionDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()
-				, DatasetSelectionDialog.AllowedTypes.PDS
-				, DatasetSelectionDialog.AllowedTypes.MEMBER);
+		DatasetSelectionDialog dsd = new DatasetSelectionDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 
-		if (!dsd.open()) {
+		int open = dsd.open();
+		
+		if (open != Window.OK) {
 			return null;
 		}
 		
-		if (dsd.getTarget() instanceof PartitionedDataSet) {
+		DataEntry de = (DataEntry) dsd.getFirstResult();
+			
+		if (de instanceof PartitionedDataSet) {
 			InputDialog id = new MemberNameInputDialog(
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
 					Activator.getDefault().getString(MSG_DIALOG_TITLE),
@@ -181,9 +184,9 @@ public abstract class AbstractXsdosrgHandler extends AbstractHandler {
 				return null;
 			}
 
-			return new Member(dsd.getTarget().getPath(), id.getValue(), ZdevConnectable.getConnectable());
+			return new Member(de.getPath(), id.getValue(), ZdevConnectable.getConnectable());
 		} else {
-			return (Member) dsd.getTarget();
+			return (Member) de;
 		}
 	}
 }
