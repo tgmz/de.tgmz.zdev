@@ -70,36 +70,30 @@ public class DownloadRunner implements IDownloadRunnableWithProgress {
 			
 				Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 				
-				try (ByteArrayOutputStream bos = ZdevConnectable.getConnectable().getContents(de, FileType.EBCDIC)) {
-					try (InputStream is = new ByteArrayInputStream(bos.toByteArray())) {
-						if (file.exists()) {
-							if (overwriteStatus == IDialogConstants.NO_TO_ALL_ID) {
-								subMonitor.worked(1);
+				try (ByteArrayOutputStream bos = ZdevConnectable.getConnectable().getContents(de, FileType.EBCDIC);
+					InputStream is = new ByteArrayInputStream(bos.toByteArray())) {
+					
+					if (file.exists()) {
+						if (overwriteStatus == IDialogConstants.NO_TO_ALL_ID) {
+							subMonitor.worked(1);
 								
-								continue;
-							}
+							continue;
+						}
 							
-							if (overwriteStatus == IDialogConstants.YES_TO_ALL_ID) {
-								file.setContents(is, IResource.FORCE | IResource.KEEP_HISTORY, subMonitor.split(1));
-							} else {
-								overwriteStatus = new YesNoAllNoneCancelMessageDialog(shell, file.getName()).open();
-								
-								if (overwriteStatus == IDialogConstants.YES_ID
-								 || overwriteStatus == IDialogConstants.YES_TO_ALL_ID) {
-									file.setContents(is, IResource.FORCE | IResource.KEEP_HISTORY, subMonitor.split(1));
-								}
-							}
+						if (overwriteStatus == IDialogConstants.YES_TO_ALL_ID) {
+							file.setContents(is, IResource.FORCE | IResource.KEEP_HISTORY, subMonitor.split(1));
 						} else {
-							file.create(is, true, subMonitor.split(1));
+							overwriteStatus = new YesNoAllNoneCancelMessageDialog(shell, file.getName()).open();
+								
+							if (overwriteStatus == IDialogConstants.YES_ID
+							 || overwriteStatus == IDialogConstants.YES_TO_ALL_ID) {
+								file.setContents(is, IResource.FORCE | IResource.KEEP_HISTORY, subMonitor.split(1));
+							}
 						}
-					} catch (IOException | CoreException e) {
-						LOG.error("Cannot write to destination {}", file.getName(), e);
-						
-						if (errorStatus != IDialogConstants.IGNORE_ID) {
-							errorStatus = new SkipIgnoreAbortMessageDialog(shell, e.getMessage()).open();
-						}
+					} else {
+						file.create(is, true, subMonitor.split(1));
 					}
-				} catch (IOException | ConnectionException e) {
+				} catch (IOException | CoreException | ConnectionException e) {
 					LOG.error("Cannot get contents of {}", de.getName(), e);
 					
 					if (errorStatus != IDialogConstants.IGNORE_ID) {
