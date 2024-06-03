@@ -23,9 +23,6 @@ import com.ibm.cics.zos.comm.IZOSConstants.FileType;
 
 /**
  * Extension of {@link org.eclipse.ui.dialogs.ContainerSelectionDialog} to add a transfer mode radio button.
- * 
- * Credits to https://stackoverflow.com/users/2670892/greg-449 for
- * https://stackoverflow.com/questions/30500789/jface-tabs-inside-containerselectiondialog-in-eclipse-rcp
  */
 public class ContainerSelectionDialogWithTransfermode extends ContainerSelectionDialog {
     private IZOSConstants.FileType transferMode = FileType.EBCDIC;
@@ -35,28 +32,14 @@ public class ContainerSelectionDialogWithTransfermode extends ContainerSelection
 	}
 
 	@Override
-	public Control createDialogArea(final Composite parent) {
-		Composite body = (Composite) super.createDialogArea(parent);
-
-		// Bug in ContainerSelectionDialog is returning null for the body!
-
-		if (body == null) {
-			// body is the last control added to the parent
-
-			final Control[] children = parent.getChildren();
-
-			if (children[children.length - 1] instanceof Composite composite) {
-				body = composite;
-			}
-		}
-
-		body = TransferModeCompositeFactory.getInstance().createComposite(body
+	protected Control createButtonBar(Composite parent) {
+		TransferModeCompositeFactory.getInstance().createComposite(parent
 				, new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_CENTER)
 				, createSelectionAdapter(FileType.EBCDIC)
 				, createSelectionAdapter(FileType.BINARY)
 				, createSelectionAdapter(FileType.ASCII));
-
-		return body;
+		
+		return super.createButtonBar(parent);
 	}
 
 	public IZOSConstants.FileType getTransferMode() {

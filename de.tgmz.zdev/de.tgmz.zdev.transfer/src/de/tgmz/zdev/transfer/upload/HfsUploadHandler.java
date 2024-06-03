@@ -28,6 +28,11 @@ import org.slf4j.LoggerFactory;
 
 import com.ibm.cics.zos.model.HFSFolder;
 
+<<<<<<< Upstream, based on develop
+=======
+import de.tgmz.zdev.connection.ZdevConnectable;
+import de.tgmz.zdev.preferences.ZdevPreferenceConstants;
+>>>>>>> e96cb40 Add transfer mode
 import de.tgmz.zdev.transfer.Activator;
 import de.tgmz.zdev.view.HFSSelectionDialog;
 
@@ -58,8 +63,21 @@ public class HfsUploadHandler extends AbstractHandler {
 				
 			HFSSelectionDialog hsd = new HFSSelectionDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell());
 			
+<<<<<<< Upstream, based on develop
 			if (hsd.open()) {
 				HFSFolder destination = hsd.getTarget();
+=======
+			IPreferenceStore ps = de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore(); 
+			
+			HFSSelectionDialog hsd = new HFSSelectionDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell()
+					, ZdevConnectable.getConnectable()
+					, ps.getString(ZdevPreferenceConstants.USS_HOME));
+			
+			int open = hsd.open();
+			
+			if (open == Window.OK) {
+				HFSFolder destination = (HFSFolder) hsd.getFirstResult();
+>>>>>>> e96cb40 Add transfer mode
 			
 				HfsUploadRunner ur = new HfsUploadRunner(destination, resourceList, hsd.getTransferMode());
 
