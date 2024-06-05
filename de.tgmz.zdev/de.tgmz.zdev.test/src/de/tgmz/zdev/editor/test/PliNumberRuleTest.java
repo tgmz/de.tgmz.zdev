@@ -26,10 +26,12 @@ public class PliNumberRuleTest {
 	
 	private static class MockScanner implements ICharacterScanner {
 		private String content;
+		private int pos = 0;
 		private int i = 0;
 
-		public MockScanner(String content) {
+		public MockScanner(String content, int pos) {
 			super();
+			this.pos = pos;
 			this.content = content;
 		}
 		@Override
@@ -42,7 +44,7 @@ public class PliNumberRuleTest {
 		}
 		@Override
 		public int getColumn() {
-			return 10 + i;
+			return pos + i;
 		}
 		@Override
 		public int read() {
@@ -56,19 +58,25 @@ public class PliNumberRuleTest {
 	
 	@Test
 	public void testNumber() {
-		IToken evaluate = pnr.evaluate(new MockScanner("5"));
+		IToken evaluate = pnr.evaluate(new MockScanner("5", 10));
 		assertEquals(PLI_NUMBER_TOKEN, evaluate.getData());
 	}
 	
 	@Test
 	public void testNumberWithUnderscore() {
-		IToken evaluate = pnr.evaluate(new MockScanner("32_000"));
+		IToken evaluate = pnr.evaluate(new MockScanner("32_000", 5));
 		assertEquals(PLI_NUMBER_TOKEN, evaluate.getData());
 	}
 	
 	@Test
 	public void testNoNumber() {
-		IToken evaluate = pnr.evaluate(new MockScanner("x"));
+		IToken evaluate = pnr.evaluate(new MockScanner("x", 2));
+		assertTrue(evaluate.isUndefined());
+	}
+	
+	@Test
+	public void testWrongColumn() {
+		IToken evaluate = pnr.evaluate(new MockScanner("x", -1));
 		assertTrue(evaluate.isUndefined());
 	}
 }

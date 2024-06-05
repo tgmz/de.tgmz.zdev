@@ -42,7 +42,6 @@ public class UploadRunner implements IRunnableWithProgress {
 	private static final Logger LOG = LoggerFactory.getLogger(UploadRunner.class);
 	private PartitionedDataSet destination;
 	private List<IFile> files;
-	private SubMonitor subMonitor;
 	private int overwriteStatus = IDialogConstants.NO_ID;
 	private int errorStatus = IDialogConstants.NO_ID;
 
@@ -54,7 +53,7 @@ public class UploadRunner implements IRunnableWithProgress {
 
 	@Override
 	public void run(final IProgressMonitor pm) {
-		subMonitor = SubMonitor.convert(pm, files.size());
+		SubMonitor subMonitor = SubMonitor.convert(pm, files.size());
 
 		subMonitor.beginTask("Upload", files.size());
 

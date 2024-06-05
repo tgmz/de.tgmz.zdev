@@ -41,7 +41,7 @@ public class HfsDownloadRunnerTest {
 	private static final IZOSConstants.FileType transfermode = IZOSConstants.FileType.ASCII;
 	
 	@BeforeClass
-	public static void setupOnce() throws IOException, ConnectionException {
+	public static void setupOnce() {
 		origin = ZdevConnectable.getConnectable();
 		
 		connectable = Mockito.mock(IZOSConnectable.class);

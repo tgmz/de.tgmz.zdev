@@ -32,7 +32,6 @@ import de.tgmz.zdev.editor.local.editors.LocalZdevEditor;
 @RunWith(value = Parameterized.class)
 public class LocalZdevEditorTest {
 	private static IEditorSite site;
-	private IEditorInput input;
 	private String member;
 	
 	public LocalZdevEditorTest(String member) {
@@ -56,7 +55,7 @@ public class LocalZdevEditorTest {
 	public void run() throws CoreException {
 		LocalZdevEditor editor = new LocalZdevEditor();
 		
-		input = Mockito.mock(IEditorInput.class);
+		IEditorInput input = Mockito.mock(IEditorInput.class);
 		Mockito.when(input.getName()).thenReturn(member);
 		
 		editor.init(site, input);

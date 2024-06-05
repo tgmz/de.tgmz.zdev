@@ -126,8 +126,6 @@ public class OpenMemberHandler extends AbstractHandler {
 						MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell() 
 					    		, WINDOW_TITLE
 					    		, Activator.getDefault().getString("Quickaccess.NotOpen", item.getFullName()));
-							
-						continue;
 					}
 				}
 			}

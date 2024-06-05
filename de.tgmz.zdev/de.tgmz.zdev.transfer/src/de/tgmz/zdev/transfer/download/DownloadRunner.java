@@ -45,7 +45,6 @@ public class DownloadRunner implements IDownloadRunnableWithProgress {
 	private static final Logger LOG = LoggerFactory.getLogger(DownloadRunner.class);
 	private IFolder folder;
 	private List<DataEntry> dataEntries;
-	private SubMonitor subMonitor;
 	private int overwriteStatus = IDialogConstants.NO_ID;
 	private int errorStatus = IDialogConstants.NO_ID;
 
@@ -57,7 +56,7 @@ public class DownloadRunner implements IDownloadRunnableWithProgress {
 
 	@Override
 	public void run(final IProgressMonitor pm) throws InvocationTargetException, InterruptedException {
-		subMonitor = SubMonitor.convert(pm, dataEntries.size());
+		SubMonitor subMonitor = SubMonitor.convert(pm, dataEntries.size());
 
 		subMonitor.beginTask("Download", dataEntries.size());
 
