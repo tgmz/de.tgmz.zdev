@@ -327,7 +327,7 @@
 				<!-- Properties to enable jacoco code coverage analysis -->
 				<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 				<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-				<sonar.coverage.jacoco.xmlReportPaths>../de.tgmz.zdev.test/target/site/jacoco-aggregate/jacoco.xml,../de.tgmz.zdev.zowe.test/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+				<sonar.coverage.jacoco.xmlReportPaths>../de.tgmz.zdev.test/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 				<sonar.coverage.exclusions>**/test/**</sonar.coverage.exclusions>
 				<sonar.cpd.exclusions>**/Activator.java</sonar.cpd.exclusions>
 			</properties>
