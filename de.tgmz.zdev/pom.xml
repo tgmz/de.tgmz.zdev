@@ -17,7 +17,7 @@
 
 	<groupId>de.tgmz</groupId>
 	<artifactId>de.tgmz.zdev.parent</artifactId>
-	<version>1.1.2-SNAPSHOT</version>
+	<version>1.2.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>z/Dev Parent</name>
 
@@ -93,6 +93,8 @@
 		<module>de.tgmz.zdev.xsdosrg</module>
 		<module>de.tgmz.zdev.zos.client</module>
 		<module>de.tgmz.zdev.zos.server</module>
+		<module>de.tgmz.zdev.zowe</module>
+		<module>de.tgmz.zdev.zowe.test</module>
 	</modules>
 
 	<build>
@@ -327,7 +329,7 @@
 				<!-- Properties to enable jacoco code coverage analysis -->
 				<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 				<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-				<sonar.coverage.jacoco.xmlReportPaths>../de.tgmz.zdev.test/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+				<sonar.coverage.jacoco.xmlReportPaths>../de.tgmz.zdev.test/target/site/jacoco-aggregate/jacoco.xml,../de.tgmz.zdev.zowe.test/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 				<sonar.coverage.exclusions>**/test/**</sonar.coverage.exclusions>
 				<sonar.cpd.exclusions>**/Activator.java</sonar.cpd.exclusions>
 			</properties>
