@@ -19,8 +19,10 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.window.Window;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.slf4j.Logger;
@@ -28,11 +30,8 @@ import org.slf4j.LoggerFactory;
 
 import com.ibm.cics.zos.model.HFSFolder;
 
-<<<<<<< Upstream, based on develop
-=======
 import de.tgmz.zdev.connection.ZdevConnectable;
 import de.tgmz.zdev.preferences.ZdevPreferenceConstants;
->>>>>>> e96cb40 Add transfer mode
 import de.tgmz.zdev.transfer.Activator;
 import de.tgmz.zdev.view.HFSSelectionDialog;
 
@@ -60,13 +59,7 @@ public class HfsUploadHandler extends AbstractHandler {
 			for (Iterator<?> iterator = iss.iterator(); iterator.hasNext();) {
 				resourceList.add((IResource) iterator.next());
 			}
-				
-			HFSSelectionDialog hsd = new HFSSelectionDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell());
 			
-<<<<<<< Upstream, based on develop
-			if (hsd.open()) {
-				HFSFolder destination = hsd.getTarget();
-=======
 			IPreferenceStore ps = de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore(); 
 			
 			HFSSelectionDialog hsd = new HFSSelectionDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell()
@@ -77,7 +70,6 @@ public class HfsUploadHandler extends AbstractHandler {
 			
 			if (open == Window.OK) {
 				HFSFolder destination = (HFSFolder) hsd.getFirstResult();
->>>>>>> e96cb40 Add transfer mode
 			
 				HfsUploadRunner ur = new HfsUploadRunner(destination, resourceList, hsd.getTransferMode());
 

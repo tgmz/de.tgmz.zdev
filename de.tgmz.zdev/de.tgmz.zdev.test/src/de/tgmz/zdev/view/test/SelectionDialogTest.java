@@ -62,17 +62,9 @@ public class SelectionDialogTest {
 	}
 	
 	@Test
-<<<<<<< Upstream, based on develop
-	public void testHfsSelectionDialog() {
-		HFSSelectionDialog hsd = new HFSSelectionDialog(shell);
-=======
 	public void testDatasetSelectionDialog() throws PermissionDeniedException, ConnectionException {
 		Mockito.when(connectable.getDataSetEntries(any(DataPath.class))).thenReturn(List.of(Mockito.mock(PartitionedDataSet.class)));
->>>>>>> e96cb40 Add transfer mode
 		
-<<<<<<< Upstream, based on develop
-		assertNull(hsd.getTarget());
-=======
 		testDialog(new DatasetSelectionDialog(shell));
 	}
 
@@ -81,7 +73,6 @@ public class SelectionDialogTest {
 		Mockito.when(connectable.getChildren(any(HFSFolder.class), anyBoolean())).thenReturn(List.of(Mockito.mock(HFSFile.class)));
 		
 		testDialog(new HFSSelectionDialog(shell, ZdevConnectable.getConnectable(), "/"));
->>>>>>> e96cb40 Add transfer mode
 	}
 	
 	@Test
