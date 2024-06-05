@@ -24,15 +24,12 @@ import de.tgmz.zdev.xsdosrg.CleanupRunner;
 
 public class CleanupRunnerTest {
 	private static IZOSConnectable origin;
-	private static IZOSConnectable connectable;
 	
 	@BeforeClass
 	public static void setupOnce() {
 		origin = ZdevConnectable.getConnectable();
 		
-		connectable = Mockito.mock(IZOSConnectable.class);
-		
-		ZdevConnectable.setConnectable(connectable);
+		ZdevConnectable.setConnectable(Mockito.mock(IZOSConnectable.class));
 	}
 
 	@AfterClass

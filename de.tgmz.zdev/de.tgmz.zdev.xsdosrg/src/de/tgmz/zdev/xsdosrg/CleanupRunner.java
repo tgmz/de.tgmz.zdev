@@ -26,7 +26,6 @@ import de.tgmz.zdev.connection.ZdevConnectable;
 public class CleanupRunner implements IRunnableWithProgress {
 	private static final Logger LOG = LoggerFactory.getLogger(CleanupRunner.class);
 	private HFSFolder destination;
-	private SubMonitor subMonitor;
 
 	public CleanupRunner(HFSFolder destination) {
 		super();
@@ -35,7 +34,7 @@ public class CleanupRunner implements IRunnableWithProgress {
 
 	@Override
 	public void run(final IProgressMonitor pm) {
-		subMonitor = SubMonitor.convert(pm, 1);
+		SubMonitor subMonitor = SubMonitor.convert(pm, 1);
 
 		subMonitor.subTask(Activator.getDefault().getString("Cleanup.Subtask", destination.getPath()));
 		

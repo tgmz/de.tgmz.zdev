@@ -173,10 +173,10 @@ public abstract class AbstractSyntaxcheckHandler extends AbstractHandler {
 
 			editor.getDocumentProvider().getAnnotationModel(editor.getEditorInput()).addAnnotation(cma, p);
 		} catch (BadLocationException e) {
-			String s = "Cannot compute position for line number {}";
+			String s = "Cannot compute position for line number ";
 			
 			if (lineNumber == -1) {
-				LOG.warn(s + ". Probably test", marker.getAttribute(IMarker.LINE_NUMBER));	//Don't log stack trace here
+				LOG.warn(String.format("%s %s. Probably test", s, marker.getAttribute(IMarker.LINE_NUMBER)));	//Don't log stack trace here
 			} else { 
 				LOG.warn(s, marker.getAttribute(IMarker.LINE_NUMBER), e);
 			}

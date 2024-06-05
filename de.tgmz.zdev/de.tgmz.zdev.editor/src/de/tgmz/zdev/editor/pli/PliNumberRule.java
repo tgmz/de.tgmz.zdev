@@ -25,14 +25,13 @@ public class PliNumberRule extends NumberRule {
 	@Override
 	public IToken evaluate(ICharacterScanner scanner) {
 		int c = scanner.read();
-		if (isPliNumeric((char) c)) {
-			if (fColumn == UNDEFINED || (fColumn == scanner.getColumn() - 1)) {
-				do {
-					c = scanner.read();
-				} while (isPliNumeric((char) c));
-				scanner.unread();
-				return fToken;
-			}
+		if (isPliNumeric((char) c)
+			&& (fColumn == UNDEFINED || (fColumn == scanner.getColumn() - 1))) {
+			do {
+				c = scanner.read();
+			} while (isPliNumeric((char) c));
+			scanner.unread();
+			return fToken;
 		}
 
 		scanner.unread();

@@ -59,10 +59,8 @@ public class CompilerMessageAnnotationHover implements IAnnotationHover {
 		while (annotationIterator.hasNext()) {
 			Object o = annotationIterator.next();
 			
-			if (o instanceof CompilerMessageAnnotation cma) {
-				if (cma.getLineNumber() == lineNumber) {
-					result.add(cma);
-				}
+			if (o instanceof CompilerMessageAnnotation cma && cma.getLineNumber() == lineNumber) {
+				result.add(cma);
 			}
 			
 		}

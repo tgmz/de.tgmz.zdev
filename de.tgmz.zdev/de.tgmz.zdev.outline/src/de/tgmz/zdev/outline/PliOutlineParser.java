@@ -35,7 +35,6 @@ public class PliOutlineParser implements IOutlineParser {
 	private MarkElement currentME;
 	private boolean execSqlActive;
 	private int execSqlAt;
-	private int endExecAt;
 	private boolean commentActive;
 	private int commentStartAt;
 	private int commentEndAt;
@@ -52,7 +51,7 @@ public class PliOutlineParser implements IOutlineParser {
 		MarkElement procElement = null;
 		execSqlActive = false;
 		commentActive = false;
-		endExecAt = -1;
+		int endExecAt = -1;
 		commentEndAt = -1;
 		
 		while (newLineIndex != -1) {
