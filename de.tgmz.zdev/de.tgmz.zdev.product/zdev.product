@@ -144,6 +144,7 @@ SPDX-License-Identifier: EPL-2.0
       <feature id="com.ibm.zeus.feature.nl0" installMode="root"/>
       <feature id="com.ibm.zexpl.doc.feature" installMode="root"/>
       <feature id="com.ibm.zexpl.doc.feature.nl0" installMode="root"/>
+      <feature id="de.tgmz.aqua.connection.zowe.feature" installMode="root"/>
       <feature id="de.tgmz.zdev.feature" installMode="root"/>
       <feature id="org.eclipse.cvs" installMode="root"/>
       <feature id="org.eclipse.e4.rcp" installMode="root"/>
