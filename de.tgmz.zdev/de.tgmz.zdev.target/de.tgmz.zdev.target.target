@@ -22,7 +22,7 @@
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="false" type="InstallableUnit">
 <unit id="com.ibm.zeus.feature.feature.group" version="0.0.0"/>
 <unit id="com.ibm.zeus.feature.nl0.feature.group" version="0.0.0"/>
-<repository location="https://public.dhe.ibm.com/ibmdl/export/pub/software/htp/zos/tools/aqua3.3/"/>
+<repository location="https://public.dhe.ibm.com/ibmdl/export/pub/software/htp/zos/tools/aqua3.3-20231020GA/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.cvs.feature.group" version="0.0.0"/>
