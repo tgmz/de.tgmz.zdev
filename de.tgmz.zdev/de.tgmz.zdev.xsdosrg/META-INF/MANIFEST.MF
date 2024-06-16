@@ -18,7 +18,7 @@ Require-Bundle: de.tgmz.zdev.logging,
  org.eclipse.core.resources,
  org.eclipse.jface,
  org.apache.commons.io
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
 Automatic-Module-Name: de.tgmz.zdev.xsdosrg

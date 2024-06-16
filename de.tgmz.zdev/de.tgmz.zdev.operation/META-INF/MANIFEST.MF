@@ -12,6 +12,6 @@ Require-Bundle: de.tgmz.zdev.logging,
  org.eclipse.jface,
  com.ibm.cics.zos.model
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: de.tgmz.zdev.operation
 Automatic-Module-Name: de.tgmz.zdev.operation

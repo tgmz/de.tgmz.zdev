@@ -14,7 +14,7 @@ Require-Bundle: org.eclipse.ui,
  com.ibm.cics.zos.model,
  com.ibm.cics.common,
  com.ibm.cics.core.connections
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: de.tgmz.zdev.filelock
 Automatic-Module-Name: de.tgmz.zdev.filelock

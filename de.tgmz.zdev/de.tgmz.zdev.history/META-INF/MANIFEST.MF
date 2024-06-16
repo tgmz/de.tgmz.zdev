@@ -15,7 +15,7 @@ Require-Bundle: de.tgmz.zdev.logging,
  org.eclipse.ui,
  org.apache.commons.io
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: de.tgmz.zdev.history,
  de.tgmz.zdev.history.model
 Bundle-ClassPath: .

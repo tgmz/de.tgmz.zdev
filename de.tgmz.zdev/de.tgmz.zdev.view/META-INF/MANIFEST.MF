@@ -21,7 +21,7 @@ Require-Bundle: de.tgmz.zdev.logging,
  com.ibm.cics.zos.core.ui,
  com.ibm.cics.core.connections
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: .
 Export-Package: de.tgmz.zdev.ui,
  de.tgmz.zdev.view,

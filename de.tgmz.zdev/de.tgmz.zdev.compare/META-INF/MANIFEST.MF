@@ -6,7 +6,7 @@ Bundle-Localization: plugin
 Bundle-SymbolicName: de.tgmz.zdev.compare;singleton:=true
 Bundle-Version: 1.2.0.qualifier
 Bundle-Activator: de.tgmz.zdev.compare.Activator
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: de.tgmz.zdev.compare
 Bundle-ClassPath: .

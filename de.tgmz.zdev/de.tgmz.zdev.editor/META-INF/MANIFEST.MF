@@ -28,7 +28,7 @@ Require-Bundle: javax.annotation,
  com.ibm.cics.common,
  com.ibm.cics.core.connections
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: de.tgmz.zdev.editor,
  de.tgmz.zdev.editor.annotation,
  de.tgmz.zdev.editor.assembler,

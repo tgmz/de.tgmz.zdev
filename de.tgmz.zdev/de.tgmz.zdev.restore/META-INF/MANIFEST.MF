@@ -17,7 +17,7 @@ Require-Bundle: de.tgmz.zdev.history,
  org.apache.commons.io,
  com.ibm.cics.zos.model,
  com.ibm.cics.zos.core.ui
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: de.tgmz.zdev.restore,
  de.tgmz.zdev.restore.compare

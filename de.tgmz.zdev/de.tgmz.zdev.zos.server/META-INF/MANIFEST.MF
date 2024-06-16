@@ -6,7 +6,7 @@ Bundle-Localization: plugin
 Bundle-SymbolicName: de.tgmz.zdev.zos.server
 Bundle-Version: 1.2.0.qualifier
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: .,
  lib/ibmjzos.jar,
  lib/slf4j-api-1.7.36.jar,

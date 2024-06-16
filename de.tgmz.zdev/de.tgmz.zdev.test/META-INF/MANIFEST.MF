@@ -47,7 +47,7 @@ Require-Bundle: de.tgmz.zdev.database,
  org.eclipse.ui.editors,
  org.eclipse.jdt.core,
  com.ibm.cics.core.connections
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: .,
  lib/mockito-core-2.28.2.jar,
  lib/byte-buddy-1.9.11.jar,

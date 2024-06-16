@@ -14,7 +14,7 @@ Require-Bundle: de.tgmz.zdev.logging,
  com.ibm.cics.common,
  org.eclipse.jface,
  org.eclipse.ui.workbench
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
 Automatic-Module-Name: de.tgmz.zdev.compile
