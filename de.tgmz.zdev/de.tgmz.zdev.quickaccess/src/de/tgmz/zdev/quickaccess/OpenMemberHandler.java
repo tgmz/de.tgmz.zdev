@@ -54,7 +54,9 @@ public class OpenMemberHandler extends AbstractHandler {
 		
 		if (open == Window.OK) {
 			for (Object o : msd.getResult()) {
-				if (o instanceof Item item) {
+				if (o instanceof Item) {
+					Item item = (Item) o;
+					
 					String dsn = item.getDsn();
 					String m = item.getMember();
 					

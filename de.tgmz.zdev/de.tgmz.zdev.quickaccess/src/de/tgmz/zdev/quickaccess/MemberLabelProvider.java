@@ -52,8 +52,8 @@ class MemberLabelProvider extends LabelProvider {
 
 	@Override
 	public String getText(Object element) {
-		if (element instanceof Item item) {
-			return item.getFullName();
+		if (element instanceof Item) {
+			return ((Item) element).getFullName();
 		}
 
 		return element == null ? "" : element.toString();

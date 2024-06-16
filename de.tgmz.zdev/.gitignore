@@ -2,7 +2,6 @@
 **/.settings
 **/target
 **/bin
-**/.polyglot..META-INF_MANIFEST.MF
-**/.polyglot.META-INF
+**/.polyglot.*
 **/.dbeaver/
 **/.tycho-consumer-pom.xml

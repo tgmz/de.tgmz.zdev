@@ -53,50 +53,48 @@ public class RenameHandler extends AbstractHandler {
 	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		ISelection selection = HandlerUtil.getCurrentSelection(event);
+		Member oldMember = getMemberFromEvent(event);
 		
-		if (selection instanceof IStructuredSelection iss) {
-			if (iss.getFirstElement() instanceof Member oldMember) {
-				Member newMember;
-				try {
-					DataSet dataSet = ZdevConnectable.getConnectable().getDataSet((oldMember).getParentPath());
+		if (oldMember != null) {
+			Member newMember;
+			try {
+				DataSet dataSet = ZdevConnectable.getConnectable().getDataSet((oldMember).getParentPath());
 						
-					newMember = MemberUtility.getInstance().getNewMember((PartitionedDataSet) dataSet, (oldMember).getName());
-				} catch (FileNotFoundException e) {
-					LOG.warn("An unexpected error has occurred", e);
+				newMember = MemberUtility.getInstance().getNewMember((PartitionedDataSet) dataSet, (oldMember).getName());
+			} catch (FileNotFoundException e) {
+				LOG.warn("An unexpected error has occurred", e);
 						
-					MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()
-							, TITLE 
-							, Activator.getDefault().getString("Paste.Error", (oldMember).getName(), e.getMessage()));
+				MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()
+						, TITLE 
+						, Activator.getDefault().getString("Paste.Error", (oldMember).getName(), e.getMessage()));
 						
-					return null;
-				}
+				return null;
+			}
 					
-				if (newMember == null || (oldMember).getName().equalsIgnoreCase(newMember.getName())) {
-					return null;
-				}
+			if (newMember == null || (oldMember).getName().equalsIgnoreCase(newMember.getName())) {
+				return null;
+			}
 					
-				try {
-					ByteArrayOutputStream contents = ZdevConnectable.getConnectable().getContents(oldMember, FileType.BINARY);
+			try {
+				ByteArrayOutputStream contents = ZdevConnectable.getConnectable().getContents(oldMember, FileType.BINARY);
 
-					ZdevConnectable.getConnectable().delete(oldMember);
+				ZdevConnectable.getConnectable().delete(oldMember);
 					
-					ZdevConnectable.getConnectable().save(newMember, new ByteArrayInputStream(contents.toByteArray()));
+				ZdevConnectable.getConnectable().save(newMember, new ByteArrayInputStream(contents.toByteArray()));
 					
-					updateItem(oldMember.getParentPath(), oldMember.getName(), newMember.getName());
-				} catch (PermissionDeniedException  e) {
-					LOG.warn("Operation not allowed", e);
+				updateItem(oldMember.getParentPath(), oldMember.getName(), newMember.getName());
+			} catch (PermissionDeniedException  e) {
+				LOG.warn("Operation not allowed", e);
 					
-					MessageDialog.openWarning(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()
-							, TITLE 
-							, Activator.getDefault().getString("Paste.NotPermitted", (oldMember).getName(), e.getMessage()));
-				} catch (FileNotFoundException | UnsupportedOperationException | UpdateFailedException | ConnectionException e) {
-					LOG.warn("An unexpected error has occurred", e);
+				MessageDialog.openWarning(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()
+						, TITLE 
+						, Activator.getDefault().getString("Paste.NotPermitted", (oldMember).getName(), e.getMessage()));
+			} catch (FileNotFoundException | UnsupportedOperationException | UpdateFailedException | ConnectionException e) {
+				LOG.warn("An unexpected error has occurred", e);
 					
-					MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()
-							, TITLE 
-							, Activator.getDefault().getString("Paste.Error", (oldMember).getName(), e.getMessage()));
-				}
+				MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()
+						, TITLE 
+						, Activator.getDefault().getString("Paste.Error", (oldMember).getName(), e.getMessage()));
 			}
 			
            	// Refresh ZdevDataSetsExplorer View
@@ -138,5 +136,18 @@ public class RenameHandler extends AbstractHandler {
 		} finally {
 			DbService.endTx(session);
 		}
+	}
+	private Member getMemberFromEvent(ExecutionEvent event) {
+		ISelection selection = HandlerUtil.getCurrentSelection(event);
+		
+		if (selection instanceof IStructuredSelection) {
+			Object o = ((IStructuredSelection) selection).getFirstElement();
+			
+			if (o instanceof Member) {
+				return (Member) o;
+			}
+		}
+		
+		return null;
 	}
 }

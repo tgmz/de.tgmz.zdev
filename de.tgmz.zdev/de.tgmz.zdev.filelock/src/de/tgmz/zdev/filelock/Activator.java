@@ -120,11 +120,11 @@ public class Activator extends AbstractUIPlugin {
 			if (activePage != null) {
 				IWorkbenchPart activePart = activePage.getActivePart();
 
-				if (activePart instanceof IViewPart ivp) {
-					bars = ivp.getViewSite().getActionBars();
+				if (activePart instanceof IViewPart) {
+					bars = ((IViewPart) activePart).getViewSite().getActionBars();
 				} else {
-					if (activePart instanceof IEditorPart iep) {
-						bars = iep.getEditorSite().getActionBars();
+					if (activePart instanceof IEditorPart) {
+						bars = ((IEditorPart) activePage).getEditorSite().getActionBars();
 					}
 				}
 

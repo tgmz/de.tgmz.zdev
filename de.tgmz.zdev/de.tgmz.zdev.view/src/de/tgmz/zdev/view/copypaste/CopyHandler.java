@@ -32,10 +32,10 @@ public class CopyHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
 		
-		if (selection instanceof IStructuredSelection iss) {
+		if (selection instanceof IStructuredSelection) {
 			try {
 				PlatformUI.getWorkbench().getProgressService().runInUI(PlatformUI.getWorkbench().getProgressService()
-						, new CopyRunner(iss)
+						, new CopyRunner((IStructuredSelection) selection)
 						, ResourcesPlugin.getWorkspace().getRoot());
 	        } catch (InvocationTargetException e) {
 				LOG.error("Error executin paste", e);

@@ -45,21 +45,21 @@ public class LocalZdevEditor extends TextEditor {
 		
 		colorManager = new ZdevColorManager();
 		
-		ext = FilenameUtils.getExtension(input.getName());
+		ext = FilenameUtils.getExtension(input.getName()).replace(".", "");
 		
 		switch (ext) {
-		case "asm", ".asm":
+		case "asm":
 			setSourceViewerConfiguration(new AssemblerConfiguration(colorManager));
 			break;
-		case "cbl", ".cbl":
+		case "cbl":
 			setSourceViewerConfiguration(new COBOLConfiguration(colorManager));
 			break;
-		case "pli", ".pli":
+		case "pli":
 			setSourceViewerConfiguration(new PLIConfiguration(colorManager));
 			
 			setDocumentProvider(new LocalPLIDocumentProvider());
 			break;
-		case "sql", ".sql":
+		case "sql":
 			setSourceViewerConfiguration(new SqlConfiguration(colorManager));
 			break;
 		default:

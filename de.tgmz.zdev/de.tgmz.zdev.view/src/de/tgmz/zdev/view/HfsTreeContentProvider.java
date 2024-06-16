@@ -37,9 +37,9 @@ public class HfsTreeContentProvider implements ITreeContentProvider {
 	public Object[] getElements(Object inputElement) {
 		LOG.debug("getElements {}", inputElement);
 		
-		if (inputElement instanceof HFSFolder f) {
+		if (inputElement instanceof HFSFolder) {
 			try {
-				List<HFSEntry> children = connectable.getChildren(f, true);
+				List<HFSEntry> children = connectable.getChildren((HFSFolder) inputElement, true);
 			
 				return  children.toArray(new HFSEntry[children.size()]);
 			} catch (FileNotFoundException | PermissionDeniedException | ConnectionException e) {

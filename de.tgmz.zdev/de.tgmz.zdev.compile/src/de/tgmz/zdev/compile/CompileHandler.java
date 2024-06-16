@@ -110,11 +110,11 @@ public class CompileHandler extends AbstractHandler {
 	private Member getMember(ExecutionEvent event) {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
 		
-		if (selection instanceof IStructuredSelection iss) {
-			Object o = iss.getFirstElement();
+		if (selection instanceof IStructuredSelection) {
+			Object o = ((IStructuredSelection) selection).getFirstElement();
 			
-			if (o instanceof Member member) {
-				return member;
+			if (o instanceof Member) {
+				return (Member) o;
 			} else {
 				LOG.info("No member selected");
 				

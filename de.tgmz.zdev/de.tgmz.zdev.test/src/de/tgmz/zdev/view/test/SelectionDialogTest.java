@@ -14,7 +14,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Collections;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.widgets.Display;
@@ -63,14 +63,14 @@ public class SelectionDialogTest {
 	
 	@Test
 	public void testDatasetSelectionDialog() throws PermissionDeniedException, ConnectionException {
-		Mockito.when(connectable.getDataSetEntries(any(DataPath.class))).thenReturn(List.of(Mockito.mock(PartitionedDataSet.class)));
+		Mockito.when(connectable.getDataSetEntries(any(DataPath.class))).thenReturn(Collections.singletonList(Mockito.mock(PartitionedDataSet.class)));
 		
 		testDialog(new DatasetSelectionDialog(shell));
 	}
 
 	@Test
 	public void testHfsSelectionDialog() throws IOException, ConnectionException {
-		Mockito.when(connectable.getChildren(any(HFSFolder.class), anyBoolean())).thenReturn(List.of(Mockito.mock(HFSFile.class)));
+		Mockito.when(connectable.getChildren(any(HFSFolder.class), anyBoolean())).thenReturn(Collections.singletonList(Mockito.mock(HFSFile.class)));
 		
 		testDialog(new HFSSelectionDialog(shell, ZdevConnectable.getConnectable(), "/"));
 	}

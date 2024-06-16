@@ -26,8 +26,8 @@ public class HistorySelectionDialog extends AbstractFilteredItemsSelectionDialog
 	private class HistoryIdentifyerFilter extends ItemsFilter {
 		@Override
 		public boolean matchItem(Object o) {
-			if (o instanceof HistoryIdentifyer item) {
-				return matches(item.getFqdn());
+			if (o instanceof HistoryIdentifyer)  {
+				return matches(((HistoryIdentifyer) o).getFqdn());
 			}
 			
 			return false;

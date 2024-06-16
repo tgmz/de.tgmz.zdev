@@ -103,8 +103,8 @@ public class DatasetSelectionDialog extends AbstractFilteredItemsSelectionDialog
 
 	@Override
 	public String getElementName(Object o) {
-		if (o instanceof DataEntry item) {
-			return item.getPath();
+		if (o instanceof DataEntry) {
+			return ((DataEntry) o).getPath();
 		}
 		
 		return o.toString();

@@ -37,8 +37,8 @@ public class MarkElement implements IWorkbenchAdapter, IAdaptable {
 	public MarkElement(IAdaptable prev, IAdaptable parent, String heading, int offset, int length) {
 		this.parent = parent;
 		
-		if (parent instanceof MarkElement me) {
-			me.addChild(this);
+		if (parent instanceof MarkElement) {
+			((MarkElement) parent).addChild(this);
 		}
 		
 		if (heading == null) {
@@ -55,9 +55,11 @@ public class MarkElement implements IWorkbenchAdapter, IAdaptable {
 		this.previous = null;
 		this.next = null;
 		
-		if (prev instanceof MarkElement p) {
+		if (prev instanceof MarkElement) {
 			this.previous = prev;
-			p = (MarkElement) prev;
+			
+			MarkElement p = (MarkElement) prev;
+			
 			p.setNext(this);
 			p.setNumberOfLines(offset - p.getStart());
 		}
@@ -131,8 +133,8 @@ public class MarkElement implements IWorkbenchAdapter, IAdaptable {
 	public void setParent(IAdaptable parent) {
 		this.parent = parent;
 		
-		if (parent instanceof MarkElement me) {
-			me.addChild(this);
+		if (parent instanceof MarkElement) {
+			((MarkElement) parent).addChild(this);
 		}
 	}
 
@@ -164,7 +166,9 @@ public class MarkElement implements IWorkbenchAdapter, IAdaptable {
 	public void setPrevious(IAdaptable newPrevious) {
 		previous = newPrevious;
 		
-		if (previous instanceof MarkElement p) {
+		if (previous instanceof MarkElement) {
+			MarkElement p = (MarkElement) parent;
+			
 			p.setNext(this);
 			
 			int nLines = offset - p.getStart();

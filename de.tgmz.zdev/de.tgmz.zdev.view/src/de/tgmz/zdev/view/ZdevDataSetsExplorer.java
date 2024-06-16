@@ -75,8 +75,8 @@ public class ZdevDataSetsExplorer extends DataSetsExplorer {
 							openAction.setActivePart(null, ZdevDataSetsExplorer.this);
 							openAction.run(null);
 						} else { 
-							if (selectedTreeItem.getData() instanceof DataSet dataSet 
-								&& "PS".equals(dataSet.getOrganization())) {
+							if (selectedTreeItem.getData() instanceof DataSet 
+								&& "PS".equals(((DataSet) selectedTreeItem.getData()).getOrganization())) {
 								OpenDataEntryAction openAction = new OpenDataEntryAction();
 								openAction.setActivePart(null, ZdevDataSetsExplorer.this);
 								openAction.selectionChanged(null, new StructuredSelection(selectedTreeItem.getData()));

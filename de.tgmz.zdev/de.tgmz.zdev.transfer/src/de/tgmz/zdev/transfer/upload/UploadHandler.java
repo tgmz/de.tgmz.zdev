@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
@@ -54,7 +55,7 @@ public class UploadHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
 		
-		if (selection instanceof IStructuredSelection iss) {
+		if (selection instanceof IStructuredSelection) {
 			DatasetSelectionDialog dsds = new DatasetSelectionDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell());
 			
 			int open = dsds.open();
@@ -65,7 +66,7 @@ public class UploadHandler extends AbstractHandler {
 				List<IFile> fileList = new LinkedList<>();
 			
 				try {
-					for (Iterator<?> iterator = iss.iterator(); iterator.hasNext();) {
+					for (Iterator<?> iterator = ((IStructuredSelection) selection).iterator(); iterator.hasNext();) {
 						fileList.addAll(getFilesRecursively((IResource) iterator.next()));
 					}
 					
@@ -98,13 +99,13 @@ public class UploadHandler extends AbstractHandler {
 	}
 	
 	private List<IFile> getFilesRecursively(IResource res) throws CoreException {
-		if (res instanceof IFile file) {
-			return Collections.singletonList(file);
+		if (res instanceof IFile) {
+			return Collections.singletonList((IFile) res);
 		} else {
-			if (res instanceof IFolder ifolder) {
+			if (res instanceof IFolder) {
 				List<IFile> result = new LinkedList<>();
 				
-				for (IResource subres : ifolder.members()) {
+				for (IResource subres : ((IFolder) res).members()) {
 					result.addAll(getFilesRecursively(subres));
 				}
 				

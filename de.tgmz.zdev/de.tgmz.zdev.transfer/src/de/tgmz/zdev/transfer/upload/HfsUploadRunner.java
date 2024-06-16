@@ -88,12 +88,12 @@ public class HfsUploadRunner implements IRunnableWithProgress {
 		
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		
-		if (res instanceof IFile ifile) {
+		if (res instanceof IFile) {
 			HFSFile hfsFile = folder.createFile(res.getName());
 
 	        subMonitor.subTask(Activator.getDefault().getString("Upload.Subtask", hfsFile.getName()));
 
-			try (InputStream is = ifile.getContents()) {
+			try (InputStream is = ((IFile) res).getContents()) {
 				if (ZdevConnectable.getConnectable().exists(hfsFile)) {
 					if (overwriteStatus == IDialogConstants.YES_TO_ALL_ID) {
 						ZdevConnectable.getConnectable().save(hfsFile, is, transferMode);
@@ -127,7 +127,7 @@ public class HfsUploadRunner implements IRunnableWithProgress {
 			return;
 		}
 		
-		if (res instanceof IFolder ifolder) {
+		if (res instanceof IFolder) {
 			try {
 				HFSFolder sub = folder.createChildFolder(res.getName());
 				
@@ -135,7 +135,7 @@ public class HfsUploadRunner implements IRunnableWithProgress {
 					ZdevConnectable.getConnectable().create(sub);
 				}
 				
-				for (IResource child : ifolder.members()) {
+				for (IResource child : ((IFolder) res).members()) {
 					copy(child, sub);
 				}
 			} catch (UpdateFailedException | CoreException e) {
@@ -155,8 +155,8 @@ public class HfsUploadRunner implements IRunnableWithProgress {
 			if (res instanceof IFile) {
 				++result;
 			} else {
-				if (res instanceof IFolder ifolder) {
-					result += (1 + computeSize(Arrays.asList(ifolder.members())));
+				if (res instanceof IFolder) {
+					result += (1 + computeSize(Arrays.asList(((IFolder) res).members())));
 				}
 			}
 		}

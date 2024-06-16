@@ -35,8 +35,8 @@ public class ExpandHandler extends AbstractHandler {
        	try {
        		ITextEditor te = ZdevEditor.findEditor((Member) editorInput.getZOSObject(), true);
 
-			if (te instanceof ZdevEditor ze) {
-				ze.getProjectionAnnotationModel().expandAll(0, editorInput.getContents().length());
+			if (te instanceof ZdevEditor) {
+				((ZdevEditor) te).getProjectionAnnotationModel().expandAll(0, editorInput.getContents().length());
 			}
 		} catch (PartInitException e) {
 			LOG.error("Cannot find editor for {}", editorInput.getName(), e);

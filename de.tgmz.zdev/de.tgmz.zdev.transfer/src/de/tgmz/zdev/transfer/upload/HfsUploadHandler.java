@@ -53,10 +53,10 @@ public class HfsUploadHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
 		
-		if (selection instanceof IStructuredSelection iss) {
+		if (selection instanceof IStructuredSelection) {
 			List<IResource> resourceList = new LinkedList<>();
 			
-			for (Iterator<?> iterator = iss.iterator(); iterator.hasNext();) {
+			for (Iterator<?> iterator = ((IStructuredSelection) selection).iterator(); iterator.hasNext();) {
 				resourceList.add((IResource) iterator.next());
 			}
 			

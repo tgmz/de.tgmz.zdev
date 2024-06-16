@@ -46,14 +46,16 @@ public class HfsDownloadHandler extends AbstractDownloadHandler {
 	public Object execute(ExecutionEvent event) {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
 		
-		if (selection instanceof IStructuredSelection iss) {
+		if (selection instanceof IStructuredSelection) {
+			IStructuredSelection iss = (IStructuredSelection) selection;
+			
 			ContainerSelectionDialogWithTransfermode dialog = new ContainerSelectionDialogWithTransfermode(
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
 					getInitialRoot(),
 					Activator.getDefault().getString("Download.Selectdestination"));
 
 			ISelectionValidator sv = o -> {
-					if (o instanceof IPath ipath && ipath.segmentCount() > 1) {
+					if (o instanceof IPath && ((IPath) o).segmentCount() > 1) {
 						return null;
 					} else {
 						return Activator.getDefault().getString("Download.Selection.Error");

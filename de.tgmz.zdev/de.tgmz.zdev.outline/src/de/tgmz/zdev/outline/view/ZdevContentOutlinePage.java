@@ -104,7 +104,9 @@ public class ZdevContentOutlinePage extends ContentOutlinePage {
 	private String getContents(IAdaptable adaptable) throws IOException, CoreException {
 		String s = "";
 		
-    	if (adaptable instanceof ZOSObjectEditorInput zoei) {
+    	if (adaptable instanceof ZOSObjectEditorInput) {
+    		ZOSObjectEditorInput zoei = (ZOSObjectEditorInput) adaptable;
+    		
     		s = zoei.getContents();
 
     		int i = 0;
@@ -124,8 +126,8 @@ public class ZdevContentOutlinePage extends ContentOutlinePage {
     			}
     		}
 		} else {
-			if (adaptable instanceof IFileEditorInput ffe) {
-				IFile f = ffe.getFile();
+			if (adaptable instanceof IFileEditorInput) {
+				IFile f = ((IFileEditorInput) adaptable).getFile();
 				
 				s = IOUtils.toString(f.getContents(true), f.getCharset());
 			}

@@ -21,9 +21,9 @@ import com.ibm.cics.common.util.StringUtil;
 public class DataSetSelectionTester extends PropertyTester {
 	@Override
 	public boolean test(Object receiver, String property, Object[] args, Object expectedValue) {
-		if (receiver instanceof ITextSelection textSelection 
+		if (receiver instanceof ITextSelection
 			&& "isDataSet".equals(property)) {
-				String text = textSelection.getText();
+			String text = ((ITextSelection) receiver).getText();
 				
 			if (StringUtil.isEmpty(text)) {
 				return false;

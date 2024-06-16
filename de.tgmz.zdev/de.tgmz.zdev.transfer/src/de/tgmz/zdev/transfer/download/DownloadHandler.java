@@ -65,7 +65,7 @@ public class DownloadHandler extends AbstractDownloadHandler {
 					Activator.getDefault().getString("Download.Selectdestination"));
 
 			ISelectionValidator sv = o -> {
-					if (o instanceof IPath ipath && ipath.segmentCount() > 1) {
+					if (o instanceof IPath && ((IPath) o).segmentCount() > 1) {
 						return null;
 					} else {
 						return Activator.getDefault().getString("Download.Selection.Error");
@@ -108,11 +108,13 @@ public class DownloadHandler extends AbstractDownloadHandler {
 		while (selectionIterator.hasNext()) {
 			Object selectedDataEntry = selectionIterator.next();
 
-			if (selectedDataEntry instanceof Member m) {
-				dataEntriesToDownload.add(m);
+			if (selectedDataEntry instanceof Member) {
+				dataEntriesToDownload.add((DataEntry) selectedDataEntry);
 			}
 
-			if (selectedDataEntry instanceof PartitionedDataSet pds) {
+			if (selectedDataEntry instanceof PartitionedDataSet) {
+				PartitionedDataSet pds = (PartitionedDataSet) selectedDataEntry;
+				
 				DataPath dataPath = new DataPath(pds.getPath());
 
 				try {

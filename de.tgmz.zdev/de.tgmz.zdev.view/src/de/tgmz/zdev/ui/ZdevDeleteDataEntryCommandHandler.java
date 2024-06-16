@@ -43,11 +43,13 @@ public class ZdevDeleteDataEntryCommandHandler extends DeleteDataEntryCommandHan
         Session session = DbService.startTx();
        	
         try {
-        	if (selection instanceof IStructuredSelection iss && !iss.isEmpty()) {
-            	List<?> dataEntries = iss.toList();
+        	if (selection instanceof IStructuredSelection && !((IStructuredSelection) selection).isEmpty()) {
+            	List<?> dataEntries = ((IStructuredSelection) selection).toList();
 			
             	for (Object o : dataEntries) {
-            		if (o instanceof Member m) {
+            		if (o instanceof Member) {
+            			Member m = (Member) o;
+            			
             			Item zwerg0 = session.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", m.getParentPath()).setParameter("member", m.getName()).getSingleResultOrNull();
 
                     	if (zwerg0 != null) {

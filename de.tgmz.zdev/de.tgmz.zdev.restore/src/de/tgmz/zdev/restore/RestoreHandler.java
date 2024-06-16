@@ -57,10 +57,12 @@ public class RestoreHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
 		
-		if (selection instanceof IStructuredSelection iss) {
-			Object o = iss.getFirstElement();
+		if (selection instanceof IStructuredSelection) {
+			Object o = ((IStructuredSelection) selection).getFirstElement();
 			
-			if (o instanceof Member member) {
+			if (o instanceof Member) {
+				Member member = (Member) o;
+				
 				ITextEditor memberEditor = null;
 				try {
 					memberEditor = ZdevEditor.findEditor(member, false);

@@ -38,13 +38,13 @@ public class PasteHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
 		
-		if (selection instanceof IStructuredSelection iss) {
-			Object o = iss.getFirstElement();
+		if (selection instanceof IStructuredSelection) {
+			Object o = ((IStructuredSelection) selection).getFirstElement();
 			
-			if (o instanceof PartitionedDataSet pds) {
+			if (o instanceof PartitionedDataSet) {
 				try {
 					PlatformUI.getWorkbench().getProgressService().runInUI(PlatformUI.getWorkbench().getProgressService()
-							, new PasteRunner(pds)
+							, new PasteRunner((PartitionedDataSet) o)
 							, ResourcesPlugin.getWorkspace().getRoot());
 		        } catch (InvocationTargetException e) {
 					LOG.error("Error executin paste", e);

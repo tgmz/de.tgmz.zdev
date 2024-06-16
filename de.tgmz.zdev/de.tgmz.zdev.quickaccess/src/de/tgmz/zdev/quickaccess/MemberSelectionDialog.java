@@ -34,8 +34,8 @@ public class MemberSelectionDialog extends AbstractFilteredItemsSelectionDialog<
 	private class MemberFilter extends ItemsFilter {
 		@Override
 		public boolean matchItem(Object o) {
-			if (o instanceof Item item) {
-				return matches(item.getFullName());
+			if (o instanceof Item) {
+				return matches(((Item) o).getFullName());
 			}
 			
 			return false;
@@ -86,8 +86,8 @@ public class MemberSelectionDialog extends AbstractFilteredItemsSelectionDialog<
 
 	@Override
 	public String getElementName(Object o) {
-		if (o instanceof Item item) {
-			return item.getFullName();
+		if (o instanceof Item) {
+			return ((Item) o).getFullName();
 		}
 		
 		return o.toString();

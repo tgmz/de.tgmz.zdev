@@ -39,15 +39,16 @@ public class CollapseHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) {
 		ISelection selection = HandlerUtil.getActiveMenuSelection(event);
 		
-		if (selection instanceof ITextSelection its) {
-			Activator.getDefault().setPattern(its.getText());
+		if (selection instanceof ITextSelection) {
+			Activator.getDefault().setPattern(((ITextSelection) selection).getText());
 		
 			ZOSObjectEditorInput editorInput = (ZOSObjectEditorInput) HandlerUtil.getActiveEditorInput(event);
 			
 			try {
 				ITextEditor te = ZdevEditor.findEditor((Member) editorInput.getZOSObject(), true);
 				
-				if (te instanceof ZdevEditor zde) {
+				if (te instanceof ZdevEditor) {
+					ZdevEditor zde = (ZdevEditor) te;
 					List<Position> positions = PatternScanner.getInstance().calculatePositions(zde.getDocumentProvider().getDocument(editorInput));
 				
 					zde.updateFoldingStructure(positions);

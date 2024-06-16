@@ -46,11 +46,11 @@ public class RemoteErrorMouseAdapter extends MouseAdapter {
 	//CHECKSTYLE DISABLE ReturnCount
     @Override
     public void mouseDoubleClick(final MouseEvent me) {
-        if (me.widget instanceof Tree tree) {
-        	Object o = tree.getSelection()[0].getData();
+        if (me.widget instanceof Tree) {
+        	Object o = ((Tree) me.widget).getSelection()[0].getData();
         	
-        	if (o instanceof MarkerItem mi) {
-        		IMarker iMarker = mi.getMarker();
+        	if (o instanceof MarkerItem) {
+        		IMarker iMarker = ((MarkerItem) o).getMarker();
 
 				if (ZdevConnectable.getConnectable() == null || !ZdevConnectable.getConnectable().isConnected()) {
 					MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell() 

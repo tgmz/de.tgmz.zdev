@@ -96,12 +96,12 @@ public class HfsDownloadRunner implements IDownloadRunnableWithProgress {
 		
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		
-		if (hfsEntry instanceof HFSFile hfsfile) {
+		if (hfsEntry instanceof HFSFile) {
 			subMonitor.subTask(Activator.getDefault().getString("Download.Subtask", hfsEntry.getName()));
 			
 			IFile iFile = res.getFile(hfsEntry.getName());
 			
-			try (ByteArrayOutputStream contents = ZdevConnectable.getConnectable().getContents(hfsfile, transferMode);
+			try (ByteArrayOutputStream contents = ZdevConnectable.getConnectable().getContents((HFSFile) hfsEntry, transferMode);
 					InputStream is = new ByteArrayInputStream(contents.toByteArray())) {
 				if (iFile.exists()) {
 					if (overwriteStatus == IDialogConstants.YES_TO_ALL_ID) {
@@ -132,7 +132,7 @@ public class HfsDownloadRunner implements IDownloadRunnableWithProgress {
 			}
 		}
 		
-		if (hfsEntry instanceof HFSFolder hfsfolder) {
+		if (hfsEntry instanceof HFSFolder) {
 			IFolder sub = res.getFolder(hfsEntry.getName());
 			
 			try {
@@ -140,7 +140,7 @@ public class HfsDownloadRunner implements IDownloadRunnableWithProgress {
 					sub.create(true, true, subMonitor.split(1));
 				}
 				
-				for (HFSEntry child : ZdevConnectable.getConnectable().getChildren(hfsfolder, true)) {
+				for (HFSEntry child : ZdevConnectable.getConnectable().getChildren((HFSFolder) hfsEntry, true)) {
 					copy(child, sub);
 				}
 			} catch (FileNotFoundException | PermissionDeniedException | CoreException | ConnectionException e) {
@@ -162,8 +162,8 @@ public class HfsDownloadRunner implements IDownloadRunnableWithProgress {
 		int size = 0;
 		
 		for (HFSEntry hfsEntry : hfsEntries) {
-			if (hfsEntry instanceof HFSFolder hfsfolder) {
-				size += computeSize(ZdevConnectable.getConnectable().getChildren(hfsfolder	, true));
+			if (hfsEntry instanceof HFSFolder) {
+				size += computeSize(ZdevConnectable.getConnectable().getChildren((HFSFolder) hfsEntry, true));
 			} else {
 				++size;
 			}

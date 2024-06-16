@@ -15,6 +15,7 @@ import org.eclipse.compare.CompareConfiguration;
 import org.eclipse.compare.CompareUI;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.slf4j.Logger;
@@ -33,14 +34,21 @@ public class CompareHandler extends AbstractHandler {
 	 */
 	@Override
 	public Object execute(ExecutionEvent event) {
-		if (HandlerUtil.getCurrentSelection(event) instanceof IStructuredSelection iss) {
+		ISelection currentSelection = HandlerUtil.getCurrentSelection(event);
+		
+		if (currentSelection instanceof IStructuredSelection) {
+			IStructuredSelection iss = (IStructuredSelection) currentSelection;
+			
 			if (iss.size() == 2) {
 				List<?> list = iss.toList();
 				
 				Object o0 = list.get(0);
 				Object o1 = list.get(1);
 				
-				if (o0 instanceof Member left && o1 instanceof Member right) {
+				if (o0 instanceof Member && o1 instanceof Member) {
+					Member left = (Member) o0;
+					Member right = (Member) o1;
+					
 					CompareConfiguration cc = new CompareConfiguration();
 					cc.setLeftEditable(false);
 					cc.setRightEditable(false);

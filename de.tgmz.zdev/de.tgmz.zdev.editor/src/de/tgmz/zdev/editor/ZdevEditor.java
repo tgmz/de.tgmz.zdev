@@ -160,7 +160,8 @@ public class ZdevEditor extends MemberEditor {
 			setSourceViewerConfiguration(pliConfiguration);
 			myDocumentProvider = new PLIDocumentProvider();
 			break;
-		case C, CPP:
+		case C:
+		case CPP:
 			setSourceViewerConfiguration(new CppConfiguration(colorManager));
 			myDocumentProvider = ZOSActivator.getDefault().getMemberDocumentProvider();
 			break;
@@ -348,11 +349,12 @@ public class ZdevEditor extends MemberEditor {
 				for (IEditorReference er : ers) {
 					IEditorInput ei = er.getEditorInput();
 					
-					if (ei instanceof DataEntryEditorInput mei) {
-						IZOSObject i = mei.getZOSObject();
+					if (ei instanceof DataEntryEditorInput) {
+						DataEntryEditorInput dei = (DataEntryEditorInput) ei;
+						IZOSObject i = dei.getZOSObject();
 						
 						if (i.getPath().equals(de.getPath())) {
-							result = (ITextEditor) wp.findEditor(mei);
+							result = (ITextEditor) wp.findEditor(dei);
 							
 							break;
 						}
