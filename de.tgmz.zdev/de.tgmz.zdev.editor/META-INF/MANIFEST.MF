@@ -4,7 +4,7 @@ Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-SymbolicName: de.tgmz.zdev.editor;singleton:=true
-Bundle-Version: 1.2.0.qualifier
+Bundle-Version: 1.2.1
 Bundle-Activator: de.tgmz.zdev.editor.Activator
 Require-Bundle: javax.annotation,
  de.tgmz.zdev.logging,

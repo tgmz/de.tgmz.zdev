@@ -19,7 +19,7 @@
 	<name>z/Dev Plicomp Plugin</name>
 
 	<parent>
-		<version>1.2.0-SNAPSHOT</version>
+		<version>1.2.1</version>
 		<groupId>de.tgmz</groupId>
 		<artifactId>de.tgmz.zdev.parent</artifactId>
 	</parent>
