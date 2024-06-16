@@ -89,6 +89,7 @@
 		<module>de.tgmz.zdev.target</module>
 		<module>de.tgmz.zdev.test</module>
 		<module>de.tgmz.zdev.transfer</module>
+		<module>de.tgmz.zdev.updatesite</module>
 		<module>de.tgmz.zdev.view</module>
 		<module>de.tgmz.zdev.xsdosrg</module>
 		<module>de.tgmz.zdev.zos.client</module>
