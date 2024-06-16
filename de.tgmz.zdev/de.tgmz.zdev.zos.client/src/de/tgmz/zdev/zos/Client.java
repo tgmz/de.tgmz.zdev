@@ -22,7 +22,6 @@ import org.slf4j.LoggerFactory;
 import com.ibm.cics.zos.model.IZOSConnectable;
 
 import de.tgmz.zdev.connection.ZdevConnectable;
-import de.tgmz.zdev.zos.Server;
 
 /**
  * Submits the command to the file lock server through a socket connection. 
@@ -30,6 +29,8 @@ import de.tgmz.zdev.zos.Server;
 public final class Client {
 	private static final Logger LOG = LoggerFactory.getLogger(Client.class);
 	private static final Client INSTANCE = new Client();
+	
+	public static final int DEFAULT_PORT = 3141;
 	
 	private Client() {
 	}
@@ -68,8 +69,8 @@ public final class Client {
 
 		String host = conn.getConnection().getConfiguration().getHost();
 
-		try (Socket socket = SocketFactory.getDefault().createSocket(host, Server.DEFAULT_PORT)) {
-			LOG.debug("Write {} to {}:{}", s, host, Server.DEFAULT_PORT);
+		try (Socket socket = SocketFactory.getDefault().createSocket(host, DEFAULT_PORT)) {
+			LOG.debug("Write {} to {}:{}", s, host, DEFAULT_PORT);
 
 			try (PrintStream ps = new PrintStream(socket.getOutputStream(), true, StandardCharsets.UTF_8.name())) {
 				ps.println(s);
