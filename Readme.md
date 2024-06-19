@@ -6,18 +6,16 @@
 <!-- -->
 <!-- SPDX-License-Identifier: EPL-2.0 -->
 
-Developer for z/OS
-===================
+z/Dev: Development Features for IBM z/OS Explorer
+=================================================
 
-# z/Dev
+This Eclipse feature adds software development capabilities to IBM's z/OS Explorer.
+* Syntax highlighting for COBOL, PL/I, Assembler, C/C++ and REXX
+* Outline view for COBOL, PL/I and JCL
+* Remote edit and compile
+* On-demand remote syntax check
+* Restore previous versions of remotely edited dataset members
+* Quick access to previously edited datasets
+* On-the-fly generation of an optimized schema representation (XSDOSRG)
 
-Adopt Eclipse for z/OS.
-
-## Build
-Run `mvn verify -Pmaterialize` and unzip de.tgmz.zdev/de.tgmz.zdev.product/target/products/zdev-win32.win32.x86_64.zip
-
-Have a look on .github/workflows for more instructions
-
-## Adopt
-*   Edit connections.xml
-*   Add features from IBMs Aqua site
+See this projects WIKI for further information.

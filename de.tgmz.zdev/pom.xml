@@ -261,8 +261,7 @@
 						<exclude>**/MANIFEST.MF</exclude>
            				<exclude>**/build.properties</exclude>                                                                         
 						<!-- Tycho stuff -->
-       					<exclude>**/.polyglot.META-INF</exclude>                                                          
-       					<exclude>**/.polyglot..META-INF_MANIFEST.MF</exclude>                                                          
+       					<exclude>**/.polyglot.*</exclude>                                                          
        					<exclude>**/.tycho-consumer-pom.xml</exclude>
 						<!-- Crypto keyfile -->
        					<exclude>src/keyfile</exclude>                                                          

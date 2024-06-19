@@ -23,16 +23,8 @@
                value="z/Dev">
          </property>
          <property
-               name="startupForegroundColor"
-               value="0,0,0">	<!-- Black -->
-         </property>
-         <property
                name="startupProgressRect"
-               value="20,370,320,15">
-         </property>
-         <property
-               name="startupMessageRect"
-               value="20,390,340,40">
+               value="5,415,340,15">
          </property>
          <property
                name="startupTitleRect"
@@ -56,11 +48,11 @@
          </property>
          <property
                name="windowImages"
-               value="icons/png/logo-16x16.png,icons/png/logo-32x32.png,icons/png/logo-48x48.png,icons/png/logo-64x64.png,icons/png/logo-128x128.png">
+               value="icons/png/logo-16x16.png,icons/png/logo-32x32.png,icons/png/logo-48x48.png,icons/png/logo-64x64.png,icons/png/logo-128x128.png,icons/png/logo-256x256.png">
          </property>
          <property
                name="aboutText"
-               value="Copyright Thomas Zierer 2023.&#x0A;&#x0A;This product is based on technology from the Eclipse Project (http://www.eclipse.org/).">
+               value="Copyright (c) 2023 Thomas Zierer&#x0A;&#x0A;This program and the accompanying materials are made&#x0A;available under the terms of the Eclipse Public License 2.0&#x0A;which is available at https://www.eclipse.org/legal/epl-2.0/&#x0A;&#x0A;SPDX-License-Identifier: EPL-2.0&#x0A;&#x0A;This product is based on technology from the Eclipse Project (http://www.eclipse.org/).">
          </property>
          <property
                name="aboutImage"
@@ -68,7 +60,7 @@
          </property>
          <property
                name="preferenceCustomization"
-               value="config.ini">
+               value="plugin_customization.ini">
          </property>
       </product>
    </extension>
