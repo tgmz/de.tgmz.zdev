@@ -24,15 +24,16 @@ public class ZdevPreferenceInitializer extends AbstractPreferenceInitializer {
 	public void initializeDefaultPreferences() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		
-		String userId = System.getProperty("user.name").trim().toUpperCase(Locale.ROOT);
+		String userId = store.getString(ZdevPreferenceConstants.USER);
+		String userIdUpper = userId.toUpperCase(Locale.ROOT);
 		
 		store.setDefault(ZdevPreferenceConstants.JOB_SUFFIX, false);
 		store.setDefault(ZdevPreferenceConstants.LOG_LEVEL, "INFO");
 		store.setDefault(ZdevPreferenceConstants.FILELOCK_AUTO, false);
 		store.setDefault(ZdevPreferenceConstants.JOB_CARD, "//" 
-							+  userId
+							+  userIdUpper
 							+ "B JOB '<Insert accounting information>',"
-							+ "'" + userId + "'"
+							+ "'" + userIdUpper + "'"
 							+ ",CLASS=Z,MSGCLASS=T," 
 							+ System.lineSeparator()
 							+ "//     MSGLEVEL=(1,1),REGION=0M");
@@ -49,15 +50,15 @@ public class ZdevPreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(ZdevPreferenceConstants.HISTORY_MONTHS, 3);
 		store.setDefault(ZdevPreferenceConstants.HISTORY_VERSIONS, 10);
 		
-		store.setDefault(ZdevPreferenceConstants.OBJLIB, userId + ".ZDEV.OBJ");
-		store.setDefault(ZdevPreferenceConstants.LOADLIB, userId + ".ZDEV.LOAD");
+		store.setDefault(ZdevPreferenceConstants.OBJLIB, userIdUpper + ".ZDEV.OBJ");
+		store.setDefault(ZdevPreferenceConstants.LOADLIB, userIdUpper + ".ZDEV.LOAD");
 		store.setDefault(ZdevPreferenceConstants.LINK_OPTIONS, "MAP,LIST");
 		
-		store.setDefault(ZdevPreferenceConstants.SYSLIB_PLI, userId + ".ZDEV.INCLUDE");
-		store.setDefault(ZdevPreferenceConstants.SYSLIB_COB, userId + ".ZDEV.COPY");
-		store.setDefault(ZdevPreferenceConstants.SYSLIB_ASM, "SYS1.MACLIB;" + userId + ".ZDEV.MAC");
-		store.setDefault(ZdevPreferenceConstants.SYSLIB_C, userId + ".ZDEV.H");
-		store.setDefault(ZdevPreferenceConstants.SYSLIB_CPP, userId + ".ZDEV.H");
+		store.setDefault(ZdevPreferenceConstants.SYSLIB_PLI, userIdUpper + ".ZDEV.INCLUDE");
+		store.setDefault(ZdevPreferenceConstants.SYSLIB_COB, userIdUpper + ".ZDEV.COPY");
+		store.setDefault(ZdevPreferenceConstants.SYSLIB_ASM, "SYS1.MACLIB;" + userIdUpper + ".ZDEV.MAC");
+		store.setDefault(ZdevPreferenceConstants.SYSLIB_C, userIdUpper + ".ZDEV.H");
+		store.setDefault(ZdevPreferenceConstants.SYSLIB_CPP, userIdUpper + ".ZDEV.H");
 		
 		store.setDefault(ZdevPreferenceConstants.DB2_PLI, "PP(SQL)");
 		store.setDefault(ZdevPreferenceConstants.DB2_COB, "SQL");

@@ -15,6 +15,8 @@ package de.tgmz.zdev.preferences;
  */
 public class ZdevPreferenceConstants {
     /** Constant field for den LogLevel. */
+    public static final String USER = "USER";
+    /** Constant field for den LogLevel. */
     public static final String LOG_LEVEL = "LOG_LEVEL";
     /** Constant field for job suffix. */
     public static final String JOB_SUFFIX = "JOB_SUFFIX";
