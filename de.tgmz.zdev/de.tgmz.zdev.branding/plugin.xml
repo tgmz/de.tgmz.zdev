@@ -24,19 +24,19 @@
          </property>
          <property
                name="startupProgressRect"
-               value="5,415,340,15">
+               value="5,5,340,15">
          </property>
          <property
                name="startupTitleRect"
-               value="20,130,250,80">
+               value="20,220,250,80">
          </property>
          <property
                name="versionRect"
-               value="20,240,340,20">
+               value="20,300,340,20">
          </property>
          <property
                name="copyrightRect"
-               value="20,260,340,170">
+               value="20,330,600,80">
          </property>
          <property
                name="milestoneImageRect"
@@ -44,7 +44,7 @@
          </property>
          <property
                name="builtOnRect"
-               value="540,230,78,167">	<!-- right, down, width, height -->
+               value="540,140,78,167">	<!-- right, down, width, height -->
          </property>
          <property
                name="windowImages"

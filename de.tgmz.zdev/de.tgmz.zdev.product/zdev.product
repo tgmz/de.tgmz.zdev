@@ -47,7 +47,7 @@ This product is based on technology from the Eclipse Project (http://www.eclipse
 
    <splash
       location="de.tgmz.zdev.branding"
-      startupProgressRect="5,415,340,15" />
+      startupProgressRect="5,5,340,15" />
    <launcher name="zDev">
       <win useIco="false">
          <bmp
