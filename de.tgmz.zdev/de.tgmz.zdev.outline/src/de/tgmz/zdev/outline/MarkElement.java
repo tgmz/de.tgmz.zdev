@@ -14,9 +14,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.model.IWorkbenchAdapter;
 
 /**
@@ -32,7 +30,6 @@ public class MarkElement implements IWorkbenchAdapter, IAdaptable {
 	private IAdaptable previous;
 	private IAdaptable next;
 	private boolean deleted;
-	private static final RGB DELETE_COLOR = new Shell().getDisplay().getSystemColor(16).getRGB();
 
 	public MarkElement(IAdaptable prev, IAdaptable parent, String heading, int offset, int length) {
 		this.parent = parent;
@@ -98,10 +95,6 @@ public class MarkElement implements IWorkbenchAdapter, IAdaptable {
 		return children;
 	}
 
-	public boolean hasChildren() {
-		return children != null;
-	}
-
 	@Override
 	public ImageDescriptor getImageDescriptor(Object object) {
 		// Use default ">"
@@ -130,14 +123,6 @@ public class MarkElement implements IWorkbenchAdapter, IAdaptable {
 		return getParent();
 	}
 
-	public void setParent(IAdaptable parent) {
-		this.parent = parent;
-		
-		if (parent instanceof MarkElement) {
-			((MarkElement) parent).addChild(this);
-		}
-	}
-
 	public int getStart() {
 		return offset;
 	}
@@ -157,10 +142,6 @@ public class MarkElement implements IWorkbenchAdapter, IAdaptable {
 
 	public void setNext(IAdaptable newNext) {
 		next = newNext;
-	}
-
-	public IAdaptable getPrevious() {
-		return previous;
 	}
 
 	public void setPrevious(IAdaptable newPrevious) {
@@ -183,30 +164,11 @@ public class MarkElement implements IWorkbenchAdapter, IAdaptable {
 		headingName = label;
 	}
 
-	public void setStart(int start) {
-		offset = start;
-	}
-
 	public boolean isDeleted() {
 		return deleted;
 	}
 
-	public void setDeleted(boolean newDeleted) {
-		deleted = newDeleted;
-	}
-
 	public RGB getBackground() {
-		return null;
-	}
-
-	public RGB getForeground() {
-		if (isDeleted()) {
-			return DELETE_COLOR;
-		}
-		return null;
-	}
-
-	public FontData getFont() {
 		return null;
 	}
 }

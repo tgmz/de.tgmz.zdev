@@ -8,7 +8,9 @@ Bundle-Version: 1.2.1
 Bundle-Activator: de.tgmz.zdev.preferences.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.apache.commons.io
+ org.apache.commons.io,
+ com.ibm.cics.core.connections,
+ com.ibm.cics.zos.comm
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: de.tgmz.zdev.preferences
