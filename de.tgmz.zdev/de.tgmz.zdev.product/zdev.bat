@@ -6,4 +6,4 @@
 @rem
 @rem SPDX-License-Identifier: EPL-2.0
 
-"C:\Program Files\JRE\bin\java.exe" -Declipse.pluginCustomization=config.ini -Xmx1024m -Xverify:none -jar plugins\org.eclipse.equinox.launcher_1.5.100.v20180827-1352.jar -consoleLog -showSplash
+"C:\Program Files\AdoptOpenJDK\jdk-17.0.11+9\bin\java.exe" -Declipse.pluginCustomization=config.ini -Xmx1024m -jar plugins\org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar -consoleLog -showSplash

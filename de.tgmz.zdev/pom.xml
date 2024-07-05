@@ -55,7 +55,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<tycho-version>3.0.4</tycho-version>
+		<tycho-version>4.0.8</tycho-version>
 		<java-version>1.8</java-version>
 		<jacoco.version>0.8.11</jacoco.version>
 		<sonar.java.source>17</sonar.java.source>
