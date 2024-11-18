@@ -83,70 +83,6 @@ SPDX-License-Identifier: EPL-2.0
    </plugins>
 
    <features>
-      <feature id="com.ibm.cics.platform.feature" installMode="root"/>
-      <feature id="com.ibm.cics.platform.feature.nl0" installMode="root"/>
-      <feature id="com.ibm.cics.zos.feature" installMode="root"/>
-      <feature id="com.ibm.cics.zos.feature.nl0" installMode="root"/>
-      <feature id="com.ibm.etools.common.tracing" installMode="root"/>
-      <feature id="com.ibm.etools.common.tracing.nl1" installMode="root"/>
-      <feature id="com.ibm.etools.icerse.editor.feature" installMode="root"/>
-      <feature id="com.ibm.etools.icerse.editor.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.etools.jzos.feature" installMode="root"/>
-      <feature id="com.ibm.etools.jzos.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.etools.rdz.client.certificates" installMode="root"/>
-      <feature id="com.ibm.etools.rdz.client.certificates.nl1" installMode="root"/>
-      <feature id="com.ibm.etools.znps.feature" installMode="root"/>
-      <feature id="com.ibm.etools.znps.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.etools.zusage.feature" installMode="root"/>
-      <feature id="com.ibm.ftt.cics.rse.feature" installMode="root"/>
-      <feature id="com.ibm.ftt.cics.rse.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.ftt.common.feature" installMode="root"/>
-      <feature id="com.ibm.ftt.common.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.ftt.common.language" installMode="root"/>
-      <feature id="com.ibm.ftt.common.language.manager.contentassist.feature" installMode="root"/>
-      <feature id="com.ibm.ftt.common.language.nl1" installMode="root"/>
-      <feature id="com.ibm.ftt.common.tracing.core.feature" installMode="root"/>
-      <feature id="com.ibm.ftt.configurations.feature" installMode="root"/>
-      <feature id="com.ibm.ftt.configurations.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.ftt.core.feature" installMode="root"/>
-      <feature id="com.ibm.ftt.core.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.ftt.language.feature" installMode="root"/>
-      <feature id="com.ibm.ftt.language.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.ftt.language.jcl.contentassist.feature" installMode="root"/>
-      <feature id="com.ibm.ftt.rse.connectorservice.feature" installMode="root"/>
-      <feature id="com.ibm.ftt.rse.connectorservice.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.ftt.rse.debug.feature" installMode="root"/>
-      <feature id="com.ibm.ftt.rse.debug.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.ftt.rse.jes.feature" installMode="root"/>
-      <feature id="com.ibm.ftt.rse.jes.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.ftt.rse.mvs.feature" installMode="root"/>
-      <feature id="com.ibm.ftt.rse.mvs.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.ftt.rse.uss.feature" installMode="root"/>
-      <feature id="com.ibm.ftt.rse.uss.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.ftt.ui.feature" installMode="root"/>
-      <feature id="com.ibm.ftt.ui.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.oss.jars.feature" installMode="root"/>
-      <feature id="com.ibm.systemz.common.editor.feature" installMode="root"/>
-      <feature id="com.ibm.systemz.common.editor.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.systemz.common.editor.parse.feature" installMode="root"/>
-      <feature id="com.ibm.systemz.common.editor.parse.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.systemz.common.elsh.feature" installMode="root"/>
-      <feature id="com.ibm.systemz.common.elsh.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.systemz.common.formatter.feature" installMode="root"/>
-      <feature id="com.ibm.systemz.common.jface.feature" installMode="root"/>
-      <feature id="com.ibm.systemz.common.jface.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.systemz.jcl.core.feature" installMode="root"/>
-      <feature id="com.ibm.systemz.jcl.core.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.systemz.jcl.feature" installMode="root"/>
-      <feature id="com.ibm.systemz.jcl.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.systemz.spool.feature" installMode="root"/>
-      <feature id="com.ibm.systemz.spool.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.tpf.util.feature" installMode="root"/>
-      <feature id="com.ibm.tpf.util.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.zeus.feature" installMode="root"/>
-      <feature id="com.ibm.zeus.feature.nl0" installMode="root"/>
-      <feature id="com.ibm.zexpl.doc.feature" installMode="root"/>
-      <feature id="com.ibm.zexpl.doc.feature.nl0" installMode="root"/>
       <feature id="de.tgmz.aqua.connection.zowe.feature" installMode="root"/>
       <feature id="de.tgmz.zdev.feature" installMode="root"/>
       <feature id="org.eclipse.cvs" installMode="root"/>
@@ -211,6 +147,71 @@ SPDX-License-Identifier: EPL-2.0
       <feature id="org.eclipse.tm.terminal.ssh" installMode="root"/>
       <feature id="org.eclipse.tm.terminal.telnet" installMode="root"/>
       <feature id="org.eclipse.tm.terminal.view" installMode="root"/>
+      <feature id="com.ibm.cics.platform.feature" installMode="root"/>
+      <feature id="com.ibm.cics.platform.feature.nl0" installMode="root"/>
+      <feature id="com.ibm.cics.zos.feature" installMode="root"/>
+      <feature id="com.ibm.cics.zos.feature.nl0" installMode="root"/>
+      <feature id="com.ibm.etools.common.tracing" installMode="root"/>
+      <feature id="com.ibm.etools.common.tracing.nl1" installMode="root"/>
+      <feature id="com.ibm.etools.icerse.editor.feature" installMode="root"/>
+      <feature id="com.ibm.etools.icerse.editor.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.etools.jzos.feature" installMode="root"/>
+      <feature id="com.ibm.etools.jzos.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.etools.rdz.client.certificates" installMode="root"/>
+      <feature id="com.ibm.etools.rdz.client.certificates.nl1" installMode="root"/>
+      <feature id="com.ibm.etools.znps.feature" installMode="root"/>
+      <feature id="com.ibm.etools.znps.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.etools.zusage.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.cics.rse.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.cics.rse.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.ftt.common.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.common.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.ftt.common.language" installMode="root"/>
+      <feature id="com.ibm.ftt.common.language.jcl.outline.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.common.language.manager.contentassist.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.common.language.nl1" installMode="root"/>
+      <feature id="com.ibm.ftt.common.tracing.core.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.configurations.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.configurations.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.ftt.core.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.core.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.ftt.language.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.language.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.ftt.language.jcl.contentassist.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.rse.connectorservice.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.rse.connectorservice.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.ftt.rse.debug.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.rse.debug.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.ftt.rse.jes.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.rse.jes.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.ftt.rse.mvs.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.rse.mvs.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.ftt.rse.uss.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.rse.uss.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.ftt.ui.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.ui.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.systemz.common.editor.core.feature" installMode="root"/>
+      <feature id="com.ibm.systemz.common.editor.feature" installMode="root"/>
+      <feature id="com.ibm.systemz.common.editor.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.systemz.common.editor.parse.feature" installMode="root"/>
+      <feature id="com.ibm.systemz.common.editor.parse.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.systemz.common.elsh.feature" installMode="root"/>
+      <feature id="com.ibm.systemz.common.elsh.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.systemz.common.formatter.feature" installMode="root"/>
+      <feature id="com.ibm.systemz.common.jface.feature" installMode="root"/>
+      <feature id="com.ibm.systemz.common.jface.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.systemz.jcl.editor.core.feature" installMode="root"/>
+      <feature id="com.ibm.systemz.jcl.feature" installMode="root"/>
+      <feature id="com.ibm.systemz.jcl.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.systemz.spool.feature" installMode="root"/>
+      <feature id="com.ibm.systemz.spool.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.systemz.zosexplorer.wcaz4e.feature" installMode="root"/>
+      <feature id="com.ibm.tpf.util.feature" installMode="root"/>
+      <feature id="com.ibm.tpf.util.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.zeus.feature" installMode="root"/>
+      <feature id="com.ibm.zeus.feature.nl0" installMode="root"/>
+      <feature id="com.ibm.zexpl.doc.feature" installMode="root"/>
+      <feature id="com.ibm.zexpl.doc.feature.nl0" installMode="root"/>
    </features>
 
    <configurations>
