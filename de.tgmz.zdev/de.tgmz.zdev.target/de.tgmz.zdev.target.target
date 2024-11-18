@@ -17,12 +17,12 @@
 <unit id="org.eclipse.equinox.executable.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.equinox.p2.user.ui.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.egit.feature.group" version="0.0.0"/>
-<repository location="https://download.eclipse.org/releases/2022-03/"/>
+<repository location="https://download.eclipse.org/releases/2024-03/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="false" type="InstallableUnit">
 <unit id="com.ibm.zeus.feature.feature.group" version="0.0.0"/>
 <unit id="com.ibm.zeus.feature.nl0.feature.group" version="0.0.0"/>
-<repository location="https://public.dhe.ibm.com/ibmdl/export/pub/software/htp/zos/tools/aqua3.3-20231020GA/"/>
+<repository location="https://public.dhe.ibm.com/ibmdl/export/pub/software/htp/zos/tools/aqua3.4-20241018GA/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.cvs.feature.group" version="0.0.0"/>
