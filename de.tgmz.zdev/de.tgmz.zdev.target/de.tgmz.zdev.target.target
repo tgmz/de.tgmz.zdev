@@ -31,6 +31,7 @@
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="false" type="InstallableUnit">
 <unit id="org.apache.ant" version="0.0.0"/>
 <unit id="javax.xml.bind" version="0.0.0"/>
+<unit id="org.apache.commons.io" version="0.0.0"/>
 <unit id="org.apache.commons.lang" version="0.0.0"/>
 <unit id="org.apache.commons.net" version="0.0.0"/>
 <unit id="org.h2" version="0.0.0"/>
