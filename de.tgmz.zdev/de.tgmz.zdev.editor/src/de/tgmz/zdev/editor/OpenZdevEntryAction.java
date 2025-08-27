@@ -14,7 +14,6 @@ import java.io.IOException;
 
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +27,7 @@ import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.Item;
 import de.tgmz.zdev.history.HistoryException;
 import de.tgmz.zdev.history.LocalHistory;
+import jakarta.persistence.EntityManager;
 
 /**
  * Open Editor Action.
@@ -45,18 +45,18 @@ public class OpenZdevEntryAction extends OpenDataEntryAction {
 			m = (Member) this.zosLocation;
 		}
 		
-		Session session = DbService.startTx();
-		
-		try {
-			Item item = session.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", m.getParentPath()).setParameter("member", m.getName()).getSingleResultOrNull();
+		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
+			em.getTransaction().begin();
+			
+			Item item = em.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", m.getParentPath()).setParameter("member", m.getName()).getSingleResultOrNull();
 
 			if (item == null) {
 				item = new Item(m.getParentPath(), m.getName());
 				
-				session.persist(item);
+				em.persist(item);
 			}
-		} finally {
-			DbService.endTx(session);
+			
+			em.getTransaction().commit();
 		}
 		
 		try {

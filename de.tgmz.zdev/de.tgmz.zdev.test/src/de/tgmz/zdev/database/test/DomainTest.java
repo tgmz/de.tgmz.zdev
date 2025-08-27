@@ -12,13 +12,13 @@ package de.tgmz.zdev.database.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-import org.hibernate.Session;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.Item;
+import jakarta.persistence.EntityManager;
 
 public class DomainTest {
 	private static final String PGM = "HELLOW";
@@ -26,42 +26,38 @@ public class DomainTest {
 	
 	@BeforeClass
 	public static void setupOnce() {
-		Session session = DbService.startTx();
-		
-		try {
-			session.createMutationQuery("DELETE FROM Item").executeUpdate();
+		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
+			em.getTransaction().begin();
+			
+			em.createQuery("DELETE FROM Item").executeUpdate();
 			
 			Item i = new Item();
 			i.setDsn(PDS);
 			i.setMember(PGM);
 			
-			session.persist(i);
-		} finally {
-			DbService.endTx(session);
+			em.persist(i);
+			
+			em.getTransaction().commit();
 		}
 	}
 	
 	@AfterClass
 	public static void teardownOnce() {
-		Session session = DbService.startTx();
-		
-		try {
-			session.createMutationQuery("DELETE FROM Item").executeUpdate();
-		} finally {
-			DbService.endTx(session);
+		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
+			em.getTransaction().begin();
+			
+			em.createQuery("DELETE FROM Item").executeUpdate();
+			
+			em.getTransaction().commit();
 		}
 	}
 	
 	@Test
 	public void testSimple() {
-		Session session = DbService.startTx();
-		
-		try {
-			Item i = getItem(session);
+		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
+			Item i = getItem(em);
 			
 			assertEquals(PGM, i.getMember());
-		} finally {
-			DbService.endTx(session);
 		}
 	}
 
@@ -77,8 +73,8 @@ public class DomainTest {
 		assertNotEquals(i0,  i1);
 	}
 
-	private Item getItem(Session session) {
-		return session.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", PDS).setParameter("member", PGM).uniqueResult();
+	private Item getItem(EntityManager em) {
+		return em.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", PDS).setParameter("member", PGM).getSingleResult();
 	}
 }
 

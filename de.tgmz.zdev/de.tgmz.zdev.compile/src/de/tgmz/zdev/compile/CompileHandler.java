@@ -21,7 +21,9 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.hibernate.Session;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,18 +57,18 @@ public class CompileHandler extends AbstractHandler {
 
 		Item item;
 		
-		Session session = DbService.startTx();
-		
-		try {
-			item = session.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", m.getParentPath()).setParameter("member", m.getName()).getSingleResultOrNull();
+		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
+			em.getTransaction().begin();
+			
+			item = em.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", m.getParentPath()).setParameter("member", m.getName()).getSingleResultOrNull();
 
 			if (item == null) {
 				item = new Item(m.getParentPath(), m.getName());
 				
-				session.persist(item);
+				em.persist(item);
 			}
-		} finally {
-			DbService.endTx(session);
+
+			em.getTransaction().commit();
 		}
 		
 
