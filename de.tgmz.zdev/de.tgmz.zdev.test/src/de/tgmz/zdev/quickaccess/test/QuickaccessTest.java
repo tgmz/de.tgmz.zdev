@@ -15,13 +15,13 @@ import java.util.Iterator;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.hibernate.Session;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.Item;
 import de.tgmz.zdev.quickaccess.MemberSelectionDialog;
+import jakarta.persistence.EntityManager;
 
 public class QuickaccessTest {
 	private static final String PGM = "HELLOW";
@@ -29,22 +29,18 @@ public class QuickaccessTest {
 	
 	@BeforeClass
 	public static void setupOnce() {
-		Session session = DbService.startTx();
-		
-		try {
-			Iterator<?> it = session.createQuery("From Item", Item.class).list().iterator();
+		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
+			Iterator<?> it = em.createQuery("From Item", Item.class).getResultList().iterator();
 			
 			while (it.hasNext()) {
 				Item i = (Item) it.next();
 				
-				session.remove(i);
+				em.remove(i);
 			}
 			
 			Item i = new Item(PDS, PGM);
 			
-			session.persist(i);
-		} finally {
-			DbService.endTx(session);
+			em.persist(i);
 		}
 	}
 	

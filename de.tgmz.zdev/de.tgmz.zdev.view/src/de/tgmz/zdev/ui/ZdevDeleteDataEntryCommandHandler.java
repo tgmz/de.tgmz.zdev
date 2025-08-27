@@ -16,8 +16,6 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,11 +24,13 @@ import com.ibm.cics.zos.ui.DeleteDataEntryCommandHandler;
 
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.Item;
+import jakarta.persistence.EntityManager;
 
 /**
  * Deletes a member and the corresponding item from the database.
  */
 public class ZdevDeleteDataEntryCommandHandler extends DeleteDataEntryCommandHandler {
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(ZdevDeleteDataEntryCommandHandler.class);
 	
 	@Override
@@ -40,28 +40,22 @@ public class ZdevDeleteDataEntryCommandHandler extends DeleteDataEntryCommandHan
 		
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
 
-        Session session = DbService.startTx();
-       	
-        try {
-        	if (selection instanceof IStructuredSelection && !((IStructuredSelection) selection).isEmpty()) {
-            	List<?> dataEntries = ((IStructuredSelection) selection).toList();
+    	if (selection instanceof IStructuredSelection && !((IStructuredSelection) selection).isEmpty()) {
+        	List<?> dataEntries = ((IStructuredSelection) selection).toList();
 			
+    		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
             	for (Object o : dataEntries) {
             		if (o instanceof Member) {
             			Member m = (Member) o;
             			
-            			Item zwerg0 = session.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", m.getParentPath()).setParameter("member", m.getName()).getSingleResultOrNull();
+            			Item zwerg0 = em.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", m.getParentPath()).setParameter("member", m.getName()).getSingleResultOrNull();
 
                     	if (zwerg0 != null) {
-                    		session.remove(zwerg0);
+                    		em.remove(zwerg0);
                     	}
             		}
 				}
         	}
-   		} catch (HibernateException e) {
-   			LOG.error("Database error", e);
-   		} finally {
-   			DbService.endTx(session);
 		}
         
         return result;

@@ -21,7 +21,6 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -89,12 +88,7 @@ public class OpenMemberHandler extends AbstractHandler {
 		                		, Activator.getDefault().getString("Quickaccess.NotFound", item.getFullName()));
 						
 						// Delete item from database
-						Session session = DbService.startTx();
-						try {
-							session.remove(o);
-						} finally {
-							DbService.endTx(session);
-						}
+						DbService.getInstance().inTransaction(x -> x.remove(o));
 						
 						continue;
 					} catch (PermissionDeniedException | ConnectionException e) {

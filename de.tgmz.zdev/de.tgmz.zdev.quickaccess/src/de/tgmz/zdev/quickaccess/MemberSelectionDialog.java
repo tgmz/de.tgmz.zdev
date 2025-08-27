@@ -15,12 +15,11 @@ import java.util.List;
 import java.util.Locale;
 
 import org.eclipse.swt.widgets.Shell;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
 
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.Item;
 import de.tgmz.zdev.view.AbstractFilteredItemsSelectionDialog;
+import jakarta.persistence.EntityManager;
 
 /**
  * Class for selecting an item from a filtered list. 
@@ -55,17 +54,11 @@ public class MemberSelectionDialog extends AbstractFilteredItemsSelectionDialog<
 	public MemberSelectionDialog(Shell shell, boolean multi) {
 		super(shell, multi);
 
-		Session session = DbService.startTx();
-		try {
-			List<Item> items = session.createQuery("from Item", Item.class).list();
+		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
+			List<Item> items = em.createQuery("from Item", Item.class).getResultList();
 			
 			setElements(items.toArray(new Item[items.size()]));
-		} catch (HibernateException e) {
-			LOG.error("Cannot execute named query", e);
-		} finally {
-			DbService.endTx(session);
 		}
-		
 		
 		Activator act = Activator.getDefault();
 		

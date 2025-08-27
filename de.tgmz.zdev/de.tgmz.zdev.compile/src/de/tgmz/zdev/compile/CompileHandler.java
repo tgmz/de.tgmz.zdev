@@ -21,9 +21,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
-
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +33,7 @@ import de.tgmz.zdev.connection.ZdevConnectable;
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.Item;
 import de.tgmz.zdev.preferences.ZdevPreferenceConstants;
+import jakarta.persistence.EntityManager;
 
 public class CompileHandler extends AbstractHandler {
 	private static final Logger LOG = LoggerFactory.getLogger(CompileHandler.class);
@@ -68,23 +66,18 @@ public class CompileHandler extends AbstractHandler {
 				em.persist(item);
 			}
 
-			em.getTransaction().commit();
-		}
-		
-
-		if (!item.isLock()) {
-			ItemOptionsDialog d = new ItemOptionsDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), item);
+			if (!item.isLock()) {
+				ItemOptionsDialog d = new ItemOptionsDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), item);
 			
-			if ((item = d.open()) != null) {
-				session = DbService.startTx();
+				if ((item = d.open()) != null) {
+					em.merge(item);
 					
-				try {
-					session.merge(item);
-				} finally {
-					DbService.endTx(session);
+					em.getTransaction().commit();
+				} else {
+					em.getTransaction().commit();
+					
+					return null;
 				}
-			} else {
-				return null;
 			}
 		}
 

@@ -23,7 +23,6 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +38,7 @@ import com.ibm.cics.zos.model.UpdateFailedException;
 import de.tgmz.zdev.connection.ZdevConnectable;
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.Item;
+import jakarta.persistence.EntityManager;
 
 /**
  * Handler for renaming a member.
@@ -121,20 +121,16 @@ public class RenameHandler extends AbstractHandler {
 		return null;
 	}
 	private void updateItem(String dsn, String oldMember, String newMember) {
-		Session session = DbService.startTx();
-		
-		try {
-			Item item = session.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", dsn).setParameter("member", oldMember).getSingleResultOrNull();
+		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
+			Item item = em.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", dsn).setParameter("member", oldMember).getSingleResultOrNull();
 
 			if (item == null) {
 				item = new Item(dsn, newMember);
 			} else {
 				item.setMember(newMember);
 			}
-				
-			session.persist(item);
-		} finally {
-			DbService.endTx(session);
+			
+			em.merge(item);
 		}
 	}
 	private Member getMemberFromEvent(ExecutionEvent event) {

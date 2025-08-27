@@ -23,8 +23,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +42,7 @@ import de.tgmz.zdev.plicomp.PlicompException;
 import de.tgmz.zdev.plicomp.PlicompFactory;
 import de.tgmz.zdev.xinfo.generated.MESSAGE;
 import de.tgmz.zdev.xinfo.generated.PACKAGE;
+import jakarta.persistence.EntityManager;
 
 /**
  * Syntax check.
@@ -84,29 +83,16 @@ public class SyntaxcheckHandler extends AbstractSyntaxcheckHandler {
 	        }
 		}
 		
-		Session session = DbService.startTx();
-		
 		Item item;
 		
-		try {
-			item = session.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", m.getParentPath()).setParameter("member", m.getName()).getSingleResultOrNull();
+		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
+			item = em.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", m.getParentPath()).setParameter("member", m.getName()).getSingleResultOrNull();
 		
 			if (item == null) {
 				item = new Item(m.getParentPath(), m.getName());
 			
-				session.persist(item);
+				em.persist(item);
 			}
-		} catch (HibernateException e) {
-			String s = Activator.getDefault().getString("Database.Error");
-			
-			LOG.error(s, e);
-			
-			MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell() 
-	                , Activator.getDefault().getString("Database.Title"), s);
-			
-			return null;
-		} finally {
-			DbService.endTx(session);
 		}
 
 		SequentialDataSet errorFeedback = null;

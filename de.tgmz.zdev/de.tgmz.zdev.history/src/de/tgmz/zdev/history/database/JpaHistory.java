@@ -12,13 +12,11 @@ package de.tgmz.zdev.history.database;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.hibernate.HibernateException;
-import org.hibernate.ScrollableResults;
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +25,7 @@ import de.tgmz.zdev.domain.HistoryItem;
 import de.tgmz.zdev.history.HistoryException;
 import de.tgmz.zdev.history.HistoryIdentifyer;
 import de.tgmz.zdev.history.model.IHistoryModel;
+import jakarta.persistence.EntityManager;
 
 /**
  * History based on a H2 database with hibernate.
@@ -36,59 +35,41 @@ public class JpaHistory implements IHistoryModel {
 	
 	@Override
 	public HistoryIdentifyer save(String fqdn, byte[] content) throws HistoryException {
-   		HistoryItem c = new HistoryItem();
+		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
+			HistoryItem c = new HistoryItem();
    		
-   		c.setContent(content);
-   		c.setFqdn(fqdn);
-   		c.setVersion(Instant.now().toEpochMilli());
+			c.setContent(content);
+			c.setFqdn(fqdn);
+			c.setVersion(Instant.now().toEpochMilli());
 
-       	Session session = DbService.startTx();
-       	
-       	try {
-       		session.persist(c);
-		} catch (HibernateException e) {
-			throw new HistoryException(e);
-		} finally {
-			DbService.endTx(session);
-		}
+			em.persist(c);
 		
-		return new HistoryIdentifyer(fqdn, c.getVersion(), content.length);
+			return new HistoryIdentifyer(fqdn, c.getVersion(), content.length);
+		}
 	}
 
 	@Override
 	public byte[] retrieve(HistoryIdentifyer key) throws HistoryException {
-       	Session session = DbService.startTx();
-       	
-       	try {
-       		HistoryItem c = session.createNamedQuery("byVersion", HistoryItem.class).setParameter("version",  key.getId()).uniqueResult();
+		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
+       		HistoryItem c = em.createNamedQuery("byVersion", HistoryItem.class).setParameter("version",  key.getId()).getSingleResult();
        		
        		return c != null ? c.getContent() : new byte[0];
-		} catch (HibernateException e) {
-			throw new HistoryException(e);
-		} finally {
-			DbService.endTx(session);
 		}
 	}
 
 	@Override
 	public List<HistoryIdentifyer> getVersions(String fqdn) throws HistoryException {
-		List<HistoryIdentifyer> result = new ArrayList<>();
+		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
+			List<HistoryIdentifyer> result = new ArrayList<>();
 	
-       	Session session = DbService.startTx();
-       	
-       	try {
-			List<HistoryItem> zwerg = session.createNamedQuery("byFqdn", HistoryItem.class).setParameter("fqdn", fqdn).list();
+			List<HistoryItem> zwerg = em.createNamedQuery("byFqdn", HistoryItem.class).setParameter("fqdn", fqdn).getResultList();
        		
        		for (HistoryItem c : zwerg) {
 				result.add(new HistoryIdentifyer(c.getFqdn(), c.getVersion(), c.getContent().length));
 			}
-		} catch (HibernateException e) {
-			throw new HistoryException(e);
-		} finally {
-			DbService.endTx(session);
-		}
 			
-		return result;
+       		return result;
+		}
 	}
 	
 	@Override
@@ -96,19 +77,17 @@ public class JpaHistory implements IHistoryModel {
 		// Map a member to its number of history entries
 		Map<String, Integer> m = new TreeMap<>();
 		
-       	Session session = DbService.startTx();
-       	
-       	try {
-       		ScrollableResults<HistoryItem> itemCursor = session.createQuery("from HistoryItem order by version desc", HistoryItem.class).scroll();
+		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
+       		Iterator<HistoryItem> itemCursor = em.createQuery("from HistoryItem order by version desc", HistoryItem.class).getResultList().iterator();
        		
        		int count = 0;
        		int x = 0;
        		int y = 0;
        		
-       		while (itemCursor.next()) {
+       		while (itemCursor.hasNext()) {
        			++y;
        			
-       		    HistoryItem c = itemCursor.get();
+       		    HistoryItem c = itemCursor.next();
            	
 				Integer i = m.get(c.getFqdn());
 				
@@ -123,20 +102,16 @@ public class JpaHistory implements IHistoryModel {
     			if (c.getVersion() < timeout.getTime() || i > maxVersions) {
     				++x;
     				
-    				session.remove(c);
+    				em.remove(c);
     			}
 
     			if (++count % 100 == 0) {
-    				session.flush();
-    				session.clear();
+    				em.flush();
+    				em.clear();
     			}
 			}
        		
        		LOG.info("Removed {} out of {} items from history", x, y);
-		} catch (HibernateException e) {
-			throw new HistoryException(e);
-		} finally {
-			DbService.endTx(session);
 		}
 	}
 }

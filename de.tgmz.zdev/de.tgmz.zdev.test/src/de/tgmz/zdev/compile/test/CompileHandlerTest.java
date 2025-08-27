@@ -21,7 +21,6 @@ import org.eclipse.core.expressions.IEvaluationContext;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISources;
-import org.hibernate.Session;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -44,6 +43,7 @@ import de.tgmz.zdev.connection.ZdevConnectable;
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.Item;
 import de.tgmz.zdev.domain.Option;
+import jakarta.persistence.EntityManager;
 
 @RunWith(value = Parameterized.class)
 public class CompileHandlerTest {
@@ -73,9 +73,7 @@ public class CompileHandlerTest {
 	
 	@Before
 	public void setup() {
-		Session session = DbService.startTx();
-		
-		try {
+		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
 			Item item = new Item(dsn, MBR);
 			item.setLock(true);
 			
@@ -83,25 +81,17 @@ public class CompileHandlerTest {
 			opt.setBind(true);
 			item.setOption(opt);
 				
-			session.persist(item);
-		} finally {
-			DbService.endTx(session);
+			em.persist(item);
 		}
-		
 	}
 	
 	@After
 	public void tearDown() {
-		Session session = DbService.startTx();
-		
-		try {
+		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
 			Item item = new Item(dsn, MBR);
 				
-			session.remove(item);
-		} finally {
-			DbService.endTx(session);
+			em.remove(item);
 		}
-		
 	}
 	
 	@Test(expected = None.class)
