@@ -23,5 +23,6 @@ Bundle-ClassPath: .,
  lib/h2-2.4.240.jar
 Export-Package: de.tgmz.zdev.database,
  de.tgmz.zdev.domain,
+ de.tgmz.zdev.domain.id,
  jakarta.persistence
 Automatic-Module-Name: de.tgmz.zdev.database

@@ -24,6 +24,7 @@ import com.ibm.cics.zos.ui.DeleteDataEntryCommandHandler;
 
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.Item;
+import de.tgmz.zdev.domain.id.ItemId;
 import jakarta.persistence.EntityManager;
 
 /**
@@ -48,7 +49,7 @@ public class ZdevDeleteDataEntryCommandHandler extends DeleteDataEntryCommandHan
             		if (o instanceof Member) {
             			Member m = (Member) o;
             			
-            			Item zwerg0 = em.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", m.getParentPath()).setParameter("member", m.getName()).getSingleResultOrNull();
+            			Item zwerg0 = em.find(Item.class, new ItemId(m.getParentPath(), m.getName()));
 
                     	if (zwerg0 != null) {
                     		em.remove(zwerg0);

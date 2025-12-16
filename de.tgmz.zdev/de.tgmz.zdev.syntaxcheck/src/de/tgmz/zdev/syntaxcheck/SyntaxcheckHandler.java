@@ -37,6 +37,7 @@ import com.ibm.cics.zos.ui.editor.ZOSObjectEditorInput;
 import de.tgmz.zdev.connection.ZdevConnectable;
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.Item;
+import de.tgmz.zdev.domain.id.ItemId;
 import de.tgmz.zdev.plicomp.PlicompConfigurationException;
 import de.tgmz.zdev.plicomp.PlicompException;
 import de.tgmz.zdev.plicomp.PlicompFactory;
@@ -86,7 +87,7 @@ public class SyntaxcheckHandler extends AbstractSyntaxcheckHandler {
 		Item item;
 		
 		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
-			item = em.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", m.getParentPath()).setParameter("member", m.getName()).getSingleResultOrNull();
+			item = em.find(Item.class, new ItemId(m.getParentPath(), m.getName()));
 		
 			if (item == null) {
 				item = new Item(m.getParentPath(), m.getName());

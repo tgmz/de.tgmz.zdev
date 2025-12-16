@@ -43,6 +43,7 @@ import de.tgmz.zdev.connection.ZdevConnectable;
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.Item;
 import de.tgmz.zdev.domain.Option;
+import de.tgmz.zdev.domain.id.ItemId;
 import jakarta.persistence.EntityManager;
 
 @RunWith(value = Parameterized.class)
@@ -88,11 +89,8 @@ public class CompileHandlerTest {
 		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
 			em.getTransaction().begin();
 			
-			Item item = em.createNamedQuery("byDsnAndMember", Item.class)
-				.setParameter("dsn", dsn)
-				.setParameter("member", MBR)
-				.getSingleResult();
-			
+			Item item = em.find(Item.class, new ItemId(dsn, MBR));
+
 			em.remove(item);
 			
 			em.getTransaction().commit();

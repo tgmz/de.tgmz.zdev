@@ -21,6 +21,7 @@ import com.ibm.cics.zos.model.Member;
 
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.Item;
+import de.tgmz.zdev.domain.id.ItemId;
 import jakarta.persistence.EntityManager;
 
 public class SetOptionsHandler extends AbstractHandler {
@@ -41,7 +42,7 @@ public class SetOptionsHandler extends AbstractHandler {
 		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
 			em.getTransaction().begin();
 			
-			Item item = em.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", m.getParentPath()).setParameter("member", m.getName()).getSingleResultOrNull();
+			Item item = em.find(Item.class, new ItemId(m.getParentPath(), m.getName()));
 
 			if (item == null) {
 				item = new Item(m.getParentPath(), m.getName());

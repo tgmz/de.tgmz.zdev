@@ -18,6 +18,7 @@ import org.junit.Test;
 
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.Item;
+import de.tgmz.zdev.domain.id.ItemId;
 import jakarta.persistence.EntityManager;
 
 public class DomainTest {
@@ -74,7 +75,7 @@ public class DomainTest {
 	}
 
 	private Item getItem(EntityManager em) {
-		return em.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", PDS).setParameter("member", PGM).getSingleResult();
+		return em.find(Item.class, new ItemId(PDS, PGM));
 	}
 }
 

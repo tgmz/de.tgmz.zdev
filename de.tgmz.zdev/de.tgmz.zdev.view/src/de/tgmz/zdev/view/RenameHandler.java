@@ -38,6 +38,7 @@ import com.ibm.cics.zos.model.UpdateFailedException;
 import de.tgmz.zdev.connection.ZdevConnectable;
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.Item;
+import de.tgmz.zdev.domain.id.ItemId;
 import jakarta.persistence.EntityManager;
 
 /**
@@ -122,7 +123,7 @@ public class RenameHandler extends AbstractHandler {
 	}
 	private void updateItem(String dsn, String oldMember, String newMember) {
 		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
-			Item item = em.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", dsn).setParameter("member", oldMember).getSingleResultOrNull();
+			Item item = em.find(Item.class, new ItemId(dsn, oldMember));
 
 			if (item == null) {
 				item = new Item(dsn, newMember);

@@ -25,6 +25,7 @@ import com.ibm.cics.zos.ui.actions.OpenDataEntryAction;
 import de.tgmz.zdev.connection.ZdevConnectable;
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.Item;
+import de.tgmz.zdev.domain.id.ItemId;
 import de.tgmz.zdev.history.HistoryException;
 import de.tgmz.zdev.history.LocalHistory;
 import jakarta.persistence.EntityManager;
@@ -48,7 +49,7 @@ public class OpenZdevEntryAction extends OpenDataEntryAction {
 		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
 			em.getTransaction().begin();
 			
-			Item item = em.createNamedQuery("byDsnAndMember", Item.class).setParameter("dsn", m.getParentPath()).setParameter("member", m.getName()).getSingleResultOrNull();
+			Item item = em.find(Item.class, new ItemId(m.getParentPath(), m.getName()));
 
 			if (item == null) {
 				item = new Item(m.getParentPath(), m.getName());

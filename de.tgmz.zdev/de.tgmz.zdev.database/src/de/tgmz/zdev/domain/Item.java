@@ -12,12 +12,11 @@ package de.tgmz.zdev.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
+import de.tgmz.zdev.domain.id.ItemId;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
 
@@ -27,20 +26,11 @@ import jakarta.persistence.Transient;
  */
 
 @Entity
-@NamedQuery(
-		name="byDsnAndMember",
-		query="SELECT i FROM Item i WHERE i.dsn = :dsn AND i.member = :member"
-)
 public class Item implements Serializable {
 	@Transient
 	private static final long serialVersionUID = -5230886354906404806L;
-	@Id
-	@GeneratedValue
-	private long id;	
-	/** The dataset name. Persistent. */
-	private String dsn;
-	/** The member name. Persistent. */
-	private String member;
+	@EmbeddedId
+	private ItemId id;	
 	private boolean lock;
 	@OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
 	private Option option;
@@ -55,8 +45,8 @@ public class Item implements Serializable {
 	 */
 	public Item(final String aDsn, final String aMember) {
 		super();
-		this.dsn = aDsn;
-		this.member = aMember;
+		
+		id = new ItemId(aDsn, aMember);
 		
 		option = new Option();
 	}
@@ -64,19 +54,27 @@ public class Item implements Serializable {
 	 * @return Returns the dataset name.
 	 */
 	public String getDsn() {
-		return dsn;
+		return id.getDsn();
 	}
 	/**
 	 * @param aDsn The dataset name to set.
 	 */
 	public void setDsn(final String aDsn) {
-		this.dsn = aDsn;
+		this.id.setDsn(aDsn);
 	}
+	
+	/**
+	 * @param aMember The member name to set.
+	 */
+	public void setMember(final String aMember) {
+		this.id.setMember(aMember);
+	}
+
 	/**
 	 * @return Returns the member name.
 	 */
 	public String getMember() {
-		return member;
+		return id.getMember();
 	}
 	public boolean isLock() {
 		return lock;
@@ -88,49 +86,28 @@ public class Item implements Serializable {
 	 * @return returns the full name.
 	 */
 	public String getFullName() {
-		return String.format("%s(%s)", dsn, member);
+		return String.format("%s(%s)", id.getDsn(), id.getMember());
 	}
-	/**
-	 * @param aMember The member name to set.
-	 */
-	public void setMember(final String aMember) {
-		this.member = aMember;
-	}
-	@Override
-	public int hashCode() {
-		return Objects.hash(dsn, member);
-	}
-	/** {@inheritDoc} */
-	@Override
-	//BEGIN-GENERATED
-	public boolean equals(final Object obj) {
-	    if (obj == null) {
-	        return false;
-	    }
-	    
-	    if (!(obj instanceof Item)) {
-	        return false;
-	    }
-	    
-	    if (this == obj) {
-	        return true;
-	    }
-	    
-	    Item i1 = (Item) obj;
-	    
-	    return dsn.equals(i1.getDsn())
-	            && member.equals(i1.getMember());
-	}
-	/** {@inheritDoc} */
-    //END-GENERATED
-	@Override
-	public String toString() {
-		return "Item [dsn=" + dsn + ", member=" + member + "]";
-	}
+	
 	public Option getOption() {
 		return option;
 	}
 	public void setOption(Option option) {
 		this.option = option;
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Item other = (Item) obj;
+		return Objects.equals(id, other.id);
 	}
 }

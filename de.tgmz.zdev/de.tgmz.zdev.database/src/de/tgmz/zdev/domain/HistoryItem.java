@@ -12,10 +12,10 @@ package de.tgmz.zdev.domain;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import de.tgmz.zdev.domain.id.HistoryItemId;
 import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import jakarta.persistence.NamedQuery;
 
 /**
@@ -25,19 +25,12 @@ import jakarta.persistence.NamedQuery;
 @Entity
 @NamedQuery(
 		name="byFqdn",
-		query="SELECT hi FROM HistoryItem hi WHERE hi.fqdn LIKE :fqdn"
-)
-@NamedQuery(
-		name="byVersion",
-		query="SELECT hi FROM HistoryItem hi WHERE hi.version = :version"
+		query="SELECT hi FROM HistoryItem hi WHERE hi.id.fqdn LIKE :fqdn"
 )
 public class HistoryItem implements Serializable {
 	private static final long serialVersionUID = -5251258163182902698L;
-	@Id
-	@GeneratedValue
-	private long id;
-    private String fqdn;
-    private long version;
+	@EmbeddedId
+	private HistoryItemId id;
     @Column(columnDefinition = "BLOB")
     private byte[] content;
 
@@ -46,22 +39,24 @@ public class HistoryItem implements Serializable {
      */
     public HistoryItem() {
         super();
+        
+        id = new HistoryItemId();
     }
 
 	public String getFqdn() {
-		return fqdn;
+		return id.getFqdn();
 	}
 
 	public void setFqdn(String fqdn) {
-		this.fqdn = fqdn;
+		this.id.setFqdn(fqdn);
 	}
 
 	public long getVersion() {
-		return version;
+		return id.getVersion();
 	}
 
 	public void setVersion(long version) {
-		this.version = version;
+		this.id.setVersion(version);
 	}
 
 	public byte[] getContent() {

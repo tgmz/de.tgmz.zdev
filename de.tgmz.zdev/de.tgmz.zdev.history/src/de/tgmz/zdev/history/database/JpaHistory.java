@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.HistoryItem;
+import de.tgmz.zdev.domain.id.HistoryItemId;
 import de.tgmz.zdev.history.HistoryException;
 import de.tgmz.zdev.history.HistoryIdentifyer;
 import de.tgmz.zdev.history.model.IHistoryModel;
@@ -49,7 +50,9 @@ public class JpaHistory implements IHistoryModel {
 	@Override
 	public byte[] retrieve(HistoryIdentifyer key) throws HistoryException {
 		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
-       		HistoryItem c = em.createNamedQuery("byVersion", HistoryItem.class).setParameter("version",  key.getId()).getSingleResultOrNull();
+			HistoryItemId hii = new HistoryItemId(key.getFqdn(), key.getId());
+			
+       		HistoryItem c = em.find(HistoryItem.class, hii);
        		
        		return c != null ? c.getContent() : new byte[0];
 		}

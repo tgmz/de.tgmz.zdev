@@ -16,6 +16,7 @@ import static org.junit.Assert.assertFalse;
 import java.nio.charset.Charset;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -35,9 +36,16 @@ public class HistoryTest {
 	public void testHistory() throws HistoryException {
 		HistoryIdentifyer key = history.save(MEMBER_NAME, CONTENT);
 		
-		assertFalse("Versionlist is empty", history.getVersions(MEMBER_NAME).isEmpty());
+		List<HistoryIdentifyer> versions = history.getVersions(MEMBER_NAME);
+		
+		assertFalse("Versionlist is empty", versions.isEmpty());
 		
 		assertArrayEquals("Documents differ", CONTENT, history.retrieve(key));
+		
+		HistoryIdentifyer hi = versions.get(0);
+		
+		assertEquals(key.getId(), hi.getId());
+		assertEquals(CONTENT.length, hi.getSize());
 	}
 	@Test
 	public void testNoHistory() throws HistoryException {
