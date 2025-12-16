@@ -151,6 +151,7 @@ SPDX-License-Identifier: EPL-2.0
       <feature id="com.ibm.cics.platform.feature.nl0" installMode="root"/>
       <feature id="com.ibm.cics.zos.feature" installMode="root"/>
       <feature id="com.ibm.cics.zos.feature.nl0" installMode="root"/>
+      <feature id="com.ibm.editors.smartlogical.feature" installMode="root"/>
       <feature id="com.ibm.etools.common.tracing" installMode="root"/>
       <feature id="com.ibm.etools.common.tracing.nl1" installMode="root"/>
       <feature id="com.ibm.etools.icerse.editor.feature" installMode="root"/>
@@ -169,6 +170,7 @@ SPDX-License-Identifier: EPL-2.0
       <feature id="com.ibm.ftt.common.language" installMode="root"/>
       <feature id="com.ibm.ftt.common.language.jcl.outline.feature" installMode="root"/>
       <feature id="com.ibm.ftt.common.language.manager.contentassist.feature" installMode="root"/>
+      <feature id="com.ibm.ftt.common.language.manager.rdz.feature" installMode="root"/>
       <feature id="com.ibm.ftt.common.language.nl1" installMode="root"/>
       <feature id="com.ibm.ftt.common.tracing.core.feature" installMode="root"/>
       <feature id="com.ibm.ftt.configurations.feature" installMode="root"/>
@@ -180,8 +182,6 @@ SPDX-License-Identifier: EPL-2.0
       <feature id="com.ibm.ftt.language.jcl.contentassist.feature" installMode="root"/>
       <feature id="com.ibm.ftt.rse.connectorservice.feature" installMode="root"/>
       <feature id="com.ibm.ftt.rse.connectorservice.feature.nl1" installMode="root"/>
-      <feature id="com.ibm.ftt.rse.debug.feature" installMode="root"/>
-      <feature id="com.ibm.ftt.rse.debug.feature.nl1" installMode="root"/>
       <feature id="com.ibm.ftt.rse.jes.feature" installMode="root"/>
       <feature id="com.ibm.ftt.rse.jes.feature.nl1" installMode="root"/>
       <feature id="com.ibm.ftt.rse.mvs.feature" installMode="root"/>

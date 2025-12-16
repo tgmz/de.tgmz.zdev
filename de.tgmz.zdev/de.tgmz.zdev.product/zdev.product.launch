@@ -197,8 +197,6 @@
         <setEntry value="com.ibm.ftt.language.jcl.contentassist.feature:default"/>
         <setEntry value="com.ibm.ftt.rse.connectorservice.feature.nl1:default"/>
         <setEntry value="com.ibm.ftt.rse.connectorservice.feature:default"/>
-        <setEntry value="com.ibm.ftt.rse.debug.feature.nl1:default"/>
-        <setEntry value="com.ibm.ftt.rse.debug.feature:default"/>
         <setEntry value="com.ibm.ftt.rse.jes.feature.nl1:default"/>
         <setEntry value="com.ibm.ftt.rse.jes.feature:default"/>
         <setEntry value="com.ibm.ftt.rse.mvs.feature.nl1:default"/>
@@ -207,7 +205,6 @@
         <setEntry value="com.ibm.ftt.rse.uss.feature:default"/>
         <setEntry value="com.ibm.ftt.ui.feature.nl1:default"/>
         <setEntry value="com.ibm.ftt.ui.feature:default"/>
-        <setEntry value="com.ibm.oss.jars.feature:default"/>
         <setEntry value="com.ibm.systemz.common.editor.feature.nl1:default"/>
         <setEntry value="com.ibm.systemz.common.editor.feature:default"/>
         <setEntry value="com.ibm.systemz.common.editor.parse.feature.nl1:default"/>
@@ -217,8 +214,6 @@
         <setEntry value="com.ibm.systemz.common.formatter.feature:default"/>
         <setEntry value="com.ibm.systemz.common.jface.feature.nl1:default"/>
         <setEntry value="com.ibm.systemz.common.jface.feature:default"/>
-        <setEntry value="com.ibm.systemz.jcl.core.feature.nl1:default"/>
-        <setEntry value="com.ibm.systemz.jcl.core.feature:default"/>
         <setEntry value="com.ibm.systemz.jcl.feature.nl1:default"/>
         <setEntry value="com.ibm.systemz.jcl.feature:default"/>
         <setEntry value="com.ibm.systemz.spool.feature.nl1:default"/>
