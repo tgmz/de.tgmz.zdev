@@ -73,24 +73,29 @@ public class CompileHandlerTest {
 	
 	@Before
 	public void setup() {
-		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
-			Item item = new Item(dsn, MBR);
-			item.setLock(true);
+		Item item = new Item(dsn, MBR);
+		item.setLock(true);
 			
-			Option opt = new Option();
-			opt.setBind(true);
-			item.setOption(opt);
+		Option opt = new Option();
+		opt.setBind(true);
+		item.setOption(opt);
 				
-			em.persist(item);
-		}
+		DbService.getInstance().inTransaction(em -> em.persist(item));
 	}
 	
 	@After
 	public void tearDown() {
 		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
-			Item item = new Item(dsn, MBR);
-				
+			em.getTransaction().begin();
+			
+			Item item = em.createNamedQuery("byDsnAndMember", Item.class)
+				.setParameter("dsn", dsn)
+				.setParameter("member", MBR)
+				.getSingleResult();
+			
 			em.remove(item);
+			
+			em.getTransaction().commit();
 		}
 	}
 	

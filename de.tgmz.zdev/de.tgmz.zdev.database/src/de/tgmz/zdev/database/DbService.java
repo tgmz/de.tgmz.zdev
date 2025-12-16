@@ -49,6 +49,8 @@ import jakarta.persistence.Persistence;
 public final class DbService {
 	private static final Logger LOG = LoggerFactory.getLogger(DbService.class);
 	private static final DbService INSTANCE = new DbService();
+	private static final String JDBC_PROTOCOL = "jdbc:h2:file:";
+	private static final String JDBC_PROPERTIES = ";MODE=DB2;DEFAULT_NULL_ORDERING=HIGH;AUTO_SERVER=TRUE";
 	private EntityManagerFactory entityManagerFactory;
 
 	/**
@@ -57,12 +59,15 @@ public final class DbService {
 	private DbService() {
 		long start = System.nanoTime();
 		
-		String jdbcUrl = "jdbc:h2:file:" 
-				+ ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString() 
+		String jdbcData = ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString() 
 				+ File.separator 
 				+ "Database" 
 				+ File.separator 
 				+ "Bender";
+		
+		String jdbcUrl = JDBC_PROTOCOL + jdbcData + JDBC_PROPERTIES;
+
+		LOG.info("Using {} as database URL", jdbcUrl);
 		
 		entityManagerFactory = Persistence.createEntityManagerFactory("de.tgmz.zdev.database", Collections.singletonMap("jakarta.persistence.jdbc.url", jdbcUrl));
 		

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" kind="lib" path="lib/classmate-1.7.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jakarta.xml.bind-api-4.0.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.persistence.jpa.jpql-5.0.0-B13.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.persistence.asm-9.9.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.persistence.core-5.0.0-B13.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.persistence.jpa-5.0.0-B13.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jakarta.persistence-api-3.2.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/hibernate-core-7.0.6.Final.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/h2-2.3.232.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jandex-3.2.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jboss-logging-3.5.0.Final.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jakarta.transaction-api-2.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/h2-2.4.240.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="module" value="true"/>

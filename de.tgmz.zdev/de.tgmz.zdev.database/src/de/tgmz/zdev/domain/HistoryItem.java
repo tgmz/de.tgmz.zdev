@@ -25,11 +25,11 @@ import jakarta.persistence.NamedQuery;
 @Entity
 @NamedQuery(
 		name="byFqdn",
-		query="FROM HistoryItem h WHERE h.fqdn LIKE :fqdn"
+		query="SELECT hi FROM HistoryItem hi WHERE hi.fqdn LIKE :fqdn"
 )
 @NamedQuery(
 		name="byVersion",
-		query="FROM HistoryItem h WHERE h.version = :version"
+		query="SELECT hi FROM HistoryItem hi WHERE hi.version = :version"
 )
 public class HistoryItem implements Serializable {
 	private static final long serialVersionUID = -5251258163182902698L;

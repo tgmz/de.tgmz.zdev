@@ -35,23 +35,21 @@ public class JpaHistory implements IHistoryModel {
 	
 	@Override
 	public HistoryIdentifyer save(String fqdn, byte[] content) throws HistoryException {
-		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
-			HistoryItem c = new HistoryItem();
+		HistoryItem c = new HistoryItem();
    		
-			c.setContent(content);
-			c.setFqdn(fqdn);
-			c.setVersion(Instant.now().toEpochMilli());
+		c.setContent(content);
+		c.setFqdn(fqdn);
+		c.setVersion(Instant.now().toEpochMilli());
 
-			em.persist(c);
+		DbService.getInstance().inTransaction(em -> em.persist(c));
 		
-			return new HistoryIdentifyer(fqdn, c.getVersion(), content.length);
-		}
+		return new HistoryIdentifyer(fqdn, c.getVersion(), content.length);
 	}
 
 	@Override
 	public byte[] retrieve(HistoryIdentifyer key) throws HistoryException {
 		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
-       		HistoryItem c = em.createNamedQuery("byVersion", HistoryItem.class).setParameter("version",  key.getId()).getSingleResult();
+       		HistoryItem c = em.createNamedQuery("byVersion", HistoryItem.class).setParameter("version",  key.getId()).getSingleResultOrNull();
        		
        		return c != null ? c.getContent() : new byte[0];
 		}
@@ -101,8 +99,10 @@ public class JpaHistory implements IHistoryModel {
     				
     			if (c.getVersion() < timeout.getTime() || i > maxVersions) {
     				++x;
-    				
+
+    				em.getTransaction().begin();
     				em.remove(c);
+    				em.getTransaction().commit();
     			}
 
     			if (++count % 100 == 0) {

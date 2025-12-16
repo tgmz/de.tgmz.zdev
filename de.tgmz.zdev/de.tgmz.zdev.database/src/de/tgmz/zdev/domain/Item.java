@@ -29,7 +29,7 @@ import jakarta.persistence.Transient;
 @Entity
 @NamedQuery(
 		name="byDsnAndMember",
-		query="FROM Item i WHERE i.dsn = :dsn AND i.member = :member"
+		query="SELECT i FROM Item i WHERE i.dsn = :dsn AND i.member = :member"
 )
 public class Item implements Serializable {
 	@Transient
