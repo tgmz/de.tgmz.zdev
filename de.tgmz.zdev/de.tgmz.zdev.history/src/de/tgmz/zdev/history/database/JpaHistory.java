@@ -9,9 +9,8 @@
 **********************************************************************/
 package de.tgmz.zdev.history.database;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.HistoryItem;
-import de.tgmz.zdev.domain.id.HistoryItemId;
+import de.tgmz.zdev.history.HistoryDisplayItem;
 import de.tgmz.zdev.history.HistoryException;
 import de.tgmz.zdev.history.model.IHistoryModel;
 import jakarta.persistence.EntityManager;
@@ -34,20 +33,18 @@ public class JpaHistory implements IHistoryModel {
 	private static final Logger LOG = LoggerFactory.getLogger(JpaHistory.class);
 	
 	@Override
-	public HistoryItem save(String fqdn, byte[] content) throws HistoryException {
-		HistoryItem c = new HistoryItem();
-   		
-		c.setContent(content);
-		c.setFqdn(fqdn);
-		c.setVersion(Instant.now().toEpochMilli());
+	public HistoryDisplayItem save(String fqdn, byte[] content) throws HistoryException {
+		HistoryItem hi = new HistoryItem();
+		hi.setContent(content);
+		hi.setFqdn(fqdn);
 
-		DbService.getInstance().inTransaction(em -> em.persist(c));
+		DbService.getInstance().inTransaction(em -> em.persist(hi));
 		
-		return c;
+		return new HistoryDisplayItem(hi.getFqdn(), hi.getId(), hi.getContent().length);
 	}
 
 	@Override
-	public byte[] retrieve(HistoryItemId key) throws HistoryException {
+	public byte[] retrieve(LocalDateTime key) throws HistoryException {
 		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
        		HistoryItem c = em.find(HistoryItem.class, key);
        		
@@ -56,59 +53,52 @@ public class JpaHistory implements IHistoryModel {
 	}
 
 	@Override
-	public List<HistoryItemId> getVersions(String fqdn) throws HistoryException {
-		List<HistoryItemId> result = new ArrayList<>();
+	public List<HistoryDisplayItem> getVersions(String fqdn) throws HistoryException {
+		List<HistoryDisplayItem> result = new ArrayList<>();
 		
 		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
 			em.createNamedQuery("byFqdn", HistoryItem.class)
 				.setParameter("fqdn", fqdn)
 				.getResultStream()
-				.forEach(hi -> result.add(new HistoryItemId(hi.getFqdn(), hi.getVersion(), hi.getContent().length)));
+				.forEach(hi -> result.add(new HistoryDisplayItem(hi.getFqdn(), hi.getId(), hi.getContent().length)));
 		}
 		
    		return result;
 	}
 	
 	@Override
-	public void clear(Date timeout, int maxVersions) throws HistoryException {
+	public void clear(LocalDateTime offset, int maxVersions) {
 		// Map a member to its number of history entries
 		Map<String, Integer> m = new TreeMap<>();
 		
 		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
-       		Iterator<HistoryItem> itemCursor = em.createQuery("from HistoryItem order by version desc", HistoryItem.class).getResultList().iterator();
+			em.getTransaction().begin();
+			
+       		Iterator<HistoryItem> itemCursor = em.createQuery("SELECT hi FROM HistoryItem hi ORDER BY hi.id DESC", HistoryItem.class).getResultList().iterator();
        		
-       		int count = 0;
        		int x = 0;
        		int y = 0;
        		
        		while (itemCursor.hasNext()) {
        			++y;
        			
-       		    HistoryItem c = itemCursor.next();
+       		    HistoryItem hi = itemCursor.next();
            	
-				Integer i = m.get(c.getFqdn());
-				
-				if (i != null) {
-					++i;
-				} else {
-					i = 1;
-				}
-				
-				m.put(c.getFqdn(), i);
+       		    int numVersions = m.merge(hi.getFqdn(), 1, (i,j) -> i + j);
     				
-    			if (c.getVersion() < timeout.getTime() || i > maxVersions) {
+    			if (hi.getId().isBefore(offset) || numVersions > maxVersions) {
     				++x;
 
-    				em.getTransaction().begin();
-    				em.remove(c);
-    				em.getTransaction().commit();
-    			}
-
-    			if (++count % 100 == 0) {
-    				em.flush();
-    				em.clear();
+    				em.remove(hi);
+    				
+    				if (x % 100 == 0) {
+    					em.getTransaction().commit();
+    					em.getTransaction().begin();
+    				}
     			}
 			}
+       		
+			em.getTransaction().commit();
        		
        		LOG.info("Removed {} out of {} items from history", x, y);
 		}

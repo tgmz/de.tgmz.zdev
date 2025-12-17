@@ -14,20 +14,20 @@ import java.util.Comparator;
 
 import org.eclipse.swt.widgets.Shell;
 
-import de.tgmz.zdev.domain.id.HistoryItemId;
+import de.tgmz.zdev.history.HistoryDisplayItem;
 import de.tgmz.zdev.view.AbstractFilteredItemsSelectionDialog;
 
 /**
  * Dialog for selecting a history item. 
  */
-public class HistorySelectionDialog extends AbstractFilteredItemsSelectionDialog<HistoryItemId> {
+public class HistorySelectionDialog extends AbstractFilteredItemsSelectionDialog<HistoryDisplayItem> {
 	private static final String DIALOG_SETTINGS = "HistorySelectionDialog";
 
-	private class HistoryItemIdFilter extends ItemsFilter {
+	private class HistoryDisplayItemFilter extends ItemsFilter {
 		@Override
 		public boolean matchItem(Object o) {
-			if (o instanceof HistoryItemId)  {
-				return matches(((HistoryItemId) o).getFqdn());
+			if (o instanceof HistoryDisplayItem)  {
+				return matches(((HistoryDisplayItem) o).getFqdn());
 			}
 			
 			return false;
@@ -35,11 +35,11 @@ public class HistorySelectionDialog extends AbstractFilteredItemsSelectionDialog
 
 		@Override
 		public boolean isConsistentItem(Object o) {
-			return o instanceof HistoryItemId;
+			return o instanceof HistoryDisplayItem;
 		}
 	}
 	
-	public HistorySelectionDialog(Shell shell, HistoryItemId... elements) {
+	public HistorySelectionDialog(Shell shell, HistoryDisplayItem... elements) {
 		super(shell, false, elements);
 		
 		Activator act = Activator.getDefault();
@@ -48,13 +48,13 @@ public class HistorySelectionDialog extends AbstractFilteredItemsSelectionDialog
 	}
 
 	@Override
-	protected Comparator<HistoryItemId> getItemsComparator() {
-		return (o1, o2) -> (int) (o2.getVersion() - o1.getVersion()); 
+	protected Comparator<HistoryDisplayItem> getItemsComparator() {
+		return (o1, o2) -> o2.getId().compareTo(o1.getId()); 
 	}
 
 	@Override
 	public String getElementName(Object item) {
-		return ((HistoryItemId) item).getFqdn();
+		return ((HistoryDisplayItem) item).getFqdn();
 	}
 
 	@Override
@@ -64,6 +64,6 @@ public class HistorySelectionDialog extends AbstractFilteredItemsSelectionDialog
 
 	@Override
 	protected ItemsFilter createFilter() {
-		return new HistoryItemIdFilter();
+		return new HistoryDisplayItemFilter();
 	}
 }
