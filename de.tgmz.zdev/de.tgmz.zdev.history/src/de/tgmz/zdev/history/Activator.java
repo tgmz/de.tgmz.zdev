@@ -9,6 +9,7 @@
 **********************************************************************/
 package de.tgmz.zdev.history;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -57,8 +58,6 @@ public class Activator implements BundleActivator {
 	public void stop(BundleContext bundleContext) {
 		clearHistory();
 		
-		HistoryIdentifyer.DF.remove();
-		
 		setContext(null);
 	}
 	
@@ -80,7 +79,7 @@ public class Activator implements BundleActivator {
 		cal.add(Calendar.MONTH, -months);
 			
 		try {
-			LocalHistory.getInstance().clear(cal.getTime(), versions);
+			LocalHistory.getInstance().clear(LocalDateTime.now().minusMonths(months), versions);
 		} catch (HistoryException e) {
 			LOG.error("Error deleting history", e);
 		}

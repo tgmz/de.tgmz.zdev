@@ -11,7 +11,7 @@ package de.tgmz.zdev.history.test;
 
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -46,10 +46,10 @@ public class HistoryLoad {
 	}
 	@BeforeClass
 	public static void setupOnce() throws HistoryException {
-		history.clear(new Date(), 0);
+		history.clear(LocalDateTime.now(), 0);
 	}
 	@AfterClass
 	public static void teardownOnce() throws HistoryException {
-		history.clear(new Date(), 0);
+		history.clear(LocalDateTime.now(), 0);
 	}
 }

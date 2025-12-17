@@ -11,12 +11,14 @@ package de.tgmz.zdev.restore.test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.time.LocalDateTime;
+
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.tgmz.zdev.history.HistoryIdentifyer;
+import de.tgmz.zdev.history.HistoryDisplayItem;
 import de.tgmz.zdev.restore.HistorySelectionDialog;
 
 public class HistorySelectTest {
@@ -24,7 +26,7 @@ public class HistorySelectTest {
 	
 	@Test
 	public void testDialog() {
-		HistorySelectionDialog hsd = new HistorySelectionDialog(shell, new HistoryIdentifyer("HLQ.PLI(MYMEMBER)", 0L, 1));
+		HistorySelectionDialog hsd = new HistorySelectionDialog(shell, new HistoryDisplayItem("HLQ.PLI(MYMEMBER)", LocalDateTime.MIN, 1));
 		
 		hsd.create();
 		hsd.setBlockOnOpen(false);

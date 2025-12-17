@@ -9,24 +9,20 @@
 **********************************************************************/
 package de.tgmz.zdev.history;
 
-import java.text.DateFormat;
-import java.text.MessageFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
 
-public class HistoryIdentifyer {
-	protected static final ThreadLocal<DateFormat> DF = ThreadLocal.withInitial(() -> DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG));
-	
+public class HistoryDisplayItem {
 	private String fqdn;
-	private long id;
+	private LocalDateTime id;
 	private long size;
 	
-	public HistoryIdentifyer(String fqdn, long id, long size) {
+	public HistoryDisplayItem(String fqdn, LocalDateTime id, long size) {
 		super();
 		this.fqdn = fqdn;
 		this.id = id;
 		this.size = size;
 	}
-	public long getId() {
+	public LocalDateTime getId() {
 		return id;
 	}
 	public long getSize() {
@@ -37,6 +33,6 @@ public class HistoryIdentifyer {
 	}
 	@Override
 	public String toString() {
-		return MessageFormat.format("{0} - {1} ({2} bytes)", fqdn, DF.get().format(new Date(id)), size);
+		return String.format("%s - %s (%,d bytes)", fqdn, id, size);
 	}
 }

@@ -9,11 +9,11 @@
 **********************************************************************/
 package de.tgmz.zdev.history.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import de.tgmz.zdev.history.HistoryDisplayItem;
 import de.tgmz.zdev.history.HistoryException;
-import de.tgmz.zdev.history.HistoryIdentifyer;
 
 /**
  * The history model
@@ -26,26 +26,26 @@ public interface IHistoryModel {
 	 * @return identifier in history
 	 * @throws HistoryException if something happens
 	 */
-	HistoryIdentifyer save(String fqdn, byte[] content) throws HistoryException;
+	HistoryDisplayItem save(String fqdn, byte[] content) throws HistoryException;
 	/**
 	 * Retrieves the contents of an item from the history
 	 * @param key the identifier
 	 * @return the contents
 	 * @throws HistoryException if something happens
 	 */
-	byte[] retrieve(HistoryIdentifyer key) throws HistoryException;
+	byte[] retrieve(LocalDateTime key) throws HistoryException;
 	/**
 	 * Returns the list of identifiers of an item in the history
 	 * @param fqdn fully qualified dataset name
 	 * @return the list of identifiers
 	 * @throws HistoryException if something happens
 	 */
-	List<HistoryIdentifyer> getVersions(String fqdn) throws HistoryException;
+	List<HistoryDisplayItem> getVersions(String fqdn) throws HistoryException;
 	/**
 	 * Clears the history
 	 * @param offset Delete all entries older than offset
 	 * @param maxVersions Maximum number of history entries to retain
 	 * @throws HistoryException if something happens
 	 */
-	void clear(Date offset, int maxVersions) throws HistoryException;
+	void clear(LocalDateTime offset, int maxVersions) throws HistoryException;
 }

@@ -38,8 +38,8 @@ import com.ibm.cics.zos.model.UpdateFailedException;
 
 import de.tgmz.zdev.connection.ZdevConnectable;
 import de.tgmz.zdev.editor.ZdevEditor;
+import de.tgmz.zdev.history.HistoryDisplayItem;
 import de.tgmz.zdev.history.HistoryException;
-import de.tgmz.zdev.history.HistoryIdentifyer;
 import de.tgmz.zdev.history.LocalHistory;
 import de.tgmz.zdev.restore.compare.CompareInput;
 
@@ -90,7 +90,7 @@ public class RestoreHandler extends AbstractHandler {
 	}
 
 	private Object handleRestore(PartitionedDataSet pds) {
-		List<HistoryIdentifyer> history;
+		List<HistoryDisplayItem> history;
 		try {
 			history = LocalHistory.getInstance().getVersions(pds.getFullPath() + "%");
 		} catch (HistoryException e) {
@@ -109,9 +109,9 @@ public class RestoreHandler extends AbstractHandler {
 			int open = hsd.open();
 
 			if (open == Window.OK) {
-				HistoryIdentifyer selectedkey = (HistoryIdentifyer) hsd.getFirstResult();
+				HistoryDisplayItem selectedkey = (HistoryDisplayItem) hsd.getFirstResult();
 
-				byte[] b = LocalHistory.getInstance().retrieve(selectedkey);
+				byte[] b = LocalHistory.getInstance().retrieve(selectedkey.getId());
 
 				DataEntry de = DataEntry.newFrom(selectedkey.getFqdn(), ZdevConnectable.getConnectable());
 
@@ -125,7 +125,7 @@ public class RestoreHandler extends AbstractHandler {
 	}
 
 	private Object handleReplace(Member member) {
-		List<HistoryIdentifyer> history;
+		List<HistoryDisplayItem> history;
 		try {
 			history = LocalHistory.getInstance().getVersions(member.toDisplayName());
 		} catch (HistoryException e) {
@@ -139,11 +139,11 @@ public class RestoreHandler extends AbstractHandler {
 		int open = hsd.open();
 		
 		if (open == Window.OK) {
-			HistoryIdentifyer selectedkey = (HistoryIdentifyer) hsd.getFirstResult();
+			HistoryDisplayItem selectedkey = (HistoryDisplayItem) hsd.getFirstResult();
 
 			byte[] b;
 			try {
-				b = LocalHistory.getInstance().retrieve(selectedkey);
+				b = LocalHistory.getInstance().retrieve(selectedkey.getId());
 			} catch (HistoryException e) {
 				LOG.warn("Cannot get history entry {}, reason:", member.toDisplayName(), e);
 				
@@ -166,10 +166,10 @@ public class RestoreHandler extends AbstractHandler {
 		
 		return null;
 	}
-	private HistoryIdentifyer[] getElements(List<HistoryIdentifyer> history) {
-		HistoryIdentifyer[] elements = history.toArray(new HistoryIdentifyer[history.size()]);
+	private HistoryDisplayItem[] getElements(List<HistoryDisplayItem> history) {
+		HistoryDisplayItem[] elements = history.toArray(new HistoryDisplayItem[history.size()]);
 		
-		Arrays.sort(elements, (o1, o2) -> o1.getId() < o2.getId() ? 1 : -1);
+		Arrays.sort(elements, (o1, o2) -> o1.getId().compareTo(o2.getId()));
 
 		return elements;
 	}

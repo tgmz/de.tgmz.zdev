@@ -11,22 +11,19 @@ package de.tgmz.zdev.history.test;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 import java.nio.charset.Charset;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.tgmz.zdev.history.HistoryDisplayItem;
 import de.tgmz.zdev.history.HistoryException;
-import de.tgmz.zdev.history.HistoryIdentifyer;
 import de.tgmz.zdev.history.LocalHistory;
 import de.tgmz.zdev.history.model.IHistoryModel;
-
 
 public class HistoryTest {
 	private static final String MEMBER_NAME = "HLQ.PLI(MYMEMBER)";
@@ -34,25 +31,27 @@ public class HistoryTest {
 	private static final IHistoryModel history = LocalHistory.getInstance();
 	@Test
 	public void testHistory() throws HistoryException {
-		HistoryIdentifyer key = history.save(MEMBER_NAME, CONTENT);
+		HistoryDisplayItem hdi = history.save(MEMBER_NAME, CONTENT);
 		
-		List<HistoryIdentifyer> versions = history.getVersions(MEMBER_NAME);
+		assertArrayEquals(CONTENT, history.retrieve(hdi.getId()));
+	}
+	@Test
+	public void testHistoryList() throws HistoryException {
+		history.save(MEMBER_NAME, CONTENT);
+	
+		List<HistoryDisplayItem> versions = history.getVersions(MEMBER_NAME);
 		
-		assertFalse("Versionlist is empty", versions.isEmpty());
+		assertEquals(1, versions.size());
 		
-		assertArrayEquals("Documents differ", CONTENT, history.retrieve(key));
+		HistoryDisplayItem hdi = versions.get(0);
 		
-		HistoryIdentifyer hi = versions.get(0);
-		
-		assertEquals(key.getId(), hi.getId());
-		assertEquals(CONTENT.length, hi.getSize());
+		assertArrayEquals(CONTENT, history.retrieve(hdi.getId()));
 	}
 	@Test
 	public void testNoHistory() throws HistoryException {
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.DAY_OF_YEAR, 1);
+		LocalDateTime offset = LocalDateTime.now().plusDays(1);
 		
-		assertArrayEquals("Documents differ", new byte[0], history.retrieve(new HistoryIdentifyer(null, cal.getTimeInMillis(), 0L)));
+		assertArrayEquals(new byte[0], history.retrieve(offset));
 	}
 	@Test
 	public void testHistoryClear() throws HistoryException, InterruptedException {
@@ -63,16 +62,16 @@ public class HistoryTest {
 		
 		history.save(MEMBER_NAME, CONTENT);
 		
-		history.clear(new Date(System.currentTimeMillis() - 1000), 1);
+		history.clear(LocalDateTime.now().minusSeconds(1), 1);
 		
-		assertEquals("Versionlist is not 1", 1, history.getVersions(MEMBER_NAME).size());
+		assertEquals(1, history.getVersions(MEMBER_NAME).size());
 	}
 	@Before
 	public void setup() throws HistoryException {
-		history.clear(new Date(), 0);
+		history.clear(LocalDateTime.now(), 0);
 	}
 	@After
 	public void teardown() throws HistoryException {
-		history.clear(new Date(), 0);
+		history.clear(LocalDateTime.now(), 0);
 	}
 }
