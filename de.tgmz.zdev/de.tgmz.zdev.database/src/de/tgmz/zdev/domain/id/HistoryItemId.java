@@ -10,6 +10,9 @@
 package de.tgmz.zdev.domain.id;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.MessageFormat;
+import java.util.Date;
 import java.util.Objects;
 
 import jakarta.persistence.Embeddable;
@@ -19,17 +22,27 @@ import jakarta.persistence.Transient;
 public class HistoryItemId implements Serializable {
 	@Transient
 	private static final long serialVersionUID = -1875520419999283029L;
+	@Transient
+	private static final ThreadLocal<DateFormat> DF = ThreadLocal.withInitial(() -> DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG));
+
     private String fqdn;
     private long version;
+    @Transient
+    private long size;
 
 	public HistoryItemId() {
 		super();
 	}
 
 	public HistoryItemId(String fqdn, long version) {
+		this(fqdn, version, 0L);
+	}
+
+	public HistoryItemId(String fqdn, long version, long size) {
 		super();
 		this.fqdn = fqdn;
 		this.version = version;
+		this.size = size;
 	}
 
 	public String getFqdn() {
@@ -42,6 +55,10 @@ public class HistoryItemId implements Serializable {
 
 	public long getVersion() {
 		return version;
+	}
+
+	public long getSize() {
+		return size;
 	}
 
 	public void setVersion(long version) {
@@ -63,5 +80,10 @@ public class HistoryItemId implements Serializable {
 			return false;
 		HistoryItemId other = (HistoryItemId) obj;
 		return Objects.equals(fqdn, other.fqdn) && version == other.version;
+	}
+	
+	@Override
+	public String toString() {
+		return MessageFormat.format("{0} - {1} ({2} bytes)", fqdn, DF.get().format(new Date(version)), size);
 	}
 }

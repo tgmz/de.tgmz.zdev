@@ -22,11 +22,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.tgmz.zdev.domain.HistoryItem;
+import de.tgmz.zdev.domain.id.HistoryItemId;
 import de.tgmz.zdev.history.HistoryException;
-import de.tgmz.zdev.history.HistoryIdentifyer;
 import de.tgmz.zdev.history.LocalHistory;
 import de.tgmz.zdev.history.model.IHistoryModel;
-
 
 public class HistoryTest {
 	private static final String MEMBER_NAME = "HLQ.PLI(MYMEMBER)";
@@ -34,25 +34,25 @@ public class HistoryTest {
 	private static final IHistoryModel history = LocalHistory.getInstance();
 	@Test
 	public void testHistory() throws HistoryException {
-		HistoryIdentifyer key = history.save(MEMBER_NAME, CONTENT);
+		HistoryItem hi = history.save(MEMBER_NAME, CONTENT);
 		
-		List<HistoryIdentifyer> versions = history.getVersions(MEMBER_NAME);
+		assertArrayEquals("Documents differ", CONTENT, history.retrieve(hi.getId()));
+		
+		List<HistoryItemId> versions = history.getVersions(MEMBER_NAME);
 		
 		assertFalse("Versionlist is empty", versions.isEmpty());
 		
-		assertArrayEquals("Documents differ", CONTENT, history.retrieve(key));
+		HistoryItemId hid = versions.get(0);
 		
-		HistoryIdentifyer hi = versions.get(0);
-		
-		assertEquals(key.getId(), hi.getId());
-		assertEquals(CONTENT.length, hi.getSize());
+		assertEquals(hid, hi.getId());
+		assertEquals(CONTENT.length, hid.getSize());
 	}
 	@Test
 	public void testNoHistory() throws HistoryException {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_YEAR, 1);
 		
-		assertArrayEquals("Documents differ", new byte[0], history.retrieve(new HistoryIdentifyer(null, cal.getTimeInMillis(), 0L)));
+		assertArrayEquals("Documents differ", new byte[0], history.retrieve(new HistoryItemId(null, cal.getTimeInMillis(), 0L)));
 	}
 	@Test
 	public void testHistoryClear() throws HistoryException, InterruptedException {

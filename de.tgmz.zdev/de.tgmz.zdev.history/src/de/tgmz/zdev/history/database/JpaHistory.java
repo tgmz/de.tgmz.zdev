@@ -24,7 +24,6 @@ import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.HistoryItem;
 import de.tgmz.zdev.domain.id.HistoryItemId;
 import de.tgmz.zdev.history.HistoryException;
-import de.tgmz.zdev.history.HistoryIdentifyer;
 import de.tgmz.zdev.history.model.IHistoryModel;
 import jakarta.persistence.EntityManager;
 
@@ -35,7 +34,7 @@ public class JpaHistory implements IHistoryModel {
 	private static final Logger LOG = LoggerFactory.getLogger(JpaHistory.class);
 	
 	@Override
-	public HistoryIdentifyer save(String fqdn, byte[] content) throws HistoryException {
+	public HistoryItem save(String fqdn, byte[] content) throws HistoryException {
 		HistoryItem c = new HistoryItem();
    		
 		c.setContent(content);
@@ -44,33 +43,30 @@ public class JpaHistory implements IHistoryModel {
 
 		DbService.getInstance().inTransaction(em -> em.persist(c));
 		
-		return new HistoryIdentifyer(fqdn, c.getVersion(), content.length);
+		return c;
 	}
 
 	@Override
-	public byte[] retrieve(HistoryIdentifyer key) throws HistoryException {
+	public byte[] retrieve(HistoryItemId key) throws HistoryException {
 		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
-			HistoryItemId hii = new HistoryItemId(key.getFqdn(), key.getId());
-			
-       		HistoryItem c = em.find(HistoryItem.class, hii);
+       		HistoryItem c = em.find(HistoryItem.class, key);
        		
        		return c != null ? c.getContent() : new byte[0];
 		}
 	}
 
 	@Override
-	public List<HistoryIdentifyer> getVersions(String fqdn) throws HistoryException {
+	public List<HistoryItemId> getVersions(String fqdn) throws HistoryException {
+		List<HistoryItemId> result = new ArrayList<>();
+		
 		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
-			List<HistoryIdentifyer> result = new ArrayList<>();
-	
-			List<HistoryItem> zwerg = em.createNamedQuery("byFqdn", HistoryItem.class).setParameter("fqdn", fqdn).getResultList();
-       		
-       		for (HistoryItem c : zwerg) {
-				result.add(new HistoryIdentifyer(c.getFqdn(), c.getVersion(), c.getContent().length));
-			}
-			
-       		return result;
+			em.createNamedQuery("byFqdn", HistoryItem.class)
+				.setParameter("fqdn", fqdn)
+				.getResultStream()
+				.forEach(hi -> result.add(new HistoryItemId(hi.getFqdn(), hi.getVersion(), hi.getContent().length)));
 		}
+		
+   		return result;
 	}
 	
 	@Override

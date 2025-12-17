@@ -37,9 +37,9 @@ import com.ibm.cics.zos.model.PermissionDeniedException;
 import com.ibm.cics.zos.model.UpdateFailedException;
 
 import de.tgmz.zdev.connection.ZdevConnectable;
+import de.tgmz.zdev.domain.id.HistoryItemId;
 import de.tgmz.zdev.editor.ZdevEditor;
 import de.tgmz.zdev.history.HistoryException;
-import de.tgmz.zdev.history.HistoryIdentifyer;
 import de.tgmz.zdev.history.LocalHistory;
 import de.tgmz.zdev.restore.compare.CompareInput;
 
@@ -90,7 +90,7 @@ public class RestoreHandler extends AbstractHandler {
 	}
 
 	private Object handleRestore(PartitionedDataSet pds) {
-		List<HistoryIdentifyer> history;
+		List<HistoryItemId> history;
 		try {
 			history = LocalHistory.getInstance().getVersions(pds.getFullPath() + "%");
 		} catch (HistoryException e) {
@@ -109,7 +109,7 @@ public class RestoreHandler extends AbstractHandler {
 			int open = hsd.open();
 
 			if (open == Window.OK) {
-				HistoryIdentifyer selectedkey = (HistoryIdentifyer) hsd.getFirstResult();
+				HistoryItemId selectedkey = (HistoryItemId) hsd.getFirstResult();
 
 				byte[] b = LocalHistory.getInstance().retrieve(selectedkey);
 
@@ -125,7 +125,7 @@ public class RestoreHandler extends AbstractHandler {
 	}
 
 	private Object handleReplace(Member member) {
-		List<HistoryIdentifyer> history;
+		List<HistoryItemId> history;
 		try {
 			history = LocalHistory.getInstance().getVersions(member.toDisplayName());
 		} catch (HistoryException e) {
@@ -139,7 +139,7 @@ public class RestoreHandler extends AbstractHandler {
 		int open = hsd.open();
 		
 		if (open == Window.OK) {
-			HistoryIdentifyer selectedkey = (HistoryIdentifyer) hsd.getFirstResult();
+			HistoryItemId selectedkey = (HistoryItemId) hsd.getFirstResult();
 
 			byte[] b;
 			try {
@@ -166,10 +166,10 @@ public class RestoreHandler extends AbstractHandler {
 		
 		return null;
 	}
-	private HistoryIdentifyer[] getElements(List<HistoryIdentifyer> history) {
-		HistoryIdentifyer[] elements = history.toArray(new HistoryIdentifyer[history.size()]);
+	private HistoryItemId[] getElements(List<HistoryItemId> history) {
+		HistoryItemId[] elements = history.toArray(new HistoryItemId[history.size()]);
 		
-		Arrays.sort(elements, (o1, o2) -> o1.getId() < o2.getId() ? 1 : -1);
+		Arrays.sort(elements, (o1, o2) -> o1.getVersion() < o2.getVersion() ? 1 : -1);
 
 		return elements;
 	}

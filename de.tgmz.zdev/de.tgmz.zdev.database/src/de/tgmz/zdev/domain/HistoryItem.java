@@ -43,6 +43,10 @@ public class HistoryItem implements Serializable {
         id = new HistoryItemId();
     }
 
+	public HistoryItemId getId() {
+		return id;
+	}
+
 	public String getFqdn() {
 		return id.getFqdn();
 	}

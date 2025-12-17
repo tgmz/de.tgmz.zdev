@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.tgmz.zdev.history.HistoryIdentifyer;
+import de.tgmz.zdev.domain.id.HistoryItemId;
 import de.tgmz.zdev.restore.HistorySelectionDialog;
 
 public class HistorySelectTest {
@@ -24,7 +24,7 @@ public class HistorySelectTest {
 	
 	@Test
 	public void testDialog() {
-		HistorySelectionDialog hsd = new HistorySelectionDialog(shell, new HistoryIdentifyer("HLQ.PLI(MYMEMBER)", 0L, 1));
+		HistorySelectionDialog hsd = new HistorySelectionDialog(shell, new HistoryItemId("HLQ.PLI(MYMEMBER)", 0L, 1));
 		
 		hsd.create();
 		hsd.setBlockOnOpen(false);
