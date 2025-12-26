@@ -33,6 +33,7 @@ import de.tgmz.zdev.connection.ZdevConnectable;
 import de.tgmz.zdev.database.DbService;
 import de.tgmz.zdev.domain.Item;
 import de.tgmz.zdev.domain.id.ItemId;
+import de.tgmz.zdev.preferences.Language;
 import de.tgmz.zdev.preferences.ZdevPreferenceConstants;
 import jakarta.persistence.EntityManager;
 
@@ -83,9 +84,16 @@ public class CompileHandler extends AbstractHandler {
 		}
 
 		try {
+			// Provide a dummy error feedback dataset in case the error feedback option is hardcoded in the ELAX* procedure
+			Language l = Language.fromDatasetName(item.getDsn());
+			
+			String dummyErrorFeedback = l == Language.C || l == Language.CPP ? "//SYSEVENT DD DUMMY" : "//SYSXMLSD DD DUMMY";
+			
+			dummyErrorFeedback += System.lineSeparator();
+			
 			String jcl = de.tgmz.zdev.preferences.Activator.getDefault().getPreferenceStore().getString(ZdevPreferenceConstants.JOB_CARD)
 					+ System.lineSeparator()
-					+ JclFactory.getInstance().createCompileStep(item);
+					+ JclFactory.getInstance().createCompileStep(item, dummyErrorFeedback);
 			
 			if (item.getOption().isBind()) {
 				jcl += JclFactory.getInstance().createBindStep(item);
