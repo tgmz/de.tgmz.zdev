@@ -373,23 +373,33 @@
 			</properties>
 			<build>
 				<plugins>
-		            <plugin>
-    	    	        <groupId>org.owasp</groupId>
-        	    	    <artifactId>dependency-check-maven</artifactId>
-            	    	<version>9.0.9</version>
-            	    	<configuration>
+					<plugin>
+						<groupId>org.owasp</groupId>
+						<artifactId>dependency-check-maven</artifactId>
+						<version>12.1.9</version>
+						<configuration>
 							<assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
-							<failBuildOnCVSS>8.2</failBuildOnCVSS>
-							<suppressionFile>src/main/resources/dependency-check-suppressions.xml</suppressionFile>
-            	    	</configuration>
-              			<executions>
-                  			<execution>
-                      			<goals>
-                          			<goal>aggregate</goal>
-                      			</goals>
-                  			</execution>
-                  		</executions>
-                  	</plugin>
+							<centralAnalyzerEnabled>false</centralAnalyzerEnabled>
+							<failBuildOnCVSS>9.9</failBuildOnCVSS>
+							<skipTestScope>true</skipTestScope>
+							<failOnError>true</failOnError>
+							<nvdApiKey>${nvdApiKey}</nvdApiKey>
+							<formats>
+								<format>HTML</format>
+							</formats>
+							<suppressionFiles>
+							</suppressionFiles>
+						</configuration>
+						<executions>
+							<execution>
+								<id>dependency-check</id>
+								<phase>package</phase>
+								<goals>
+									<goal>aggregate</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
 				</plugins>
 			</build>
 		</profile>

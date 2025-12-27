@@ -9,6 +9,11 @@
 **********************************************************************/
 package de.tgmz.zdev.preferences;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.text.MessageFormat;
+import java.util.Locale;
+
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -26,7 +31,15 @@ public class InitializeSelectionListener implements SelectionListener {
 
 		store.setDefault(ZdevPreferenceConstants.USER, s);
 
-		new ZdevPreferenceInitializer().initializeDefaultPreferences();
+		for (Field f : ZdevPreferenceConstants.class.getDeclaredFields()) {
+			int mod = f.getClass().getModifiers();
+			
+			if (Modifier.isPrivate(mod) && Modifier.isStatic(mod) && Modifier.isFinal(mod) && f.getType() == String.class) {
+				String df = store.getDefaultString(f.getName());
+				
+				store.setValue(f.getName(), MessageFormat.format(df, s.toUpperCase(Locale.ROOT), s));
+			}
+		}
 	}
 
 	@Override

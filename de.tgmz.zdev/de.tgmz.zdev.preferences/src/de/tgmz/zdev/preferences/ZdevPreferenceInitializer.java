@@ -9,8 +9,6 @@
 **********************************************************************/
 package de.tgmz.zdev.preferences;
 
-import java.util.Locale;
-
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 
@@ -24,19 +22,11 @@ public class ZdevPreferenceInitializer extends AbstractPreferenceInitializer {
 	public void initializeDefaultPreferences() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		
-		String userId = store.getString(ZdevPreferenceConstants.USER);
-		String userIdUpper = userId.toUpperCase(Locale.ROOT);
-		
 		store.setDefault(ZdevPreferenceConstants.JOB_SUFFIX, false);
 		store.setDefault(ZdevPreferenceConstants.LOG_LEVEL, "INFO");
 		store.setDefault(ZdevPreferenceConstants.FILELOCK_AUTO, false);
-		store.setDefault(ZdevPreferenceConstants.JOB_CARD, "//" 
-							+  userIdUpper
-							+ "B JOB '<Insert accounting information>',"
-							+ "'" + userIdUpper + "'"
-							+ ",CLASS=Z,MSGCLASS=T," 
-							+ System.lineSeparator()
-							+ "//     MSGLEVEL=(1,1),REGION=0M");
+		store.setDefault(ZdevPreferenceConstants.JOB_CARD, "//{0}B JOB '<Insert accounting information>',"
+							+ "//     MSGCLASS=T,MSGLEVEL=(1,1),REGION=0M");
 		store.setDefault(ZdevPreferenceConstants.REGEX_PLI, "^.*\\.(PLI|PL1|INC|INCLUDE)$");
 		store.setDefault(ZdevPreferenceConstants.REGEX_JCL, "^.*\\.(JCL|CNTL)$");
 		store.setDefault(ZdevPreferenceConstants.REGEX_COB, "^.*\\.(COBOL|COB|CPY|CBL)$");
@@ -50,15 +40,15 @@ public class ZdevPreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(ZdevPreferenceConstants.HISTORY_MONTHS, 3);
 		store.setDefault(ZdevPreferenceConstants.HISTORY_VERSIONS, 10);
 		
-		store.setDefault(ZdevPreferenceConstants.OBJLIB, userIdUpper + ".ZDEV.OBJ");
-		store.setDefault(ZdevPreferenceConstants.LOADLIB, userIdUpper + ".ZDEV.LOAD");
+		store.setDefault(ZdevPreferenceConstants.OBJLIB, "{0}.ZDEV.OBJ");
+		store.setDefault(ZdevPreferenceConstants.LOADLIB, "{0}.ZDEV.LOAD");
 		store.setDefault(ZdevPreferenceConstants.LINK_OPTIONS, "MAP,LIST");
 		
-		store.setDefault(ZdevPreferenceConstants.SYSLIB_PLI, userIdUpper + ".ZDEV.INCLUDE");
-		store.setDefault(ZdevPreferenceConstants.SYSLIB_COB, userIdUpper + ".ZDEV.COPY");
-		store.setDefault(ZdevPreferenceConstants.SYSLIB_ASM, "SYS1.MACLIB;" + userIdUpper + ".ZDEV.MAC");
-		store.setDefault(ZdevPreferenceConstants.SYSLIB_C, userIdUpper + ".ZDEV.H");
-		store.setDefault(ZdevPreferenceConstants.SYSLIB_CPP, userIdUpper + ".ZDEV.H");
+		store.setDefault(ZdevPreferenceConstants.SYSLIB_PLI, "{0}.ZDEV.INCLUDE");
+		store.setDefault(ZdevPreferenceConstants.SYSLIB_COB, "{0}.ZDEV.COPY");
+		store.setDefault(ZdevPreferenceConstants.SYSLIB_ASM, "SYS1.MACLIB");
+		store.setDefault(ZdevPreferenceConstants.SYSLIB_C, "CBC.SCLBH.H");
+		store.setDefault(ZdevPreferenceConstants.SYSLIB_CPP, "CBC.SCLBH.H");
 		
 		store.setDefault(ZdevPreferenceConstants.DB2_PLI, "PP(SQL)");
 		store.setDefault(ZdevPreferenceConstants.DB2_COB, "SQL");
@@ -72,6 +62,6 @@ public class ZdevPreferenceInitializer extends AbstractPreferenceInitializer {
 		
 		store.setDefault(ZdevPreferenceConstants.XSDOSRG_LIBPATH, "/usr/lib:/usr/lpp/java/J8.0/lib/s390/classic/:/usr/lib/java_runtime");
 		
-		store.setDefault(ZdevPreferenceConstants.USS_HOME, "/z/" + userId);
+		store.setDefault(ZdevPreferenceConstants.USS_HOME, "/z/{1}");
 	}
 }
