@@ -19,8 +19,10 @@ import org.slf4j.LoggerFactory;
 
 import com.ibm.cics.core.comm.ConnectionException;
 import com.ibm.cics.zos.comm.IZOSConstants.FileType;
+import com.ibm.cics.zos.model.IZOSObject;
 import com.ibm.cics.zos.model.Member;
 import com.ibm.cics.zos.ui.actions.OpenDataEntryAction;
+import com.ibm.cics.zos.ui.editor.ZEditor;
 
 import de.tgmz.zdev.connection.ZdevConnectable;
 import de.tgmz.zdev.database.DbService;
@@ -37,14 +39,14 @@ public class OpenZdevEntryAction extends OpenDataEntryAction {
 	private static final Logger LOG = LoggerFactory.getLogger(OpenZdevEntryAction.class);
 	
 	@Override
-	public ZdevEditor openEditor(IWorkbenchPage aPage) throws PartInitException {
-		Member m;
+	public ZEditor openEditor(IWorkbenchPage aPage) throws PartInitException {
+		IZOSObject izo = this.editorInput != null ? this.editorInput.getZOSObject() : this.zosLocation;  
 		
-		if (this.editorInput != null) {
-			m = (Member) this.editorInput.getZOSObject();
-		} else {
-			m = (Member) this.zosLocation;
+		if (!(izo instanceof Member)) {
+			return super.openEditor(aPage);
 		}
+		
+		Member m = (Member) izo;
 		
 		try (EntityManager em = DbService.getInstance().getEntityManagerFactory().createEntityManager()) {
 			em.getTransaction().begin();
