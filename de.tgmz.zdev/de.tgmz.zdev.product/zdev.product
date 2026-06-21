@@ -194,17 +194,19 @@ SPDX-License-Identifier: EPL-2.0
       <feature id="com.ibm.systemz.common.editor.feature" installMode="root"/>
       <feature id="com.ibm.systemz.common.editor.feature.nl1" installMode="root"/>
       <feature id="com.ibm.systemz.common.editor.parse.feature" installMode="root"/>
-      <feature id="com.ibm.systemz.common.editor.parse.feature.nl1" installMode="root"/>
       <feature id="com.ibm.systemz.common.elsh.feature" installMode="root"/>
       <feature id="com.ibm.systemz.common.elsh.feature.nl1" installMode="root"/>
       <feature id="com.ibm.systemz.common.formatter.feature" installMode="root"/>
       <feature id="com.ibm.systemz.common.jface.feature" installMode="root"/>
       <feature id="com.ibm.systemz.common.jface.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.systemz.common.quickfix.feature" installMode="root"/>
       <feature id="com.ibm.systemz.jcl.editor.core.feature" installMode="root"/>
       <feature id="com.ibm.systemz.jcl.feature" installMode="root"/>
       <feature id="com.ibm.systemz.jcl.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.systemz.jcl.quickfix.feature" installMode="root"/>
       <feature id="com.ibm.systemz.spool.feature" installMode="root"/>
       <feature id="com.ibm.systemz.spool.feature.nl1" installMode="root"/>
+      <feature id="com.ibm.systemz.zapp.feature" installMode="root"/>
       <feature id="com.ibm.systemz.zosexplorer.wcaz4e.feature" installMode="root"/>
       <feature id="com.ibm.tpf.util.feature" installMode="root"/>
       <feature id="com.ibm.tpf.util.feature.nl1" installMode="root"/>
