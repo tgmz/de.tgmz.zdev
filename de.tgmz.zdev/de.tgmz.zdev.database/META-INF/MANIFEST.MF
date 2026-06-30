@@ -13,7 +13,7 @@ Require-Bundle: de.tgmz.zdev.logging,
  org.eclipse.jface,
  com.ibm.cics.common
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ClassPath: .,
  lib/jakarta.persistence-api-3.2.0.jar,
  lib/org.eclipse.persistence.jpa-5.0.0-B13.jar,

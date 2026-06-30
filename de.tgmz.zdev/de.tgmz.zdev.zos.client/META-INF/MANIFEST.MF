@@ -6,7 +6,7 @@ Bundle-Localization: plugin
 Bundle-SymbolicName: de.tgmz.zdev.zos.client
 Bundle-Version: 1.2.1
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: de.tgmz.zdev.zos
 Bundle-ClassPath: .
 Automatic-Module-Name: de.tgmz.zdev.zos.client

@@ -58,7 +58,7 @@
 		<tycho-version>3.0.5</tycho-version>
 		<java-version>1.8</java-version>
 		<jacoco.version>0.8.14</jacoco.version>
-		<sonar.java.source>17</sonar.java.source>
+		<sonar.java.source>11</sonar.java.source>
  		<sonar.exclusions>src/testresources/**/*.*</sonar.exclusions>
  		<maven-jarsigner-version>3.1.0</maven-jarsigner-version>
 	</properties>
@@ -389,23 +389,29 @@
 		<profile>
 			<id>odc</id>
 			<properties>
+				<sonar.dependencyCheck.jsonReportPath>${project.build.directory}/dependency-check-report.json</sonar.dependencyCheck.jsonReportPath>
 				<sonar.dependencyCheck.htmlReportPath>${project.build.directory}/dependency-check-report.html</sonar.dependencyCheck.htmlReportPath>
+				<sonar.dependencyCheck.summarize>true</sonar.dependencyCheck.summarize>
+				<sonar.dependencyCheck.severity.high>7.0</sonar.dependencyCheck.severity.high>
+				<sonar.dependencyCheck.severity.medium>4.0</sonar.dependencyCheck.severity.medium>
+				<sonar.dependencyCheck.severity.low>0.0</sonar.dependencyCheck.severity.low>
 			</properties>
 			<build>
 				<plugins>
 					<plugin>
 						<groupId>org.owasp</groupId>
 						<artifactId>dependency-check-maven</artifactId>
-						<version>12.2.0</version>
+						<version>12.2.2</version>
 						<configuration>
 							<assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
 							<centralAnalyzerEnabled>false</centralAnalyzerEnabled>
-							<ossindexAnalyzerEnabled>false</ossindexAnalyzerEnabled>
+							<ossIndexAnalyzerEnabled>false</ossIndexAnalyzerEnabled>
 							<failBuildOnCVSS>9.9</failBuildOnCVSS>
 							<skipTestScope>true</skipTestScope>
 							<failOnError>true</failOnError>
 							<nvdApiKey>${nvdApiKey}</nvdApiKey>
 							<formats>
+								<format>JSON</format>
 								<format>HTML</format>
 							</formats>
 							<suppressionFiles>

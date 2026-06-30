@@ -12,7 +12,7 @@ Require-Bundle: org.eclipse.ui,
  com.ibm.cics.core.connections,
  com.ibm.cics.zos.comm
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: de.tgmz.zdev.preferences
 Bundle-ClassPath: .
 Automatic-Module-Name: de.tgmz.zdev.preferences
