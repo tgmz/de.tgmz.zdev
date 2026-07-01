@@ -207,7 +207,6 @@
         <setEntry value="com.ibm.ftt.ui.feature:default"/>
         <setEntry value="com.ibm.systemz.common.editor.feature.nl1:default"/>
         <setEntry value="com.ibm.systemz.common.editor.feature:default"/>
-        <setEntry value="com.ibm.systemz.common.editor.parse.feature.nl1:default"/>
         <setEntry value="com.ibm.systemz.common.editor.parse.feature:default"/>
         <setEntry value="com.ibm.systemz.common.elsh.feature.nl1:default"/>
         <setEntry value="com.ibm.systemz.common.elsh.feature:default"/>
