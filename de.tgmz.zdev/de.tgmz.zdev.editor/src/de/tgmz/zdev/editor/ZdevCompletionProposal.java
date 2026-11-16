@@ -9,7 +9,7 @@
 **********************************************************************/
 package de.tgmz.zdev.editor;
 
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * ZdevCompletionProposal.
