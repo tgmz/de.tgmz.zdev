@@ -299,6 +299,8 @@
        					<exclude>de.tgmz.zdev.util/pli.txt</exclude>                                                          
 						<!-- Dummy stuff -->
        					<exclude>**/dummy.txt</exclude>                                                          
+						<!-- Only maven 4 supports '#'-comments in jvm.config -->
+						<exclude>.mvn/jvm.config</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
