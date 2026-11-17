@@ -6,8 +6,7 @@ Bundle-Localization: plugin
 Bundle-SymbolicName: de.tgmz.zdev.editor;singleton:=true
 Bundle-Version: 1.2.2
 Bundle-Activator: de.tgmz.zdev.editor.Activator
-Require-Bundle: jakarta.annotation-api,
- de.tgmz.zdev.logging,
+Require-Bundle: de.tgmz.zdev.logging,
  de.tgmz.zdev.connection,
  de.tgmz.zdev.outline,
  de.tgmz.zdev.database,

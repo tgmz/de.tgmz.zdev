@@ -9,8 +9,6 @@
 **********************************************************************/
 package de.tgmz.zdev.editor;
 
-import jakarta.annotation.Generated;
-
 /**
  * ZdevCompletionProposal.
  */
@@ -49,7 +47,6 @@ public class ZdevCompletionProposal implements Comparable<ZdevCompletionProposal
 	}
 
 	@Override
-	@Generated(value = { "Eclipse" })
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
